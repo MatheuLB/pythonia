@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Reino de Pythonia</title>
-<meta name="description" content="Curso de Python em forma de RPG: 112 missões, chefes animados e certificado. Funciona no celular, mesmo sem internet.">
+<meta name="description" content="Curso de Python em forma de RPG: 112 missões, chefes animados, desafios diários e festa no final. Funciona no celular, mesmo sem internet.">
 <meta name="theme-color" content="#231e47">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -325,11 +325,11 @@ pre.codigo {
 .no.atual .no-icone { background: var(--grama-fundo); animation: pulo 1.2s steps(2) infinite; }
 .no.trancada { background: var(--painel-2); color: var(--texto-2); box-shadow: none; cursor: not-allowed; border-style: dashed; }
 @keyframes pulo { 50% { transform: translateY(-3px); } }
-.certificado-faixa {
+.faixa-fim {
   display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;
   padding: 16px 18px;
 }
-.certificado-faixa p { margin: 0; }
+.faixa-fim p { margin: 0; }
 
 /* ---------- Missão ---------- */
 .missao-topo { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; margin-bottom: 22px; }
@@ -406,18 +406,88 @@ pre.codigo {
 .c-msg.info { color: var(--cod-mudo); }
 .atalho { font-size: 11px; color: var(--texto-2); letter-spacing: 0.04em; }
 
-/* ---------- Certificado ---------- */
-.certificado {
-  background: var(--painel); border: 4px solid var(--borda); box-shadow: 9px 9px 0 var(--borda);
-  outline: 3px solid var(--ouro); outline-offset: -16px; padding: clamp(28px, 6vw, 60px);
-  text-align: center; max-width: 820px; margin: 18px auto 0;
+/* ---------- Festa final (parabéns) ---------- */
+.festa { max-width: 860px; margin: 18px auto 0; display: grid; gap: 20px; }
+.festa-cena { border: 4px solid var(--borda); box-shadow: 7px 7px 0 var(--borda); background: var(--cod-bg); }
+.festa-cena canvas { display: block; width: 100%; height: auto; filter: var(--filtro-arte); }
+.festa-texto { text-align: center; }
+.festa-titulo {
+  font-family: var(--f-pixel); font-weight: 700; font-size: clamp(40px, 9vw, 76px); line-height: 1; margin: 6px 0 14px;
+  color: var(--ouro); text-transform: uppercase;
+  text-shadow: 3px 0 0 var(--borda), -3px 0 0 var(--borda), 0 3px 0 var(--borda), 0 -3px 0 var(--borda), 5px 5px 0 var(--borda);
 }
-.certificado img { width: 96px; height: 96px; }
-.cert-titulo { font-family: var(--f-pixel); font-size: clamp(30px, 5vw, 48px); margin: 8px 0 14px; text-transform: uppercase; }
-.cert-nome { font-family: var(--f-pixel); font-size: clamp(32px, 6vw, 56px); color: var(--ouro-2); margin: 6px 0; line-height: 1.1; }
-.certificado p { max-width: 54ch; margin: 0 auto 12px; }
-.cert-rodape { display: flex; justify-content: center; gap: 36px; flex-wrap: wrap; margin-top: 26px; font-family: var(--f-pixel); color: var(--texto-2); }
-.cert-rodape b { display: block; color: var(--texto); font-size: 18px; }
+.festa-texto p { max-width: 54ch; margin: 0 auto 10px; font-size: 18px; }
+.festa-numeros { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin: 0; }
+.festa-numeros div { border: 3px solid var(--borda); background: var(--painel); padding: 10px; text-align: center; box-shadow: 3px 3px 0 var(--borda); }
+.festa-numeros dt { font-family: var(--f-pixel); font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--texto-2); }
+.festa-numeros dd { margin: 2px 0 0; font-family: var(--f-pixel); font-size: 26px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.festa-insignias { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
+.festa-insignias li { border: 3px solid var(--borda); background: var(--ouro); padding: 4px; }
+.festa-insignias img { display: block; width: 40px; height: 40px; }
+.festa-acoes { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+
+/* ---------- Diárias (meta, sequência, desafios, lembrete) ---------- */
+.diarias { max-width: 760px; margin: 0 auto; display: grid; gap: 20px; }
+.diarias h1 { font-family: var(--f-pixel); font-size: clamp(28px, 5vw, 40px); margin: 2px 0 0; line-height: 1.1; }
+.sequencia { display: flex; align-items: center; gap: 16px; }
+.sequencia img { width: 64px; height: 64px; flex: none; }
+.sequencia-num { font-family: var(--f-pixel); font-size: 46px; font-weight: 700; line-height: 1; color: var(--ouro-2); }
+.sequencia p { margin: 2px 0 0; color: var(--texto-2); }
+.semana { list-style: none; margin: 16px 0 0; padding: 0; display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 6px; }
+.semana li { display: grid; justify-items: center; gap: 4px; font-family: var(--f-pixel); font-size: 12px; color: var(--texto-2); }
+.semana i { width: 34px; height: 34px; border: 3px solid var(--borda); background: var(--painel-2); display: grid; place-items: center; }
+.semana i img { width: 18px; height: 18px; }
+.semana .ok i { background: var(--ouro); }
+.semana .hoje { color: var(--texto); }
+.semana .hoje i { outline: 3px dashed var(--grama); outline-offset: 2px; }
+.meta-linha { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; font-family: var(--f-pixel); margin-bottom: 6px; }
+.meta-linha b { font-size: 20px; }
+.metas { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; margin-top: 14px; }
+.meta-btn {
+  font: 600 14px var(--f-pixel); padding: 8px 4px; border: 3px solid var(--borda); background: var(--painel); color: var(--texto);
+  cursor: pointer; min-height: 52px; display: grid; gap: 2px; justify-items: center;
+}
+.meta-btn small { font-family: var(--f-texto); font-size: 12px; color: var(--texto-2); }
+.meta-btn[aria-pressed="true"] { background: var(--ouro); color: var(--sobre-ouro); }
+.meta-btn[aria-pressed="true"] small { color: var(--sobre-ouro); }
+.meta-btn:focus-visible { outline: 3px solid var(--agua); outline-offset: 2px; }
+.tarefas-dia { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+.tarefa-dia {
+  display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px 12px; align-items: center;
+  border: 3px solid var(--borda); padding: 10px 12px; background: var(--painel);
+}
+.tarefa-dia.feita { background: var(--grama-fundo); }
+.tarefa-dia .barra { grid-column: 1 / -1; }
+.tarefa-dia b { font-weight: 700; }
+.tarefa-dia .premio { font-family: var(--f-pixel); white-space: nowrap; }
+.tarefa-dia small { grid-column: 1 / -1; color: var(--texto-2); font-family: var(--f-pixel); font-size: 12px; margin-top: -4px; }
+.bau { display: flex; align-items: center; gap: 12px; margin-top: 14px; padding: 12px; border: 3px dashed var(--borda); }
+.bau img { width: 40px; height: 40px; flex: none; }
+.bau p { margin: 0; }
+.bau.aberto { border-style: solid; background: var(--ouro); color: var(--sobre-ouro); }
+.renovar { margin: 12px 0 0; color: var(--texto-2); font-size: 14px; }
+.lembrete-config { display: flex; flex-wrap: wrap; gap: 12px; align-items: end; margin-top: 12px; }
+.lembrete-config input[type="time"] {
+  font: 600 20px var(--f-pixel); border: 3px solid var(--borda); padding: 6px 10px; background: var(--painel); color: var(--texto); min-height: 48px;
+}
+.lembrete-config input[type="time"]:focus-visible { outline: 3px solid var(--agua); outline-offset: 2px; }
+.lembrete-dica { margin: 10px 0 0; font-size: 14px; color: var(--texto-2); }
+.aviso-sequencia {
+  display: flex; gap: 14px; align-items: center; margin-bottom: 22px; padding: 12px 14px;
+  background: var(--cod-bg); color: var(--cod-fg); border: 3px solid var(--borda); box-shadow: 5px 5px 0 var(--borda);
+}
+.aviso-sequencia img { width: 40px; height: 40px; flex: none; animation: pulo 1s steps(2) infinite; }
+.aviso-sequencia p { margin: 0 0 8px; }
+.aviso-sequencia b { color: var(--ouro); font-family: var(--f-pixel); font-weight: 600; letter-spacing: 0.03em; }
+.aviso-sequencia .acoes-aviso { display: flex; gap: 8px; flex-wrap: wrap; }
+.hoje-resumo {
+  display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 10px; align-items: center; margin: 0 0 16px;
+  padding: 8px 10px; border: 3px solid var(--borda); background: var(--painel-2); color: var(--texto); text-decoration: none; font-family: var(--f-pixel);
+}
+.hoje-resumo img { width: 22px; height: 22px; }
+.hoje-resumo .barra { height: 12px; }
+.hoje-resumo span { font-size: 13px; white-space: nowrap; }
+.hud-item.link { color: inherit; text-decoration: none; }
 
 /* ---------- Vitória e aviso ---------- */
 .veu {
@@ -554,6 +624,11 @@ details[open] .seta::before { content: "▾"; }
   .no-icone { width: 46px; height: 46px; }
   .no { grid-template-columns: 46px minmax(0, 1fr); min-height: 66px; }
 }
+@media (max-width: 640px) {
+  .festa-numeros { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .metas { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .festa-texto p { font-size: 16px; }
+}
 @media (max-width: 479px) {
   .nos .no:nth-child(4n+2), .nos .no:nth-child(4n+4) { margin-left: 18px; }
   .nos .no:nth-child(4n+3) { margin-left: 36px; }
@@ -576,7 +651,7 @@ details[open] .seta::before { content: "▾"; }
       <span id="hud-xp-texto">0 / 150 XP</span>
     </div>
     <div class="hud-item" title="Moedas"><img class="px" id="hud-moeda" alt="Moedas"><span id="hud-moedas">10</span></div>
-    <div class="hud-item" title="Dias seguidos"><img class="px" id="hud-chama" alt="Dias seguidos"><span id="hud-seq">0</span></div>
+    <a class="hud-item link" href="#diarias" title="Dias seguidos: abrir as tarefas diárias"><img class="px" id="hud-chama" alt="Dias seguidos"><span id="hud-seq">0</span></a>
     <div class="motor" id="motor" title="Motor Python que roda no navegador"><i></i><span id="motor-texto">Python carregando</span></div>
   </div>
 </div>
@@ -590,6 +665,16 @@ details[open] .seta::before { content: "▾"; }
         <div class="instalar-acoes">
           <button class="btn btn-ouro btn-pequeno" id="btn-instalar" type="button" hidden>Instalar app</button>
           <button class="btn btn-pequeno" id="btn-instalar-fechar" type="button">Agora não</button>
+        </div>
+      </div>
+    </div>
+    <div class="aviso-sequencia" id="aviso-sequencia" hidden>
+      <img class="px" id="aviso-sequencia-img" alt="">
+      <div>
+        <p id="aviso-sequencia-texto"></p>
+        <div class="acoes-aviso">
+          <a class="btn btn-ouro btn-pequeno" id="aviso-sequencia-jogar" href="#mapa">▶ Jogar agora</a>
+          <a class="btn btn-pequeno" href="#diarias">Tarefas do dia</a>
         </div>
       </div>
     </div>
@@ -649,6 +734,11 @@ details[open] .seta::before { content: "▾"; }
       <article class="janela">
         <header class="janela-barra"><span>Missão de hoje</span><span class="luzes"><i></i><i></i><i></i></span></header>
         <div class="janela-corpo">
+          <a class="hoje-resumo" id="hoje-resumo" href="#diarias" aria-label="Meta e desafios de hoje">
+            <img class="px" id="hoje-resumo-chama" alt="">
+            <span class="barra"><i id="hoje-resumo-barra"></i></span>
+            <span id="hoje-resumo-texto">0/50 XP</span>
+          </a>
           <div class="hoje-mentor">
             <span id="hoje-mentor-img"></span>
             <p><b id="hoje-mentor-nome"></b><span id="hoje-fala"></span></p>
@@ -761,10 +851,71 @@ details[open] .seta::before { content: "▾"; }
     </div>
   </section>
 
-  <!-- ======== CERTIFICADO ======== -->
-  <section id="tela-certificado" hidden>
-    <a class="btn btn-pequeno" href="#mapa">← Mapa</a>
-    <div class="certificado" id="certificado"></div>
+  <!-- ======== FESTA FINAL ======== -->
+  <section id="tela-parabens" hidden>
+    <a class="btn btn-pequeno btn-voltar" href="#mapa" aria-label="Voltar ao mapa">← <span>Mapa</span></a>
+    <div class="festa" id="festa"></div>
+  </section>
+
+  <!-- ======== DIÁRIAS ======== -->
+  <section id="tela-diarias" hidden>
+    <div class="diarias">
+      <div class="missao-topo">
+        <a class="btn btn-pequeno btn-voltar" href="#mapa" aria-label="Voltar ao mapa">← <span>Mapa</span></a>
+        <div class="missao-titulos">
+          <p class="sobre">Volte todo dia</p>
+          <h1>Tarefas diárias</h1>
+        </div>
+      </div>
+
+      <article class="janela">
+        <header class="janela-barra"><span>Sequência</span><span class="luzes"><i></i><i></i><i></i></span></header>
+        <div class="janela-corpo">
+          <div class="sequencia">
+            <img class="px" id="d-chama" alt="">
+            <div>
+              <span class="sequencia-num" id="d-seq">0</span>
+              <p id="d-seq-texto">dias seguidos batendo a meta</p>
+            </div>
+          </div>
+          <ul class="semana" id="d-semana" aria-label="Últimos 7 dias"></ul>
+        </div>
+      </article>
+
+      <article class="janela">
+        <header class="janela-barra"><span>Meta de hoje</span><span class="luzes"><i></i><i></i><i></i></span></header>
+        <div class="janela-corpo">
+          <div class="meta-linha"><b id="d-meta-titulo">0 / 50 XP</b><span id="d-meta-situacao">Falta pouco</span></div>
+          <div class="barra grande"><i id="d-meta-barra"></i></div>
+          <div class="metas" id="d-metas" role="group" aria-label="Escolha a meta diária"></div>
+        </div>
+      </article>
+
+      <article class="janela">
+        <header class="janela-barra"><span>Desafios de hoje</span><span class="luzes"><i></i><i></i><i></i></span></header>
+        <div class="janela-corpo">
+          <ul class="tarefas-dia" id="d-tarefas"></ul>
+          <div class="bau" id="d-bau"></div>
+          <p class="renovar" id="d-renovar"></p>
+        </div>
+      </article>
+
+      <article class="janela">
+        <header class="janela-barra"><span>Lembrete diário</span><span class="luzes"><i></i><i></i><i></i></span></header>
+        <div class="janela-corpo">
+          <p class="lembrete-dica" style="margin-top:0">Escolha a hora e coloque o lembrete na agenda do celular. Ele avisa todo dia, mesmo com o app fechado.</p>
+          <div class="lembrete-config">
+            <div>
+              <label class="rotulo" for="d-hora">Hora</label>
+              <input type="time" id="d-hora" value="19:00">
+            </div>
+            <a class="btn btn-verde" id="d-google" href="https://calendar.google.com/" target="_blank" rel="noopener">Google Agenda</a>
+            <button class="btn" id="d-ics" type="button" hidden>Agenda do celular</button>
+          </div>
+          <p class="lembrete-dica" id="d-lembrete-dica">No Google Agenda, confira se a repetição está "Todos os dias" e salve.</p>
+        </div>
+      </article>
+    </div>
   </section>
 </main>
 
@@ -811,8 +962,8 @@ details[open] .seta::before { content: "▾"; }
 <nav class="barra-inferior" id="barra-inferior" aria-label="Navegação principal">
   <a href="#mapa" data-destino="mapa"><img class="px" id="bi-mapa" alt="">Mapa</a>
   <a href="#mapa" data-destino="jogar" id="bi-jogar"><img class="px" id="bi-espada" alt="">Jogar</a>
+  <a href="#diarias" data-destino="diarias"><img class="px" id="bi-diarias" alt="">Diárias</a>
   <a href="#heroi" data-destino="heroi"><img class="px" id="bi-heroi" alt="">Herói</a>
-  <a href="#certificado" data-destino="certificado"><img class="px" id="bi-certificado" alt="">Certificado</a>
 </nav>
 
 <script>
@@ -831,6 +982,27 @@ const VIDAS_CHEFE = 3;
 const TENTATIVAS_PARA_SOLUCAO = 3;
 const LIMITE_EXECUCAO_MS = 4000;
 const CHAVE_LOCAL = "pythonia-progresso-v1";
+const ENDERECO_APP = "https://matheulb.github.io/pythonia/";
+
+// Rotina diária (estilo Duolingo): meta de XP, sequência de dias, 3 desafios por dia e um baú.
+const METAS = [
+  { xp: 50, nome: "Leve", texto: "1 missão" },
+  { xp: 100, nome: "Normal", texto: "2 missões" },
+  { xp: 150, nome: "Puxada", texto: "3 missões" },
+  { xp: 250, nome: "Intensa", texto: "5 missões" },
+];
+const XP_TREINO = 10;
+const TREINOS_COM_XP = 5;
+const PREMIO_BAU = 25;
+const DESAFIOS = {
+  missoes: { texto: (n) => `Cumpra ${n} ${n === 1 ? "missão nova" : "missões novas"}`, alvos: [1, 2, 3], premio: 15, campo: "missoes", precisa: "nova" },
+  xp: { texto: (n) => `Ganhe ${n} XP`, alvos: [50, 100, 150], premio: 15, campo: "xp" },
+  primeira: { texto: () => "Acerte uma missão de primeira", alvos: [1], premio: 20, campo: "primeira", precisa: "nova" },
+  semDica: { texto: () => "Cumpra uma missão sem dica nem solução", alvos: [1], premio: 15, campo: "semDica", precisa: "nova" },
+  rodar: { texto: (n) => `Rode seu código ${n} vezes`, alvos: [3, 5, 8], premio: 10, campo: "execucoes" },
+  exemplos: { texto: (n) => `Rode ${n} ${n === 1 ? "exemplo" : "exemplos"} do pergaminho`, alvos: [1, 2], premio: 10, campo: "exemplos" },
+  treino: { texto: () => "Refaça uma missão já cumprida", alvos: [1], premio: 10, campo: "treinos", precisa: "feita" },
+};
 // No app instalável (PWA), o motor vem junto para funcionar sem internet; no Artifact, vem do CDN.
 const NO_APP = Boolean(window.PYTHONIA_APP);
 const SKULPT = NO_APP
@@ -4500,6 +4672,7 @@ const SPR = {
   ],
   estrela: ["...kk...", "..kyyk..", "kkkyykkk", "kyyyyyyk", ".kyyyyk.", ".kykkyk.", "kyk..kyk", "kk....kk"],
   casa: ["...kk...", "..kyyk..", ".kyyyyk.", "kyyyyyyk", ".kwwwwk.", ".kwkkwk.", ".kwkkwk.", ".kkkkkk."],
+  bau: ["........", ".kkkkkk.", "kbbbbbbk", "kbbbbbbk", "kkkyykkk", "kbbyybbk", "kbbbbbbk", "kkkkkkkk"],
 };
 const PALETAS = {
   moeda: { k: TINTA, y: "#f6c33b", w: "#fff3b0" },
@@ -4510,12 +4683,12 @@ const PALETAS = {
   cadeado: { k: TINTA, y: "#c9c3e6" },
   visto: { k: TINTA, g: "#3fbf4f" },
   espada: { k: TINTA, w: "#dfe6f5", y: "#f6c33b" },
+  bau: { k: TINTA, b: "#a0602a", y: "#f6c33b" },
 };
 // Artes geradas na PixelLab, publicadas junto com a página na pasta arte/.
 const ARTE = {
   cena: "arte/cena-reino.png",
   heroi: "arte/heroi.png",
-  certificado: "arte/etapa-certificado.png",
 };
 // Folhas de quadros: o quadro 0 é a pose original; a animação roda do 1 ao último.
 const ANIM = {
@@ -4877,6 +5050,89 @@ function efeitoHeroi({ x0, x1, chaoEm, velocidade = 34 }) {
     },
   };
 }
+// Véu escuro sobre a arte do dia: a festa vira noite e os fogos aparecem.
+function efeitoNoite(largura, altura) {
+  return {
+    passo() {},
+    desenhar(g) {
+      g.fillStyle = "rgba(18, 14, 52, 0.55)";
+      g.fillRect(0, 0, largura, altura);
+    },
+  };
+}
+// Na festa final o herói fica parado comemorando.
+function efeitoHeroiFesta({ x, chao }) {
+  return {
+    personagem: true,
+    passo() {},
+    desenhar(g, t) { desenharQuadro(g, ANIM.heroiVitoria, quadroDaFolha(ANIM.heroiVitoria, t), x, chao - 62); },
+  };
+}
+// Fogos de artifício: o foguete sobe, estoura em faíscas que caem e somem, e outro sai depois.
+function efeitoFogos(qtd, { largura, altura, cores }) {
+  const fogos = Array.from({ length: qtd }, (_, i) => ({ fase: "espera", espera: i * 0.8 + acaso(0, 0.5), faiscas: [] }));
+  const lancar = (f) => Object.assign(f, {
+    fase: "sobe", x: acaso(largura * 0.1, largura * 0.9), y: altura * 0.8, alvo: acaso(altura * 0.1, altura * 0.38), cor: sortear(cores),
+  });
+  const estourar = (f) => {
+    f.fase = "estouro";
+    f.clarao = 0.25;
+    f.faiscas = Array.from({ length: 40 }, (_, i) => {
+      const angulo = (i / 40) * Math.PI * 2 + acaso(-0.08, 0.08);
+      const v = acaso(48, 72);
+      return { x: f.x, y: f.y, vx: Math.cos(angulo) * v, vy: Math.sin(angulo) * v, vida: acaso(1.1, 1.6) };
+    });
+  };
+  return {
+    passo(dt) {
+      for (const f of fogos) {
+        if (f.fase === "espera") { f.espera -= dt; if (f.espera <= 0) lancar(f); continue; }
+        if (f.fase === "sobe") { f.y -= 110 * dt; if (f.y <= f.alvo) estourar(f); continue; }
+        f.clarao = Math.max(0, f.clarao - dt);
+        for (const p of f.faiscas) {
+          p.px = p.x;
+          p.py = p.y;
+          p.x += p.vx * dt;
+          p.y += p.vy * dt;
+          p.vy += 34 * dt;
+          p.vx *= 1 - 1.4 * dt;
+          p.vy *= 1 - 1.4 * dt;
+          p.vida -= dt;
+        }
+        f.faiscas = f.faiscas.filter((p) => p.vida > 0);
+        if (!f.faiscas.length) Object.assign(f, { fase: "espera", espera: acaso(0.3, 1.4) });
+      }
+    },
+    desenhar(g) {
+      comLuz(g, () => {
+        for (const f of fogos) {
+          if (f.fase === "sobe") {
+            g.fillStyle = "#fff3b0";
+            g.fillRect(Math.round(f.x), Math.round(f.y), 1, 3);
+            g.fillStyle = "rgba(255, 200, 120, 0.5)";
+            g.fillRect(Math.round(f.x), Math.round(f.y) + 3, 1, 4);
+          }
+          if (f.fase !== "estouro") continue;
+          if (f.clarao > 0) {
+            const brilho = g.createRadialGradient(f.x, f.y, 0, f.x, f.y, 26);
+            brilho.addColorStop(0, `rgba(255, 245, 210, ${f.clarao * 2.4})`);
+            brilho.addColorStop(1, "rgba(255, 245, 210, 0)");
+            g.fillStyle = brilho;
+            g.fillRect(f.x - 26, f.y - 26, 52, 52);
+          }
+          g.fillStyle = f.cor;
+          for (const p of f.faiscas) {
+            g.globalAlpha = Math.min(1, p.vida);
+            g.fillRect(Math.round(p.x), Math.round(p.y), 2, 2);
+            g.globalAlpha = Math.min(0.5, p.vida / 2);
+            if (p.px !== undefined) g.fillRect(Math.round(p.px), Math.round(p.py), 1, 1);
+          }
+          g.globalAlpha = 1;
+        }
+      });
+    },
+  };
+}
 // Chão da cena principal: grama na linha 214 e a ponte em arco sobre o vão (x 178 a 236).
 const PONTE_DA_CENA = { x0: 178, x1: 236, arco: 8 };
 function chaoDaCena(x) {
@@ -4935,6 +5191,13 @@ const CENARIOS = {
     efeitoQueda(5, { largura: 120, altura: 212, y0: 130, cores: ["#3f9e3f", "#7cc04a", "#2f6b2f"] }),
     efeitoBorboletas(3, { x: 30, y: 168, w: 140, h: 26 }),
     efeitoHeroi({ x0: 8, x1: 250, chaoEm: chaoDaCena }),
+  ],
+  festa: (w, h) => [
+    efeitoNoite(w, h),
+    efeitoFogos(5, { largura: w, altura: h, cores: ["#ffd23f", "#ff7ad9", "#7fd3ff", "#7cff8a", "#ff9a3c"] }),
+    efeitoCachoeira({ x: 337, y: 121, largura: 22, altura: 70, lago: { x: 347, y: 205, rx: 45, ry: 6 } }),
+    efeitoQueda(40, { largura: w, altura: h, cores: ["#f6c33b", "#e0435a", "#5b8def", "#3fbf7a", "#ffffff"], velocidade: [14, 28], balanco: 8 }),
+    efeitoHeroiFesta({ x: 110, chao: 214 }),
   ],
   vila: (w, h) => [
     efeitoPassaros(2, { largura: w, y0: 2, y1: 16, escala: 0.5, velocidade: 18 }),
@@ -5131,7 +5394,10 @@ function aplicarMentor(el, regiao, tam) {
 // 4. ESTADO E SALVAMENTO
 // =====================================================================
 function estadoInicial() {
-  return { versao: 1, heroi: { nome: "" }, concluidas: {}, tentativas: {}, dicas: {}, solucoes: {}, codigos: {}, gastos: 0, dias: [], atualizadoEm: 0 };
+  return {
+    versao: 1, heroi: { nome: "" }, concluidas: {}, tentativas: {}, dicas: {}, solucoes: {}, codigos: {}, gastos: 0, dias: [], atualizadoEm: 0,
+    meta: METAS[0].xp, diario: null, bonus: 0, xpTreino: 0, lembrete: "19:00",
+  };
 }
 function normalizarEstado(bruto) {
   const base = estadoInicial();
@@ -5146,6 +5412,11 @@ function normalizarEstado(bruto) {
   const heroi = e.heroi && typeof e.heroi === "object" ? e.heroi : {};
   e.heroi = { nome: typeof heroi.nome === "string" ? heroi.nome.slice(0, 24) : "" };
   for (const id of Object.keys(e.concluidas)) if (!POR_ID.has(id)) delete e.concluidas[id];
+  if (!METAS.some((m) => m.xp === e.meta)) e.meta = base.meta;
+  if (typeof e.bonus !== "number") e.bonus = 0;
+  if (typeof e.xpTreino !== "number") e.xpTreino = 0;
+  if (typeof e.lembrete !== "string" || !/^\d{2}:\d{2}$/.test(e.lembrete)) e.lembrete = base.lembrete;
+  if (!e.diario || typeof e.diario !== "object" || typeof e.diario.data !== "string" || !Array.isArray(e.diario.tarefas)) e.diario = null;
   e.versao = 1;
   return e;
 }
@@ -5224,8 +5495,8 @@ async function conectarNuvem() {
   }
 }
 
-function xpTotal() { return Object.values(estado.concluidas).reduce((s, c) => s + (c.xp || 0), 0); }
-function moedas() { return MOEDAS_INICIAIS + Object.values(estado.concluidas).reduce((s, c) => s + (c.moedas || 0), 0) - estado.gastos; }
+function xpTotal() { return Object.values(estado.concluidas).reduce((s, c) => s + (c.xp || 0), 0) + estado.xpTreino; }
+function moedas() { return MOEDAS_INICIAIS + Object.values(estado.concluidas).reduce((s, c) => s + (c.moedas || 0), 0) + estado.bonus - estado.gastos; }
 function nivelDe(xp) { return Math.floor(xp / XP_POR_NIVEL) + 1; }
 function nomeHeroi() { return estado.heroi.nome || "Aventureiro"; }
 function hojeISO(data = new Date()) {
@@ -5248,6 +5519,74 @@ function situacaoMissao(m) {
 function missaoDaVez() { return MISSOES.find((m) => !estado.concluidas[m.id]) || null; }
 // A insígnia vem do chefe: quem já venceu o chefe não a perde quando entram missões novas na região.
 function regiaoVencida(regiao) { return regiao.missoes.some((m) => m.chefe && estado.concluidas[m.id]); }
+
+// ---------- Rotina diária ----------
+// O dia tem contadores (XP, missões, execuções...) e 3 desafios sorteados pela data, iguais o dia todo.
+function geradorDaData(data) {
+  let t = [...data].reduce((soma, c) => Math.imul(soma ^ c.charCodeAt(0), 16777619), 2166136261) >>> 0;
+  return () => {
+    t = (t + 0x6d2b79f5) >>> 0;
+    let r = Math.imul(t ^ (t >>> 15), 1 | t);
+    r ^= r + Math.imul(r ^ (r >>> 7), 61 | r);
+    return ((r ^ (r >>> 14)) >>> 0) / 4294967296;
+  };
+}
+function sortearDesafios(data) {
+  const acaso01 = geradorDaData(data);
+  const temNova = Boolean(missaoDaVez());
+  const temFeita = contarFeitas() > 0;
+  const possiveis = Object.keys(DESAFIOS).filter((tipo) => {
+    const precisa = DESAFIOS[tipo].precisa;
+    return !precisa || (precisa === "nova" && temNova) || (precisa === "feita" && temFeita);
+  });
+  for (let i = possiveis.length - 1; i > 0; i--) {
+    const j = Math.floor(acaso01() * (i + 1));
+    [possiveis[i], possiveis[j]] = [possiveis[j], possiveis[i]];
+  }
+  return possiveis.slice(0, 3).map((tipo) => {
+    const alvos = DESAFIOS[tipo].alvos;
+    return { tipo, alvo: alvos[Math.floor(acaso01() * alvos.length)], premio: DESAFIOS[tipo].premio, feita: false };
+  });
+}
+function novoDiario(data) {
+  return { data, xp: 0, missoes: 0, primeira: 0, semDica: 0, execucoes: 0, exemplos: 0, treinos: 0, metaBatida: false, bau: false, tarefas: sortearDesafios(data) };
+}
+function garantirDia() {
+  const hoje = hojeISO();
+  if (estado.diario && estado.diario.data === hoje) return false;
+  estado.diario = novoDiario(hoje);
+  return true;
+}
+const progressoDesafio = (tarefa) => Math.min(tarefa.alvo, estado.diario[DESAFIOS[tarefa.tipo].campo] || 0);
+const textoDesafio = (tarefa) => DESAFIOS[tarefa.tipo].texto(tarefa.alvo);
+function contarNoDia(campo, quantidade = 1) {
+  garantirDia();
+  estado.diario[campo] = (estado.diario[campo] || 0) + quantidade;
+  conferirDiario();
+  salvar();
+  atualizarHUD();
+}
+// Paga os desafios cumpridos, abre o baú e marca a meta do dia (que alimenta a sequência).
+function conferirDiario() {
+  const dia = estado.diario;
+  for (const tarefa of dia.tarefas) {
+    if (tarefa.feita || progressoDesafio(tarefa) < tarefa.alvo) continue;
+    tarefa.feita = true;
+    estado.bonus += tarefa.premio;
+    avisar(`Desafio do dia cumprido: ${textoDesafio(tarefa)}. +${tarefa.premio} moedas`);
+  }
+  if (!dia.bau && dia.tarefas.length && dia.tarefas.every((t) => t.feita)) {
+    dia.bau = true;
+    estado.bonus += PREMIO_BAU;
+    avisar(`Baú do dia aberto! +${PREMIO_BAU} moedas`);
+  }
+  if (!dia.metaBatida && dia.xp >= estado.meta) {
+    dia.metaBatida = true;
+    registrarDia();
+    vibrar([30, 30, 30]);
+    avisar(`Meta do dia cumprida! Sequência: ${sequenciaDias()} ${sequenciaDias() === 1 ? "dia" : "dias"}`);
+  }
+}
 
 // =====================================================================
 // 5. MOTOR PYTHON (Skulpt)
@@ -5463,13 +5802,21 @@ function realcar(codigo) {
   return html + esc(codigo.slice(ultimo));
 }
 const semMovimento = () => matchMedia("(prefers-reduced-motion: reduce)").matches;
-let avisoTimer = null;
+// Avisos em fila: vários podem chegar juntos (desafio cumprido, baú, meta do dia) e aparecem um de cada vez.
+const filaAvisos = [];
+let avisoAtivo = false;
 function avisar(texto) {
+  filaAvisos.push(texto);
+  if (!avisoAtivo) mostrarProximoAviso();
+}
+function mostrarProximoAviso() {
   const el = $("#aviso");
+  const texto = filaAvisos.shift();
+  if (texto === undefined) { avisoAtivo = false; el.hidden = true; return; }
+  avisoAtivo = true;
   el.textContent = texto;
   el.hidden = false;
-  clearTimeout(avisoTimer);
-  avisoTimer = setTimeout(() => { el.hidden = true; }, 3600);
+  setTimeout(mostrarProximoAviso, 3200);
 }
 const STATUS_SALVO = {
   local: "Progresso salvo neste aparelho.",
@@ -5486,7 +5833,7 @@ function atualizarMotor() {
 }
 
 // =====================================================================
-// 8. TELAS: HUD, MAPA E CERTIFICADO
+// 8. TELAS: HUD, MAPA, DIÁRIAS E FESTA FINAL
 // =====================================================================
 function atualizarHUD() {
   const xp = xpTotal();
@@ -5522,7 +5869,7 @@ function atualizarProgresso() {
 function renderTrilha() {
   const vez = missaoDaVez();
   const atual = vez ? vez.regiao.indice : REGIOES.length;
-  const etapas = REGIOES.map((r) => ({ nome: r.nivel, arte: arteInsignia(r) })).concat([{ nome: "Certificado", arte: ARTE.certificado }]);
+  const etapas = REGIOES.map((r) => ({ nome: r.nivel, arte: arteInsignia(r) })).concat([{ nome: "Parabéns", arte: iconeFesta() }]);
   $("#trilha").innerHTML = etapas.map((e, i) => {
     const classe = i < atual ? "feita" : i === atual ? "atual" : "futura";
     return `<li class="etapa ${classe}"><span class="etapa-icone"><span class="etapa-num">${i + 1}</span><img class="px" src="${e.arte}" alt=""></span><span class="etapa-nome">${esc(e.nome)}</span></li>`;
@@ -5541,12 +5888,12 @@ function renderHoje() {
   if (!m) {
     $("#hoje-onde").textContent = "Jornada completa";
     $("#hoje-titulo").textContent = `Você venceu o ${MISSOES[MISSOES.length - 1].inimigo.nome}!`;
-    $("#hoje-tarefa").textContent = `Todas as ${MISSOES.length} missões estão cumpridas. Seu certificado está pronto. Pode refazer qualquer missão para treinar.`;
+    $("#hoje-tarefa").textContent = `Todas as ${MISSOES.length} missões estão cumpridas. Continue treinando: refazer missões dá XP e conta para os desafios do dia.`;
     $("#hoje-codigo").innerHTML = realcar(`print("Eu sei Python!")`);
-    jogar.textContent = "Ver certificado ▶";
-    jogar.href = "#certificado";
-    continuar.textContent = "Ver certificado ▶";
-    continuar.href = "#certificado";
+    jogar.textContent = "Ver a festa ▶";
+    jogar.href = "#parabens";
+    continuar.textContent = "Ver a festa ▶";
+    continuar.href = "#parabens";
     $("#hoje-premio").innerHTML = "";
     $("#topo-meta").textContent = `${MISSOES.length} de ${MISSOES.length} missões`;
     return;
@@ -5596,14 +5943,14 @@ function renderRegioes() {
       <div class="nos">${r.missoes.map((m) => htmlNo(m, vez)).join("")}</div>
     </details>`;
   });
-  const certificado = `<article class="janela">
-    <header class="janela-barra"><span>Fim da jornada</span><span class="dir">Certificado</span></header>
-    <div class="certificado-faixa">
-      <p>${vez ? `Complete as ${MISSOES.length} missões para liberar o certificado com o nome do seu herói.` : "Jornada completa! Seu certificado está pronto."}</p>
-      <a class="btn${vez ? "" : " btn-ouro"}" href="#certificado">${vez ? "Ver certificado trancado" : "Ver certificado ▶"}</a>
+  const fim = `<article class="janela">
+    <header class="janela-barra"><span>Fim da jornada</span><span class="dir">Festa final</span></header>
+    <div class="faixa-fim">
+      <p>${vez ? `Complete as ${MISSOES.length} missões para a grande festa de Pythonia.` : "Jornada completa! A festa te espera."}</p>
+      <a class="btn${vez ? "" : " btn-ouro"}" href="#parabens">${vez ? "Ver o que falta" : "Ver a festa ▶"}</a>
     </div>
   </article>`;
-  $("#regioes").innerHTML = regioes.join("") + certificado;
+  $("#regioes").innerHTML = regioes.join("") + fim;
   document.querySelectorAll("details.regiao").forEach((detalhe) => {
     detalhe.addEventListener("toggle", () => {
       const indice = Number(detalhe.dataset.indice);
@@ -5617,37 +5964,185 @@ function renderRegioes() {
     criarCena(canvas, regiao.arte, regiao.cena);
   });
 }
-function renderCertificado() {
-  const el = $("#certificado");
+// Festa final: no lugar de certificado, uma comemoração com fogos, o herói e o resumo da jornada.
+const iconeFesta = () => spriteURL(SPR.estrela, { k: TINTA, y: "#f6c33b" });
+function renderParabens() {
+  const el = $("#festa");
   const feitas = contarFeitas();
-  if (feitas < MISSOES.length) {
-    el.innerHTML = `<img class="px" src="${icone("cadeado")}" alt="">
-      <h1 class="cert-titulo">Certificado trancado</h1>
-      <p>Complete as ${MISSOES.length} missões para liberar o certificado. Você já cumpriu ${feitas}.</p>
-      <p><a class="btn btn-ouro" href="${missaoDaVez() ? "#m-" + missaoDaVez().id : "#mapa"}">▶ Voltar à jornada</a></p>`;
+  const vez = missaoDaVez();
+  if (vez) {
+    const pct = Math.round((feitas / MISSOES.length) * 100);
+    el.innerHTML = `<article class="janela">
+      <header class="janela-barra"><span>Festa final</span><span class="dir">${feitas}/${MISSOES.length}</span></header>
+      <div class="janela-corpo festa-texto">
+        <img class="px" src="${iconeFesta()}" alt="" width="64" height="64">
+        <h1 class="festa-titulo" style="font-size:clamp(28px,6vw,44px)">A festa te espera</h1>
+        <p>Pythonia prepara uma grande festa para quem cumprir as ${MISSOES.length} missões. Faltam ${MISSOES.length - feitas}.</p>
+        <div class="barra grande" style="margin:14px 0 18px"><i style="width:${pct}%"></i></div>
+        <a class="btn btn-ouro" href="#m-${vez.id}">▶ Voltar à jornada</a>
+      </div>
+    </article>`;
     return;
   }
-  const ultima = Math.max(...Object.values(estado.concluidas).map((c) => c.quando || 0));
-  const data = new Date(ultima || Date.now()).toLocaleDateString("pt-BR", { day: "numeric", month: "long", year: "numeric" });
-  el.innerHTML = `<img class="px" src="${ARTE.certificado}" alt="">
-    <p class="sobre">Reino de Pythonia certifica que</p>
-    <p class="cert-nome">${esc(nomeHeroi())}</p>
-    <h1 class="cert-titulo">Concluiu a Jornada Python</h1>
-    <p>Cumpriu as ${MISSOES.length} missões das ${REGIOES.length} regiões do reino: textos, decisões, erros, laços, listas, dicionários, conjuntos, algoritmos, funções e classes. E construiu o próprio jogo no Vulcão do Projeto Final.</p>
-    <div class="cert-rodape">
-      <span>Data<b>${esc(data)}</b></span>
-      <span>Experiência<b>${xpTotal()} XP</b></span>
-      <span>Nível<b>${nivelDe(xpTotal())}</b></span>
-      <span>Assinado<b>Rei Ancião</b></span>
+  const chefes = MISSOES.filter((m) => m.chefe).length;
+  const final = REGIOES[REGIOES.length - 1];
+  const treino = sortear(MISSOES);
+  el.innerHTML = `<div class="festa-cena"><canvas class="px" id="festa-canvas" width="480" height="240" role="img" aria-label="Fogos e confete no Reino de Pythonia, com o herói comemorando"></canvas></div>
+    <div class="festa-texto">
+      <p class="sobre">Jornada Python completa</p>
+      <h1 class="festa-titulo">Parabéns, ${esc(nomeHeroi())}!</h1>
+      <p>Você cumpriu as ${MISSOES.length} missões, venceu os ${chefes} chefes e salvou as ${REGIOES.length} regiões do reino. De print a classes, de laços a expressões regulares: agora você programa em Python.</p>
+    </div>
+    <dl class="festa-numeros">
+      <div><dt>Missões</dt><dd>${feitas}</dd></div>
+      <div><dt>Experiência</dt><dd>${xpTotal()}</dd></div>
+      <div><dt>Nível</dt><dd>${nivelDe(xpTotal())}</dd></div>
+      <div><dt>Dias seguidos</dt><dd>${sequenciaDias()}</dd></div>
+    </dl>
+    <ul class="festa-insignias" aria-label="Insígnias conquistadas">${REGIOES.map((r) => `<li title="${esc(r.insignia.nome)}"><img class="px" src="${arteInsignia(r)}" alt="${esc(r.insignia.nome)}"></li>`).join("")}</ul>
+    <div class="dialogo">
+      ${htmlMentor(final, 64)}
+      <div>
+        <p class="dialogo-nome">${esc(final.mentor.nome)}</p>
+        <p class="dialogo-fala">Pythonia inteira canta o seu nome, ${esc(nomeHeroi())}! Mas um programador nunca para de aprender. Volte todo dia, treine as missões e mantenha a chama acesa.</p>
+      </div>
+    </div>
+    <div class="festa-acoes">
+      <a class="btn btn-ouro" href="#m-${treino.id}">▶ Treinar uma missão</a>
+      <a class="btn" href="#diarias">Desafios do dia</a>
+      <a class="btn" href="#mapa">Voltar ao mapa</a>
     </div>`;
+  criarCena($("#festa-canvas"), ARTE.cena, "festa");
+}
+
+// ---------- Rotina diária na tela ----------
+const LETRAS_DA_SEMANA = ["D", "S", "T", "Q", "Q", "S", "S"];
+const desafiosFeitos = () => estado.diario.tarefas.filter((t) => t.feita).length;
+const pctMeta = () => Math.min(100, Math.round((estado.diario.xp / estado.meta) * 100));
+// Próxima missão para "jogar agora": a da vez ou, com tudo cumprido, uma para treinar.
+const destinoDeJogo = () => `#m-${(missaoDaVez() || sortear(MISSOES)).id}`;
+function renderResumoDoDia() {
+  const dia = estado.diario;
+  $("#hoje-resumo-chama").src = icone("chama");
+  $("#hoje-resumo-barra").style.width = `${pctMeta()}%`;
+  $("#hoje-resumo-texto").textContent = `${Math.min(dia.xp, estado.meta)}/${estado.meta} XP · ${desafiosFeitos()}/${dia.tarefas.length} desafios`;
+}
+// Lembrete no estilo Duolingo: aparece no mapa enquanto a meta do dia não foi batida.
+function renderAvisoSequencia() {
+  const aviso = $("#aviso-sequencia");
+  const dia = estado.diario;
+  aviso.hidden = dia.metaBatida || contarFeitas() === 0;
+  if (aviso.hidden) return;
+  const falta = estado.meta - dia.xp;
+  const seq = sequenciaDias();
+  $("#aviso-sequencia-img").src = icone("chama");
+  $("#aviso-sequencia-texto").innerHTML = seq > 0
+    ? `<b>Sua sequência de ${seq} ${seq === 1 ? "dia" : "dias"} está em risco!</b><br>Faltam ${falta} XP hoje para manter a chama acesa.`
+    : `<b>Bora acender a chama?</b><br>Faltam ${falta} XP para bater a meta de hoje.`;
+  $("#aviso-sequencia-jogar").href = destinoDeJogo();
+}
+function renderDiarias() {
+  garantirDia();
+  const dia = estado.diario;
+  const seq = sequenciaDias();
+  $("#d-chama").src = icone("chama");
+  $("#d-seq").textContent = seq;
+  $("#d-seq-texto").textContent = seq === 1 ? "dia seguido batendo a meta" : "dias seguidos batendo a meta";
+  const diasOk = new Set(estado.dias);
+  const semana = [];
+  for (let i = 6; i >= 0; i--) {
+    const data = new Date();
+    data.setDate(data.getDate() - i);
+    const iso = hojeISO(data);
+    const classes = [diasOk.has(iso) ? "ok" : "", i === 0 ? "hoje" : ""].filter(Boolean).join(" ");
+    const marca = diasOk.has(iso) ? `<img class="px" src="${icone("chama")}" alt="">` : "";
+    semana.push(`<li class="${classes}" aria-label="${data.toLocaleDateString("pt-BR", { weekday: "long" })}${diasOk.has(iso) ? ": meta batida" : ""}"><i>${marca}</i>${LETRAS_DA_SEMANA[data.getDay()]}</li>`);
+  }
+  $("#d-semana").innerHTML = semana.join("");
+  $("#d-meta-titulo").textContent = `${Math.min(dia.xp, estado.meta)} / ${estado.meta} XP`;
+  $("#d-meta-situacao").textContent = dia.metaBatida ? "Meta batida!" : `Faltam ${estado.meta - dia.xp} XP`;
+  $("#d-meta-barra").style.width = `${pctMeta()}%`;
+  $("#d-metas").innerHTML = METAS.map((m) =>
+    `<button class="meta-btn" type="button" data-meta="${m.xp}" aria-pressed="${m.xp === estado.meta}">${m.nome}<small>${m.xp} XP · ${m.texto}</small></button>`).join("");
+  $("#d-tarefas").innerHTML = dia.tarefas.map((t) => {
+    const feito = progressoDesafio(t);
+    return `<li class="tarefa-dia${t.feita ? " feita" : ""}">
+      <b>${t.feita ? "✔ " : ""}${esc(textoDesafio(t))}</b>
+      <span class="premio"><img class="px" src="${icone("moeda")}" alt="" width="16" height="16"> +${t.premio}</span>
+      <span class="barra"><i style="width:${Math.round((feito / t.alvo) * 100)}%"></i></span>
+      <small>${feito}/${t.alvo}</small>
+    </li>`;
+  }).join("");
+  const bau = $("#d-bau");
+  bau.className = "bau" + (dia.bau ? " aberto" : "");
+  bau.innerHTML = `<img class="px" src="${icone("bau")}" alt=""><p>${dia.bau
+    ? `Baú do dia aberto: +${PREMIO_BAU} moedas!`
+    : `Cumpra os ${dia.tarefas.length} desafios para abrir o baú do dia (+${PREMIO_BAU} moedas).`}</p>`;
+  const meiaNoite = new Date();
+  meiaNoite.setHours(24, 0, 0, 0);
+  const minutos = Math.max(1, Math.round((meiaNoite - new Date()) / 60000));
+  $("#d-renovar").textContent = `Novos desafios em ${Math.floor(minutos / 60)} h ${minutos % 60} min.`;
+  $("#d-hora").value = estado.lembrete;
+  $("#d-google").href = linkGoogleAgenda(estado.lembrete);
+  $("#d-ics").hidden = !NO_APP;
+}
+
+// Lembrete diário pela agenda do celular: avisa todo dia, mesmo com o app fechado.
+const TITULO_LEMBRETE = "Praticar Python no Pythonia";
+const doisDigitos = (n) => String(n).padStart(2, "0");
+const carimboLocal = (d) => `${d.getFullYear()}${doisDigitos(d.getMonth() + 1)}${doisDigitos(d.getDate())}T${doisDigitos(d.getHours())}${doisDigitos(d.getMinutes())}00`;
+function proximoHorario(hora) {
+  const [h, m] = hora.split(":").map(Number);
+  const inicio = new Date();
+  inicio.setHours(h, m, 0, 0);
+  if (inicio < new Date()) inicio.setDate(inicio.getDate() + 1);
+  return { inicio, fim: new Date(inicio.getTime() + 15 * 60000) };
+}
+function linkGoogleAgenda(hora) {
+  const { inicio, fim } = proximoHorario(hora);
+  const parametros = new URLSearchParams({
+    action: "TEMPLATE",
+    text: TITULO_LEMBRETE,
+    details: `Hora da missão do dia! Abra o app: ${ENDERECO_APP}`,
+    dates: `${carimboLocal(inicio)}/${carimboLocal(fim)}`,
+    recur: "RRULE:FREQ=DAILY",
+    ctz: Intl.DateTimeFormat().resolvedOptions().timeZone,
+  });
+  return `https://calendar.google.com/calendar/render?${parametros.toString()}`;
+}
+function baixarLembreteIcs(hora) {
+  const { inicio, fim } = proximoHorario(hora);
+  const agora = new Date();
+  const utc = `${agora.getUTCFullYear()}${doisDigitos(agora.getUTCMonth() + 1)}${doisDigitos(agora.getUTCDate())}T${doisDigitos(agora.getUTCHours())}${doisDigitos(agora.getUTCMinutes())}00Z`;
+  const linhas = [
+    "BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//Reino de Pythonia//Lembrete//PT", "CALSCALE:GREGORIAN",
+    "BEGIN:VEVENT", `UID:pythonia-lembrete-${agora.getTime()}@pythonia`, `DTSTAMP:${utc}`,
+    `DTSTART:${carimboLocal(inicio)}`, `DTEND:${carimboLocal(fim)}`, "RRULE:FREQ=DAILY",
+    `SUMMARY:${TITULO_LEMBRETE}`, `DESCRIPTION:Hora da missão do dia! ${ENDERECO_APP}`, `URL:${ENDERECO_APP}`,
+    "BEGIN:VALARM", "ACTION:DISPLAY", "DESCRIPTION:Hora de praticar Python!", "TRIGGER:PT0M", "END:VALARM",
+    "END:VEVENT", "END:VCALENDAR",
+  ];
+  const arquivo = new Blob([linhas.join("\r\n")], { type: "text/calendar;charset=utf-8" });
+  const endereco = URL.createObjectURL(arquivo);
+  const link = document.createElement("a");
+  link.href = endereco;
+  link.download = "lembrete-pythonia.ics";
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  setTimeout(() => URL.revokeObjectURL(endereco), 10000);
 }
 function renderTudo() {
+  garantirDia();
   atualizarHUD();
   atualizarProgresso();
   renderTrilha();
   renderHoje();
+  renderResumoDoDia();
+  renderAvisoSequencia();
   renderRegioes();
-  if (telaAtual === "certificado") renderCertificado();
+  if (telaAtual === "parabens") renderParabens();
+  if (telaAtual === "diarias") renderDiarias();
   if (telaAtual === "missao" && missaoAtual) atualizarCabecalhoMissao();
   atualizarBarraInferior();
 }
@@ -5828,6 +6323,7 @@ async function comOcupado(acao) {
 }
 function rodar() {
   return comOcupado(async () => {
+    contarNoDia("execucoes");
     limparConsole("Rodando...");
     const codigo = $("#editor").value;
     const r = await executar(codigo, $("#entradas-bloco").hidden ? [] : lerEntradasDoCampo());
@@ -5841,6 +6337,7 @@ function rodar() {
 function rodarExemplo() {
   return comOcupado(async () => {
     const m = missaoAtual;
+    contarNoDia("exemplos");
     const r = await executar(m.exemplo, m.exemploEntradas || []);
     let html = `<p class="c-msg info" style="margin-top:0">Exemplo do pergaminho:</p>` + htmlExecucao(r);
     if (r.erro) html += htmlErro(r.erro, r.faltouEntrada);
@@ -5897,17 +6394,28 @@ function registrarDia() {
 function vencer(m) {
   const indice = MISSOES.indexOf(m);
   const proxima = MISSOES[indice + 1] || null;
+  garantirDia();
   if (estado.concluidas[m.id]) {
-    celebrar(m, { treino: true, proxima });
+    // Treino: as primeiras missões refeitas no dia ainda contam um pouco de XP para a meta.
+    const xpTreino = estado.diario.treinos < TREINOS_COM_XP ? XP_TREINO : 0;
+    estado.xpTreino += xpTreino;
+    estado.diario.xp += xpTreino;
+    contarNoDia("treinos");
+    renderTudo();
+    celebrar(m, { treino: true, xpTreino, proxima });
     return;
   }
   const nivelAntes = nivelDe(xpTotal());
   const base = m.chefe ? XP_CHEFE : XP_MISSAO;
   const xp = estado.solucoes[m.id] ? Math.round(base / 2) : base;
   const ganhas = m.chefe ? MOEDAS_CHEFE : MOEDAS_MISSAO;
+  const semAjuda = !estado.dicas[m.id] && !estado.solucoes[m.id] && !dicaGratis;
+  const dePrimeira = !estado.tentativas[m.id];
   estado.concluidas[m.id] = { xp, moedas: ganhas, quando: Date.now() };
-  registrarDia();
-  salvar();
+  estado.diario.xp += xp;
+  if (dePrimeira) estado.diario.primeira += 1;
+  if (semAjuda) estado.diario.semDica += 1;
+  contarNoDia("missoes");
   renderTudo();
   celebrar(m, { xp, moedas: ganhas, metade: xp < base, novoNivel: nivelDe(xpTotal()) > nivelAntes ? nivelDe(xpTotal()) : null, proxima });
 }
@@ -5924,7 +6432,9 @@ function mostrarVitoria(m, info) {
   $("#vit-sobre").textContent = info.treino ? "Treino" : m.chefe ? "Chefe derrotado" : "Missão cumprida";
   $("#vit-titulo").textContent = info.treino ? "Continua afiado!" : m.chefe ? "Chefe vencido!" : "Vitória!";
   const premios = info.treino
-    ? [`<li class="menor">Esta missão já estava cumprida. Treino não dá XP, mas deixa a mão firme.</li>`]
+    ? [info.xpTreino
+      ? `<li>+${info.xpTreino} XP de treino</li>`
+      : `<li class="menor">Os ${TREINOS_COM_XP} treinos com XP de hoje já foram. Treinar mais ainda deixa a mão firme.</li>`]
     : [`<li>+${info.xp} XP</li>`, `<li>+${info.moedas} moedas</li>`];
   if (info.metade) premios.push(`<li class="menor">Metade do XP, porque a solução foi usada.</li>`);
   if (info.novoNivel) premios.push(`<li>Subiu para o nível ${info.novoNivel}!</li>`);
@@ -5934,7 +6444,8 @@ function mostrarVitoria(m, info) {
   if (!item.hidden) item.innerHTML = `<img class="px" src="${arteInsignia(m.regiao)}" alt=""><span>Nova insígnia: ${esc(m.regiao.insignia.nome)}</span>`;
   const proxima = $("#vit-proxima");
   if (info.proxima) { proxima.href = `#m-${info.proxima.id}`; proxima.textContent = "Próxima missão ▶"; }
-  else { proxima.href = "#certificado"; proxima.textContent = "Ver certificado ▶"; }
+  else if (missaoDaVez()) { proxima.href = `#m-${missaoDaVez().id}`; proxima.textContent = "Missão pendente ▶"; }
+  else { proxima.href = "#parabens"; proxima.textContent = "Ver a festa ▶"; }
   $("#vitoria").hidden = false;
   proxima.focus();
 }
@@ -6009,11 +6520,14 @@ function mostrarTela(nome, missao) {
   telaAtual = nome;
   $("#tela-mapa").hidden = nome !== "mapa";
   $("#tela-missao").hidden = nome !== "missao";
-  $("#tela-certificado").hidden = nome !== "certificado";
+  $("#tela-parabens").hidden = nome !== "parabens";
+  $("#tela-diarias").hidden = nome !== "diarias";
   fecharVitoria();
+  garantirDia();
   atualizarHUD();
   if (nome === "missao") abrirMissao(missao);
-  if (nome === "certificado") renderCertificado();
+  if (nome === "parabens") renderParabens();
+  if (nome === "diarias") renderDiarias();
   if (nome === "mapa") { renderTudo(); ligarLaco(); }
   if (anterior !== nome || nome === "missao") window.scrollTo(0, 0);
   atualizarBarraInferior();
@@ -6024,7 +6538,9 @@ function rotear() {
     const m = POR_ID.get(destino.slice(2));
     if (m && situacaoMissao(m) !== "trancada") return mostrarTela("missao", m);
   }
-  if (destino === "certificado") return mostrarTela("certificado");
+  // "certificado" era o fim antigo: quem tinha o link salvo cai na festa.
+  if (destino === "parabens" || destino === "certificado") return mostrarTela("parabens");
+  if (destino === "diarias") return mostrarTela("diarias");
   mostrarTela("mapa");
   if (destino === "heroi") {
     $("#painel-heroi").scrollIntoView({ block: "start" });
@@ -6032,10 +6548,10 @@ function rotear() {
   }
 }
 
-// Barra de baixo (celular): Mapa, Jogar (missão da vez), Herói e Certificado.
+// Barra de baixo (celular): Mapa, Jogar (missão da vez), Diárias e Herói.
 function atualizarBarraInferior() {
   const vez = missaoDaVez();
-  $("#bi-jogar").href = vez ? `#m-${vez.id}` : "#certificado";
+  $("#bi-jogar").href = vez ? `#m-${vez.id}` : "#parabens";
   document.body.classList.toggle("com-barra", telaAtual !== "missao");
   const destino = location.hash.replace(/^#/, "") === "heroi" ? "heroi" : telaAtual;
   document.querySelectorAll("#barra-inferior a").forEach((link) => {
@@ -6194,6 +6710,31 @@ function ligarEventos() {
   $("#vit-proxima").addEventListener("click", fecharVitoria);
   $("#vitoria").addEventListener("click", (e) => { if (e.target.id === "vitoria") fecharVitoria(); });
   document.addEventListener("keydown", (e) => { if (e.key === "Escape" && !$("#vitoria").hidden) fecharVitoria(); });
+  $("#d-metas").addEventListener("click", (e) => {
+    const botao = e.target.closest("[data-meta]");
+    if (!botao) return;
+    estado.meta = Number(botao.dataset.meta);
+    conferirDiario();
+    salvar();
+    renderDiarias();
+    atualizarHUD();
+  });
+  $("#d-hora").addEventListener("change", (e) => {
+    if (!/^\d{2}:\d{2}$/.test(e.target.value)) return;
+    estado.lembrete = e.target.value;
+    salvar();
+    $("#d-google").href = linkGoogleAgenda(estado.lembrete);
+  });
+  $("#d-ics").addEventListener("click", () => {
+    baixarLembreteIcs(estado.lembrete);
+    avisar("Abra o arquivo baixado para salvar o lembrete na agenda do celular.");
+  });
+  // Quem deixa o app aberto de um dia para o outro recebe os desafios novos ao voltar.
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState !== "visible" || !garantirDia()) return;
+    salvar();
+    rotear();
+  });
 }
 
 // Teste interno: roda a solução de cada missão (deve passar) e o código inicial (deve falhar).
@@ -6224,7 +6765,8 @@ $("#p-chama").src = icone("chama");
 $("#bi-mapa").src = icone("casa");
 $("#bi-espada").src = icone("espada");
 $("#bi-heroi").src = ARTE.heroi;
-$("#bi-certificado").src = ARTE.certificado;
+$("#bi-diarias").src = icone("chama");
+garantirDia();
 ligarEventos();
 prepararInstalacao();
 if (NO_APP && "serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(() => {});
