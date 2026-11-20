@@ -6197,7 +6197,7 @@ async function ligarAvisos() {
     salvar();
     avisar(`Pronto! O app avisa às ${estado.lembrete} se a meta do dia ainda não foi batida.`);
   } catch (erro) {
-    avisar("Não deu para ligar os avisos agora. Confira a internet e tente de novo.");
+    avisar("Não deu para ligar os avisos agora. Confira a internet; se o navegador pedir acesso à rede local, toque em Permitir e tente de novo.");
   }
   renderAvisosDoApp();
 }
