@@ -472,6 +472,9 @@ pre.codigo {
 }
 .lembrete-config input[type="time"]:focus-visible { outline: 3px solid var(--agua); outline-offset: 2px; }
 .lembrete-dica { margin: 10px 0 0; font-size: 14px; color: var(--texto-2); }
+.lembrete-situacao { margin: 10px 0 0; font-size: 15px; }
+.lembrete-situacao a { color: var(--agua); }
+.lembrete-ou { margin: 18px 0 0; padding-top: 14px; border-top: 3px dashed var(--borda); font-family: var(--f-pixel); font-size: 13px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--texto-2); }
 .aviso-sequencia {
   display: flex; gap: 14px; align-items: center; margin-bottom: 22px; padding: 12px 14px;
   background: var(--cod-bg); color: var(--cod-fg); border: 3px solid var(--borda); box-shadow: 5px 5px 0 var(--borda);
@@ -903,12 +906,18 @@ details[open] .seta::before { content: "▾"; }
       <article class="janela">
         <header class="janela-barra"><span>Lembrete diário</span><span class="luzes"><i></i><i></i><i></i></span></header>
         <div class="janela-corpo">
-          <p class="lembrete-dica" style="margin-top:0">Escolha a hora e coloque o lembrete na agenda do celular. Ele avisa todo dia, mesmo com o app fechado.</p>
+          <p class="lembrete-dica" style="margin-top:0">Escolha a hora. O app avisa nessa hora só nos dias em que a meta ainda não foi batida, mesmo fechado.</p>
           <div class="lembrete-config">
             <div>
               <label class="rotulo" for="d-hora">Hora</label>
               <input type="time" id="d-hora" value="19:00">
             </div>
+            <button class="btn btn-ouro" id="d-push" type="button" hidden>Ligar avisos do app</button>
+            <button class="btn" id="d-push-teste" type="button" hidden>Testar aviso</button>
+          </div>
+          <p class="lembrete-situacao" id="d-push-situacao" role="status"></p>
+          <p class="lembrete-ou">Ou salve na agenda</p>
+          <div class="lembrete-config">
             <a class="btn btn-verde" id="d-google" href="https://calendar.google.com/" target="_blank" rel="noopener">Google Agenda</a>
             <button class="btn" id="d-ics" type="button" hidden>Agenda do celular</button>
           </div>
@@ -983,6 +992,8 @@ const TENTATIVAS_PARA_SOLUCAO = 3;
 const LIMITE_EXECUCAO_MS = 4000;
 const CHAVE_LOCAL = "pythonia-progresso-v1";
 const ENDERECO_APP = "https://matheulb.github.io/pythonia/";
+// Servidor de avisos no Mac mini (Tailscale Funnel): guarda a inscrição de push e manda o lembrete diário.
+const SERVIDOR_AVISOS = "https://mac-mini-de-matheus.tail73f195.ts.net:8443";
 
 // Rotina diária (estilo Duolingo): meta de XP, sequência de dias, 3 desafios por dia e um baú.
 const METAS = [
@@ -5396,7 +5407,7 @@ function aplicarMentor(el, regiao, tam) {
 function estadoInicial() {
   return {
     versao: 1, heroi: { nome: "" }, concluidas: {}, tentativas: {}, dicas: {}, solucoes: {}, codigos: {}, gastos: 0, dias: [], atualizadoEm: 0,
-    meta: METAS[0].xp, diario: null, bonus: 0, xpTreino: 0, lembrete: "19:00",
+    meta: METAS[0].xp, diario: null, bonus: 0, xpTreino: 0, lembrete: "19:00", avisos: false,
   };
 }
 function normalizarEstado(bruto) {
@@ -5416,6 +5427,7 @@ function normalizarEstado(bruto) {
   if (typeof e.bonus !== "number") e.bonus = 0;
   if (typeof e.xpTreino !== "number") e.xpTreino = 0;
   if (typeof e.lembrete !== "string" || !/^\d{2}:\d{2}$/.test(e.lembrete)) e.lembrete = base.lembrete;
+  e.avisos = e.avisos === true;
   if (!e.diario || typeof e.diario !== "object" || typeof e.diario.data !== "string" || !Array.isArray(e.diario.tarefas)) e.diario = null;
   e.versao = 1;
   return e;
@@ -5583,6 +5595,7 @@ function conferirDiario() {
   if (!dia.metaBatida && dia.xp >= estado.meta) {
     dia.metaBatida = true;
     registrarDia();
+    sincronizarAvisos(); // o servidor fica sabendo e não avisa hoje
     vibrar([30, 30, 30]);
     avisar(`Meta do dia cumprida! Sequência: ${sequenciaDias()} ${sequenciaDias() === 1 ? "dia" : "dias"}`);
   }
@@ -6085,6 +6098,7 @@ function renderDiarias() {
   $("#d-hora").value = estado.lembrete;
   $("#d-google").href = linkGoogleAgenda(estado.lembrete);
   $("#d-ics").hidden = !NO_APP;
+  renderAvisosDoApp();
 }
 
 // Lembrete diário pela agenda do celular: avisa todo dia, mesmo com o app fechado.
@@ -6131,6 +6145,111 @@ function baixarLembreteIcs(hora) {
   link.click();
   link.remove();
   setTimeout(() => URL.revokeObjectURL(endereco), 10000);
+}
+
+// Avisos do próprio app (push): só na versão instalada, que tem service worker.
+const pushSuportado = () => NO_APP && "serviceWorker" in navigator && "PushManager" in window && "Notification" in window;
+const iphoneSemInstalar = () => /iphone|ipad|ipod/i.test(navigator.userAgent)
+  && !(navigator.standalone === true || matchMedia("(display-mode: standalone)").matches);
+const avisosLigados = () => pushSuportado() && estado.avisos && Notification.permission === "granted";
+async function pedirAoServidor(rota, corpo) {
+  const resposta = await fetch(SERVIDOR_AVISOS + rota, corpo
+    ? { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(corpo) }
+    : {});
+  if (!resposta.ok) throw new Error(`servidor de avisos respondeu ${resposta.status}`);
+  return resposta.json();
+}
+function base64urlParaBytes(texto) {
+  const binario = atob(texto.replace(/-/g, "+").replace(/_/g, "/") + "===".slice((texto.length + 3) % 4));
+  return Uint8Array.from(binario, (c) => c.charCodeAt(0));
+}
+async function inscricaoPush(criarSeFaltar) {
+  const registro = await navigator.serviceWorker.ready;
+  const atual = await registro.pushManager.getSubscription();
+  if (atual || !criarSeFaltar) return atual;
+  const { chave } = await pedirAoServidor("/chave");
+  return registro.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: base64urlParaBytes(chave) });
+}
+// O servidor só precisa da hora, do fuso e dos dias de meta batida (para não avisar quem já jogou).
+const dadosDosAvisos = (inscricao) => ({
+  inscricao: inscricao.toJSON(),
+  hora: estado.lembrete,
+  fuso: Intl.DateTimeFormat().resolvedOptions().timeZone,
+  dias: estado.dias.slice(-60),
+});
+// Mantém o servidor em dia. Sem internet, fica quieto e tenta na próxima vez.
+async function sincronizarAvisos() {
+  if (!avisosLigados()) return;
+  try {
+    await pedirAoServidor("/inscricao", dadosDosAvisos(await inscricaoPush(true)));
+  } catch (erro) { /* sem internet ou servidor fora do ar */ }
+}
+async function ligarAvisos() {
+  const permissao = await Notification.requestPermission();
+  if (permissao !== "granted") {
+    avisar("Sem permissão o app não consegue avisar. Libere as notificações nas configurações do celular.");
+    renderAvisosDoApp();
+    return;
+  }
+  try {
+    await pedirAoServidor("/inscricao", dadosDosAvisos(await inscricaoPush(true)));
+    estado.avisos = true;
+    salvar();
+    avisar(`Pronto! O app avisa às ${estado.lembrete} se a meta do dia ainda não foi batida.`);
+  } catch (erro) {
+    avisar("Não deu para ligar os avisos agora. Confira a internet e tente de novo.");
+  }
+  renderAvisosDoApp();
+}
+async function desligarAvisos() {
+  estado.avisos = false;
+  salvar();
+  try {
+    const inscricao = await inscricaoPush(false);
+    if (inscricao) {
+      await pedirAoServidor("/cancelar", { endpoint: inscricao.endpoint }).catch(() => {});
+      await inscricao.unsubscribe();
+    }
+  } catch (erro) { /* a inscrição some sozinha do servidor depois de 30 dias */ }
+  avisar("Avisos do app desligados.");
+  renderAvisosDoApp();
+}
+async function testarAviso() {
+  try {
+    const inscricao = await inscricaoPush(false);
+    if (!inscricao) throw new Error("sem inscrição");
+    await pedirAoServidor("/teste", { endpoint: inscricao.endpoint });
+    avisar("Aviso de teste enviado. Deve chegar em alguns segundos.");
+  } catch (erro) {
+    avisar("O teste não saiu. Espere um minuto e tente de novo.");
+  }
+}
+function renderAvisosDoApp() {
+  const situacao = $("#d-push-situacao");
+  const botao = $("#d-push");
+  botao.hidden = true;
+  $("#d-push-teste").hidden = true;
+  if (!NO_APP) {
+    situacao.innerHTML = `Os avisos funcionam na versão app: <a href="${ENDERECO_APP}" target="_blank" rel="noopener">${ENDERECO_APP.replace("https://", "")}</a>.`;
+    return;
+  }
+  if (iphoneSemInstalar()) {
+    situacao.textContent = "No iPhone, primeiro adicione o app à Tela de Início (Safari → Compartilhar). Abrindo por lá, o botão de avisos aparece aqui.";
+    return;
+  }
+  if (!pushSuportado()) { situacao.textContent = "Este navegador não recebe avisos de app. Use a agenda abaixo."; return; }
+  if (Notification.permission === "denied") {
+    situacao.textContent = "As notificações estão bloqueadas para este app. Libere nas configurações do celular e volte aqui.";
+    return;
+  }
+  const ligado = avisosLigados();
+  botao.hidden = false;
+  botao.textContent = ligado ? "Desligar avisos" : "Ligar avisos do app";
+  botao.className = ligado ? "btn" : "btn btn-ouro";
+  $("#d-push-teste").hidden = !ligado;
+  situacao.textContent = ligado
+    ? `Ligado: o app avisa às ${estado.lembrete} nos dias em que a meta ainda não foi batida.`
+    : "Desligado.";
 }
 function renderTudo() {
   garantirDia();
@@ -6724,7 +6843,11 @@ function ligarEventos() {
     estado.lembrete = e.target.value;
     salvar();
     $("#d-google").href = linkGoogleAgenda(estado.lembrete);
+    renderAvisosDoApp();
+    sincronizarAvisos();
   });
+  $("#d-push").addEventListener("click", () => (avisosLigados() ? desligarAvisos() : ligarAvisos()));
+  $("#d-push-teste").addEventListener("click", testarAviso);
   $("#d-ics").addEventListener("click", () => {
     baixarLembreteIcs(estado.lembrete);
     avisar("Abra o arquivo baixado para salvar o lembrete na agenda do celular.");
@@ -6769,7 +6892,7 @@ $("#bi-diarias").src = icone("chama");
 garantirDia();
 ligarEventos();
 prepararInstalacao();
-if (NO_APP && "serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(() => {});
+if (NO_APP && "serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").then(sincronizarAvisos).catch(() => {});
 atualizarMotor();
 aplicarAnimacao($("#retrato"), ANIM.heroiAndando.src, 96, "Seu herói", 0.8);
 criarCena($("#cena-reino"), ARTE.cena, "reino");

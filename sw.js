@@ -1,6 +1,6 @@
 // Service worker do Reino de Pythonia: guarda o app no aparelho para funcionar sem internet.
 // VERSAO e ARQUIVOS são preenchidos pelo ferramentas/montar-app.ps1 a cada versão.
-const VERSAO = "20261120-194357";
+const VERSAO = "20261120-200459";
 const CACHE = `pythonia-${VERSAO}`;
 const ARQUIVOS = [
   "./",
@@ -88,4 +88,28 @@ self.addEventListener("fetch", (evento) => {
     return;
   }
   evento.respondWith(caches.match(pedido, { ignoreSearch: true }).then((guardado) => guardado || fetch(pedido)));
+});
+
+// Lembrete diário que vem do servidor de avisos (Mac mini): mostra a notificação.
+const DESTINO_PADRAO = "./#diarias";
+self.addEventListener("push", (evento) => {
+  let dados = {};
+  try { dados = evento.data ? evento.data.json() : {}; } catch (erro) { /* aviso sem dados */ }
+  const destino = /^\.\/#[a-z0-9-]*$/.test(dados.destino || "") ? dados.destino : DESTINO_PADRAO;
+  evento.waitUntil(self.registration.showNotification(dados.titulo || "Reino de Pythonia", {
+    body: dados.texto || "Hora de praticar Python!",
+    icon: "icones/icone-192.png",
+    tag: "pythonia-lembrete",
+    data: { destino },
+  }));
+});
+// Tocar no aviso abre o app nas Diárias (ou traz para a frente a janela que já estava aberta).
+self.addEventListener("notificationclick", (evento) => {
+  evento.notification.close();
+  const destino = new URL((evento.notification.data && evento.notification.data.destino) || DESTINO_PADRAO, self.registration.scope).href;
+  evento.waitUntil(self.clients.matchAll({ type: "window", includeUncontrolled: true }).then((janelas) => {
+    const aberta = janelas.find((janela) => janela.url.startsWith(self.registration.scope));
+    if (!aberta) return self.clients.openWindow(destino);
+    return aberta.focus().then((janela) => (janela.navigate ? janela.navigate(destino) : janela)).catch(() => self.clients.openWindow(destino));
+  }));
 });
