@@ -1,6 +1,6 @@
 // Service worker do Reino de Pythonia: guarda o app no aparelho para funcionar sem internet.
 // VERSAO e ARQUIVOS são preenchidos pelo ferramentas/montar-app.ps1 a cada versão.
-const VERSAO = "20261121-003523";
+const VERSAO = "20261121-003826";
 const CACHE = `pythonia-${VERSAO}`;
 const ARQUIVOS = [
   "./",
@@ -14,6 +14,7 @@ const ARQUIVOS = [
   "./arte/anim-heroi-andando.png",
   "./arte/anim-heroi-vitoria.png",
   "./arte/anim-heroina-andando.png",
+  "./arte/anim-heroina-vitoria.png",
   "./arte/anim-mentor-ada.png",
   "./arte/anim-mentor-def.png",
   "./arte/anim-mentor-elif.png",
