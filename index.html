@@ -225,13 +225,17 @@ pre.codigo {
 .topo-meta { font-family: var(--f-pixel); color: var(--texto-2); font-size: 14px; }
 .tela-jogo { position: relative; border: 4px solid var(--borda); box-shadow: 7px 7px 0 var(--borda); background: var(--cod-bg); }
 .tela-jogo canvas { display: block; width: 100%; height: auto; filter: var(--filtro-arte); }
-.tj-hud { position: absolute; top: 8px; left: 8px; right: 8px; display: flex; justify-content: space-between; align-items: center; pointer-events: none; font-family: var(--f-pixel); }
+/* Vidas, nível e moedas numa barra embaixo da cena, para não cobrir o céu. */
+.tj-hud {
+  display: flex; justify-content: space-between; align-items: center; gap: 8px; padding: 6px 10px;
+  border-top: 4px solid var(--borda); background: var(--cod-bg); font-family: var(--f-pixel);
+}
 .tj-esq { display: flex; align-items: center; gap: 4px; }
 .tj-esq img { width: 20px; height: 20px; }
 .tj-pilula { background: var(--painel); color: var(--texto); border: 2px solid var(--borda); padding: 1px 8px; font-size: 14px; display: inline-flex; align-items: center; gap: 5px; }
 .tj-pilula img { width: 14px; height: 14px; }
 .tj-codigo {
-  position: absolute; left: 10px; top: 40px; max-width: 48%;
+  position: absolute; left: 10px; top: 10px; max-width: 48%;
   margin: 0; background: var(--cod-bg); color: var(--cod-fg); border: 2px solid var(--borda);
   box-shadow: 3px 3px 0 var(--borda); padding: 6px 10px; font: 11px/1.5 var(--f-cod); white-space: pre; overflow: hidden;
 }
@@ -936,7 +940,7 @@ details[open] .seta::before { content: "▾"; }
         </div>
       </article>
 
-      <article class="janela">
+      <article class="janela" id="f-email-janela">
         <header class="janela-barra"><span>4 · E-mail e relatórios</span><span class="luzes"><i></i><i></i><i></i></span></header>
         <div class="janela-corpo">
           <p class="lembrete-dica" id="f-email-intro" style="margin-top:0">Opcional. Receba o relatório da semana (domingo) e um alerta quando a sequência estiver em risco.</p>
@@ -1107,6 +1111,8 @@ const CHAVE_LOCAL = "pythonia-progresso-v1";
 const ENDERECO_APP = "https://matheulb.github.io/pythonia/";
 // Servidor de avisos no Mac mini (Tailscale Funnel): guarda a inscrição de push e manda o lembrete diário.
 const SERVIDOR_AVISOS = "https://mac-mini-de-matheus.tail73f195.ts.net:8443";
+// E-mail da ficha (relatório e alertas): pronto no app e no servidor, desligado até o Gmail do curso existir (decisão do dono).
+const EMAILS_LIGADOS = false;
 
 // Rotina diária (estilo Duolingo): meta de XP, sequência de dias, 3 desafios por dia e um baú.
 // Meta diária em XP; missões e minutos são a média de uma missão comum (50 XP, uns 10 minutos).
@@ -4909,7 +4915,7 @@ function carregarImagem(src) {
 }
 const IMG = {};
 const imagensProntas = Promise.all(
-  [ARTE.cena, ANIM.heroiAndando.src, ANIM.heroiVitoria.src, ANIM.heroinaAndando.src, ANIM.passaro.src,
+  [ARTE.cena, ...Object.values(ANIM).filter(Boolean).map((folha) => folha.src),
     ...REGIOES.filter((r) => !r.provisoria).map((r) => r.arte),
     ...MISSOES.filter((m) => m.inimigo && !m.regiao.provisoria).map((m) => m.inimigo.folha.src)]
     .map((src) => carregarImagem(src).then((img) => { IMG[src] = img; }))
@@ -5361,7 +5367,7 @@ let duelo = null;
 const CENARIOS = {
   reino: (w) => [
     efeitoPassaros(2, { largura: w, y0: 20, y1: 80 }),
-    efeitoCachoeira({ x: 337, y: 121, largura: 22, altura: 70, lago: { x: 347, y: 205, rx: 45, ry: 6 } }),
+    efeitoCachoeira({ x: 337, y: 121, largura: 22, altura: 92, lago: { x: 347, y: 216, rx: 30, ry: 3 } }),
     efeitoBrilhos(4, { x: 420, y: 118, w: 44, h: 36 }, "255, 240, 160"),
     efeitoQueda(5, { largura: 120, altura: 212, y0: 130, cores: ["#3f9e3f", "#7cc04a", "#2f6b2f"] }),
     efeitoBorboletas(3, { x: 30, y: 168, w: 140, h: 26 }),
@@ -5370,7 +5376,7 @@ const CENARIOS = {
   festa: (w, h) => [
     efeitoNoite(w, h),
     efeitoFogos(5, { largura: w, altura: h, cores: ["#ffd23f", "#ff7ad9", "#7fd3ff", "#7cff8a", "#ff9a3c"] }),
-    efeitoCachoeira({ x: 337, y: 121, largura: 22, altura: 70, lago: { x: 347, y: 205, rx: 45, ry: 6 } }),
+    efeitoCachoeira({ x: 337, y: 121, largura: 22, altura: 92, lago: { x: 347, y: 216, rx: 30, ry: 3 } }),
     efeitoQueda(40, { largura: w, altura: h, cores: ["#f6c33b", "#e0435a", "#5b8def", "#3fbf7a", "#ffffff"], velocidade: [14, 28], balanco: 8 }),
     efeitoHeroiFesta({ x: 110, chao: 214 }),
   ],
@@ -6572,6 +6578,8 @@ function situacaoDoEmail() {
   return `Falta confirmar: abra o e-mail que mandamos para ${perfil.email} e toque no link (veja também o spam).`;
 }
 function renderEmailDaFicha() {
+  $("#f-email-janela").hidden = !EMAILS_LIGADOS;
+  if (!EMAILS_LIGADOS) return;
   if (!NO_APP) {
     $("#f-email-form").hidden = true;
     $("#f-email-intro").innerHTML = `Os relatórios por e-mail funcionam na versão app: <a href="${ENDERECO_APP}" target="_blank" rel="noopener">${ENDERECO_APP.replace("https://", "")}</a>.`;
