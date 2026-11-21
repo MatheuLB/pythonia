@@ -114,6 +114,9 @@ code {
   from { background-position: calc(var(--tam) * -1) 0; }
   to { background-position: calc(var(--tam) * var(--total) * -1) 0; }
 }
+/* Comemoração de quem ainda não tem a animação de vitória: pose parada pulando. */
+.anim.comemora { background-position: 0 0; animation: pulo-alto 0.7s ease-in-out infinite; }
+@keyframes pulo-alto { 50% { transform: translateY(-14%); } }
 .sobre {
   margin: 0; font-family: var(--f-pixel); font-size: 13px; text-transform: uppercase;
   letter-spacing: 0.12em; color: var(--agua);
@@ -473,6 +476,27 @@ pre.codigo {
 .lembrete-config input[type="time"]:focus-visible { outline: 3px solid var(--agua); outline-offset: 2px; }
 .lembrete-dica { margin: 10px 0 0; font-size: 14px; color: var(--texto-2); }
 .lembrete-situacao { margin: 10px 0 0; font-size: 15px; }
+.ficha-intro { margin: 0; font-size: 17px; }
+.escolha-genero { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.genero-btn {
+  display: grid; justify-items: center; gap: 4px; padding: 10px 6px 12px; cursor: pointer;
+  font: 700 18px var(--f-pixel); color: var(--texto); background: var(--painel); border: 3px solid var(--borda); box-shadow: 3px 3px 0 var(--borda);
+}
+.genero-btn[aria-checked="true"] { background: var(--ouro); color: var(--sobre-ouro); }
+.genero-btn:focus-visible { outline: 3px solid var(--agua); outline-offset: 2px; }
+.metas.prazos { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+.plano-resumo { margin-top: 14px; padding: 12px; border: 3px dashed var(--borda); font-size: 15px; }
+.plano-resumo p { margin: 0 0 6px; }
+.plano-resumo p:last-child { margin-bottom: 0; }
+.plano-resumo b { font-family: var(--f-pixel); font-weight: 600; }
+.heroi-nome { margin: 0 0 8px; font: 700 22px var(--f-pixel); overflow-wrap: anywhere; }
+.campo-texto { font: 16px var(--f-texto); }
+.marcar { display: flex; gap: 8px; align-items: flex-start; margin-top: 12px; font-size: 15px; cursor: pointer; }
+.marcar input { width: 20px; height: 20px; margin: 1px 0 0; flex: none; accent-color: var(--grama); }
+.privacidade { margin-top: 16px; font-size: 14px; color: var(--texto-2); }
+.privacidade summary { cursor: pointer; font-family: var(--f-pixel); color: var(--texto); }
+.privacidade ul { margin: 8px 0 0; padding-left: 18px; display: grid; gap: 4px; }
+.ficha-acoes { display: flex; justify-content: center; }
 .lembrete-situacao a { color: var(--agua); }
 .lembrete-ou { margin: 18px 0 0; padding-top: 14px; border-top: 3px dashed var(--borda); font-family: var(--f-pixel); font-size: 13px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--texto-2); }
 .aviso-sequencia {
@@ -629,7 +653,8 @@ details[open] .seta::before { content: "▾"; }
 }
 @media (max-width: 640px) {
   .festa-numeros { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .metas { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .metas, .metas.prazos { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .metas.prazos .meta-btn:last-child { grid-column: 1 / -1; }
   .festa-texto p { font-size: 16px; }
 }
 @media (max-width: 479px) {
@@ -671,6 +696,13 @@ details[open] .seta::before { content: "▾"; }
         </div>
       </div>
     </div>
+    <div class="aviso-sequencia" id="aviso-ficha" hidden>
+      <img class="px" id="aviso-ficha-img" alt="">
+      <div>
+        <p><b>Monte sua ficha!</b><br>Escolha herói ou heroína, seu objetivo e um plano de estudos no seu ritmo.</p>
+        <div class="acoes-aviso"><a class="btn btn-ouro btn-pequeno" href="#ficha">Criar ficha ▶</a></div>
+      </div>
+    </div>
     <div class="aviso-sequencia" id="aviso-sequencia" hidden>
       <img class="px" id="aviso-sequencia-img" alt="">
       <div>
@@ -710,13 +742,14 @@ details[open] .seta::before { content: "▾"; }
 
     <div class="painel-duplo">
       <article class="janela" id="painel-heroi">
-        <header class="janela-barra"><span>Seu herói</span><span class="luzes"><i></i><i></i><i></i></span></header>
+        <header class="janela-barra"><span id="painel-heroi-titulo">Seu herói</span><span class="luzes"><i></i><i></i><i></i></span></header>
         <div class="janela-corpo">
           <div class="heroi-linha">
             <div class="retrato"><span id="retrato"></span></div>
             <div class="heroi-info">
-              <label class="rotulo" for="nome-heroi">Nome do herói</label>
-              <input class="campo" id="nome-heroi" maxlength="24" autocomplete="off" placeholder="Digite seu nome">
+              <p class="rotulo">Nome</p>
+              <p class="heroi-nome" id="p-nome">Aventureiro</p>
+              <a class="btn btn-pequeno" href="#ficha">Editar ficha ▶</a>
             </div>
           </div>
           <div class="nivel-linha"><span class="nivel-num" id="p-nivel">Nível 1</span><span class="xp-num" id="p-xp">0 / 150 XP</span></div>
@@ -860,6 +893,85 @@ details[open] .seta::before { content: "▾"; }
     <div class="festa" id="festa"></div>
   </section>
 
+  <!-- ======== FICHA ======== -->
+  <section id="tela-ficha" hidden>
+    <div class="diarias ficha">
+      <div class="missao-topo">
+        <a class="btn btn-pequeno btn-voltar" href="#mapa" aria-label="Voltar ao mapa">← <span>Mapa</span></a>
+        <div class="missao-titulos">
+          <p class="sobre" id="f-sobre">Ficha do personagem</p>
+          <h1 id="f-titulo">Sua ficha</h1>
+        </div>
+      </div>
+      <p class="ficha-intro" id="f-intro" hidden>Antes de partir, monte sua ficha: personagem, objetivo e ritmo de estudo. Dá para mudar tudo depois.</p>
+
+      <article class="janela">
+        <header class="janela-barra"><span>1 · Personagem</span><span class="luzes"><i></i><i></i><i></i></span></header>
+        <div class="janela-corpo">
+          <div class="escolha-genero" id="f-generos" role="radiogroup" aria-label="Escolha o personagem">
+            <button class="genero-btn" type="button" role="radio" data-genero="m" aria-checked="true"><span id="f-arte-m"></span><b>Herói</b></button>
+            <button class="genero-btn" type="button" role="radio" data-genero="f" aria-checked="false"><span id="f-arte-f"></span><b>Heroína</b></button>
+          </div>
+          <label class="rotulo" for="f-nome" style="margin-top:16px">Nome</label>
+          <input class="campo" id="f-nome" maxlength="24" autocomplete="nickname" placeholder="Como quer ser chamado?">
+        </div>
+      </article>
+
+      <article class="janela">
+        <header class="janela-barra"><span>2 · Objetivo</span><span class="luzes"><i></i><i></i><i></i></span></header>
+        <div class="janela-corpo">
+          <p class="lembrete-dica" style="margin-top:0">Para que você quer aprender Python? (opcional)</p>
+          <div class="metas" id="f-objetivos" role="group" aria-label="Objetivo"></div>
+        </div>
+      </article>
+
+      <article class="janela">
+        <header class="janela-barra"><span>3 · Plano de estudos</span><span class="luzes"><i></i><i></i><i></i></span></header>
+        <div class="janela-corpo">
+          <p class="rotulo">Em quanto tempo quer terminar o curso?</p>
+          <div class="metas prazos" id="f-prazos" role="group" aria-label="Prazo para terminar"></div>
+          <p class="rotulo" style="margin-top:16px">Quanto tempo por dia?</p>
+          <div class="metas" id="f-metas" role="group" aria-label="Tempo de estudo por dia"></div>
+          <div class="plano-resumo" id="f-plano-resumo" role="status"></div>
+        </div>
+      </article>
+
+      <article class="janela">
+        <header class="janela-barra"><span>4 · E-mail e relatórios</span><span class="luzes"><i></i><i></i><i></i></span></header>
+        <div class="janela-corpo">
+          <p class="lembrete-dica" id="f-email-intro" style="margin-top:0">Opcional. Receba o relatório da semana (domingo) e um alerta quando a sequência estiver em risco.</p>
+          <div id="f-email-form">
+            <label class="rotulo" for="f-email">E-mail</label>
+            <input class="campo campo-texto" id="f-email" type="email" maxlength="120" autocomplete="email" inputmode="email" placeholder="voce@exemplo.com">
+            <label class="marcar"><input type="checkbox" id="f-relatorio" checked> Relatório semanal, aos domingos</label>
+            <label class="marcar"><input type="checkbox" id="f-alerta" checked> Alerta por e-mail quando a sequência estiver em risco</label>
+            <label class="marcar"><input type="checkbox" id="f-consentimento"> Li como meus dados são usados (abaixo) e tenho 18 anos ou mais, ou um responsável autorizou.</label>
+            <div class="lembrete-config">
+              <button class="btn btn-verde" id="f-email-salvar" type="button">Salvar e-mail</button>
+              <button class="btn" id="f-email-apagar" type="button" hidden>Apagar meus dados</button>
+            </div>
+            <p class="lembrete-situacao" id="f-email-situacao" role="status"></p>
+          </div>
+          <details class="privacidade">
+            <summary>Como seus dados são usados</summary>
+            <ul>
+              <li><b>O que guardamos:</b> nome do personagem, herói ou heroína, objetivo, plano de estudos, e-mail e um resumo do progresso (missões, XP, nível e dias de meta batida).</li>
+              <li><b>Para quê:</b> só para mandar o que você pediu: confirmação do e-mail, relatório semanal e alerta de sequência.</li>
+              <li><b>Onde:</b> no servidor do Reino de Pythonia; os e-mails saem pelo Gmail. Não vendemos nem passamos seus dados a ninguém.</li>
+              <li><b>Por quanto tempo:</b> até você apagar. Fichas sem uso por 12 meses são apagadas sozinhas.</li>
+              <li><b>Seus direitos:</b> o botão "Apagar meus dados" apaga tudo do servidor na hora; todo e-mail traz um link para parar de receber.</li>
+              <li>Sem e-mail, nada sai do aparelho: a ficha fica só aqui.</li>
+            </ul>
+          </details>
+        </div>
+      </article>
+
+      <div class="ficha-acoes">
+        <a class="btn btn-ouro" id="f-pronto" href="#mapa">Salvar ficha ▶</a>
+      </div>
+    </div>
+  </section>
+
   <!-- ======== DIÁRIAS ======== -->
   <section id="tela-diarias" hidden>
     <div class="diarias">
@@ -891,6 +1003,7 @@ details[open] .seta::before { content: "▾"; }
           <div class="meta-linha"><b id="d-meta-titulo">0 / 50 XP</b><span id="d-meta-situacao">Falta pouco</span></div>
           <div class="barra grande"><i id="d-meta-barra"></i></div>
           <div class="metas" id="d-metas" role="group" aria-label="Escolha a meta diária"></div>
+          <p class="lembrete-dica" id="d-plano"></p>
         </div>
       </article>
 
@@ -972,7 +1085,7 @@ details[open] .seta::before { content: "▾"; }
   <a href="#mapa" data-destino="mapa"><img class="px" id="bi-mapa" alt="">Mapa</a>
   <a href="#mapa" data-destino="jogar" id="bi-jogar"><img class="px" id="bi-espada" alt="">Jogar</a>
   <a href="#diarias" data-destino="diarias"><img class="px" id="bi-diarias" alt="">Diárias</a>
-  <a href="#heroi" data-destino="heroi"><img class="px" id="bi-heroi" alt="">Herói</a>
+  <a href="#ficha" data-destino="ficha"><img class="px" id="bi-heroi" alt="">Ficha</a>
 </nav>
 
 <script>
@@ -996,12 +1109,33 @@ const ENDERECO_APP = "https://matheulb.github.io/pythonia/";
 const SERVIDOR_AVISOS = "https://mac-mini-de-matheus.tail73f195.ts.net:8443";
 
 // Rotina diária (estilo Duolingo): meta de XP, sequência de dias, 3 desafios por dia e um baú.
+// Meta diária em XP; missões e minutos são a média de uma missão comum (50 XP, uns 10 minutos).
 const METAS = [
-  { xp: 50, nome: "Leve", texto: "1 missão" },
-  { xp: 100, nome: "Normal", texto: "2 missões" },
-  { xp: 150, nome: "Puxada", texto: "3 missões" },
-  { xp: 250, nome: "Intensa", texto: "5 missões" },
+  { xp: 50, nome: "Leve", texto: "1 missão", missoes: 1, minutos: 10 },
+  { xp: 100, nome: "Normal", texto: "2 missões", missoes: 2, minutos: 20 },
+  { xp: 150, nome: "Puxada", texto: "3 missões", missoes: 3, minutos: 30 },
+  { xp: 250, nome: "Intensa", texto: "5 missões", missoes: 5, minutos: 50 },
 ];
+// Plano de estudos: em quanto tempo a pessoa quer terminar o curso.
+const PRAZOS = [
+  { id: "1m", nome: "1 mês", dias: 30 },
+  { id: "2m", nome: "2 meses", dias: 61 },
+  { id: "3m", nome: "3 meses", dias: 91 },
+  { id: "6m", nome: "6 meses", dias: 182 },
+  { id: "livre", nome: "Sem pressa", dias: null },
+];
+const OBJETIVOS = [
+  { id: "escola", nome: "Escola ou faculdade" },
+  { id: "trabalho", nome: "Trabalho e carreira" },
+  { id: "jogos", nome: "Criar jogos e apps" },
+  { id: "curiosidade", nome: "Curiosidade" },
+];
+// Títulos de nível no feminino (para a heroína).
+const TITULOS_FEMININOS = {
+  "Intermediário": "Intermediária", "Avançado": "Avançada", "Caçador de Bugs": "Caçadora de Bugs", "Colecionador": "Colecionadora",
+  "Mestre": "Mestra", "Capitão": "Capitã", "Arquimago": "Arquimaga", "Garimpeiro": "Garimpeira", "Campeão": "Campeã",
+  "Relojoeiro": "Relojoeira", "Mercador": "Mercadora", "Ferreiro": "Ferreira", "Explorador": "Exploradora",
+};
 const XP_TREINO = 10;
 const TREINOS_COM_XP = 5;
 const PREMIO_BAU = 25;
@@ -4700,11 +4834,15 @@ const PALETAS = {
 const ARTE = {
   cena: "arte/cena-reino.png",
   heroi: "arte/heroi.png",
+  heroina: "arte/heroina.png",
 };
 // Folhas de quadros: o quadro 0 é a pose original; a animação roda do 1 ao último.
 const ANIM = {
   heroiAndando: { src: "arte/anim-heroi-andando.png", total: 9, fps: 10 },
   heroiVitoria: { src: "arte/anim-heroi-vitoria.png", total: 9, fps: 10 },
+  heroinaAndando: { src: "arte/anim-heroina-andando.png", total: 9, fps: 10 },
+  // A comemoração da heroína espera saldo na PixelLab (ferramentas\heroina-lote.ps1); até lá ela pula na pose parada.
+  heroinaVitoria: null,
   passaro: { src: "arte/anim-passaro.png", total: 9, fps: 14 },
 };
 const PE_DO_HEROI = 60;
@@ -4734,7 +4872,32 @@ function spriteURL(linhas, paleta) {
   return url;
 }
 const icone = (nome) => spriteURL(SPR[nome], PALETAS[nome]);
-const iconeHeroi = () => ARTE.heroi;
+// Herói ou heroína, escolhido na ficha. Tudo que desenha o personagem passa por aqui.
+const ehHeroina = () => estado.heroi.genero === "f";
+const G = (masculino, feminino) => (ehHeroina() ? feminino : masculino);
+const PERSONAGENS = {
+  m: { retrato: ARTE.heroi, andando: ANIM.heroiAndando, vitoria: ANIM.heroiVitoria },
+  f: { retrato: ARTE.heroina, andando: ANIM.heroinaAndando, vitoria: ANIM.heroinaVitoria },
+};
+const personagem = (genero = estado.heroi.genero) => PERSONAGENS[genero === "f" ? "f" : "m"];
+const iconeHeroi = () => personagem().retrato;
+const tituloNivel = (regiao) => (ehHeroina() && TITULOS_FEMININOS[regiao.nivel]) || regiao.nivel;
+// Falas dos mentores: troca {heroi} pelo nome e ajusta "bem-vindo/querido" para a heroína.
+function textoComHeroi(texto) {
+  const comNome = texto.replace("{heroi}", nomeHeroi());
+  return ehHeroina() ? comNome.replace(/([Bb]em-vind)o/g, "$1a").replace(/querido/g, "querida") : comNome;
+}
+// Comemorando: usa a animação de vitória ou, se ainda não existir, a pose parada pulando.
+function animarComemoracao(el, tam, rotulo, duracao) {
+  const { vitoria, andando } = personagem();
+  aplicarAnimacao(el, (vitoria || andando).src, tam, rotulo, duracao);
+  if (!vitoria) el.classList.add("comemora");
+}
+function desenharComemorando(g, x, y, t) {
+  const { vitoria, andando } = personagem();
+  if (vitoria) desenharQuadro(g, vitoria, quadroDaFolha(vitoria, t), x, y);
+  else desenharQuadro(g, andando, 0, x, y - Math.round(Math.abs(Math.sin(t * 4.5)) * 9));
+}
 
 function carregarImagem(src) {
   return new Promise((pronto) => {
@@ -4746,7 +4909,7 @@ function carregarImagem(src) {
 }
 const IMG = {};
 const imagensProntas = Promise.all(
-  [ARTE.cena, ANIM.heroiAndando.src, ANIM.heroiVitoria.src, ANIM.passaro.src,
+  [ARTE.cena, ANIM.heroiAndando.src, ANIM.heroiVitoria.src, ANIM.heroinaAndando.src, ANIM.passaro.src,
     ...REGIOES.filter((r) => !r.provisoria).map((r) => r.arte),
     ...MISSOES.filter((m) => m.inimigo && !m.regiao.provisoria).map((m) => m.inimigo.folha.src)]
     .map((src) => carregarImagem(src).then((img) => { IMG[src] = img; }))
@@ -5056,8 +5219,9 @@ function efeitoHeroi({ x0, x1, chaoEm, velocidade = 34 }) {
       if (x < x0) { x = x0; dir = 1; pausa = 1.8; }
     },
     desenhar(g, t) {
-      const quadro = pausa > 0 ? 0 : quadroDaFolha(ANIM.heroiAndando, t);
-      desenharQuadro(g, ANIM.heroiAndando, quadro, x, chaoEm(x + 32) - PE_DO_HEROI, 1, dir < 0);
+      const folha = personagem().andando;
+      const quadro = pausa > 0 ? 0 : quadroDaFolha(folha, t);
+      desenharQuadro(g, folha, quadro, x, chaoEm(x + 32) - PE_DO_HEROI, 1, dir < 0);
     },
   };
 }
@@ -5076,7 +5240,7 @@ function efeitoHeroiFesta({ x, chao }) {
   return {
     personagem: true,
     passo() {},
-    desenhar(g, t) { desenharQuadro(g, ANIM.heroiVitoria, quadroDaFolha(ANIM.heroiVitoria, t), x, chao - 62); },
+    desenhar(g, t) { desenharComemorando(g, x, chao - 62, t); },
   };
 }
 // Fogos de artifício: o foguete sobe, estoura em faíscas que caem e somem, e outro sai depois.
@@ -5170,9 +5334,9 @@ function efeitoDuelo(chefe, chao) {
     },
     desenhar(g, t) {
       if (estado.derrota > 0) {
-        desenharQuadro(g, ANIM.heroiVitoria, quadroDaFolha(ANIM.heroiVitoria, t), heroiX, topo);
+        desenharComemorando(g, heroiX, topo, t);
       } else if (estado.golpe === 0 || Math.floor(t * 16) % 2 === 0) {
-        desenharQuadro(g, ANIM.heroiAndando, 0, heroiX, topo + Math.round(Math.sin(t * 3)));
+        desenharQuadro(g, personagem().andando, 0, heroiX, topo + Math.round(Math.sin(t * 3)));
       }
       if (estado.derrota >= DURACAO_DERROTA) return;
       const avanco = estado.golpe > 0 ? -Math.sin((1 - estado.golpe / DURACAO_GOLPE) * Math.PI) * 70 : 0;
@@ -5406,8 +5570,9 @@ function aplicarMentor(el, regiao, tam) {
 // =====================================================================
 function estadoInicial() {
   return {
-    versao: 1, heroi: { nome: "" }, concluidas: {}, tentativas: {}, dicas: {}, solucoes: {}, codigos: {}, gastos: 0, dias: [], atualizadoEm: 0,
+    versao: 1, heroi: { nome: "", genero: "m" }, concluidas: {}, tentativas: {}, dicas: {}, solucoes: {}, codigos: {}, gastos: 0, dias: [], atualizadoEm: 0,
     meta: METAS[0].xp, diario: null, bonus: 0, xpTreino: 0, lembrete: "19:00", avisos: false,
+    fichaCriada: false, objetivo: "", plano: null, perfil: null,
   };
 }
 function normalizarEstado(bruto) {
@@ -5421,7 +5586,17 @@ function normalizarEstado(bruto) {
   if (typeof e.gastos !== "number") e.gastos = 0;
   if (typeof e.atualizadoEm !== "number") e.atualizadoEm = 0;
   const heroi = e.heroi && typeof e.heroi === "object" ? e.heroi : {};
-  e.heroi = { nome: typeof heroi.nome === "string" ? heroi.nome.slice(0, 24) : "" };
+  e.heroi = { nome: typeof heroi.nome === "string" ? heroi.nome.slice(0, 24) : "", genero: heroi.genero === "f" ? "f" : "m" };
+  e.fichaCriada = e.fichaCriada === true;
+  if (!OBJETIVOS.some((o) => o.id === e.objetivo)) e.objetivo = "";
+  const plano = e.plano;
+  e.plano = plano && PRAZOS.some((p) => p.id === plano.prazo) && /^\d{4}-\d{2}-\d{2}$/.test(plano.inicio) && Number.isInteger(plano.feitasNoInicio)
+    ? { prazo: plano.prazo, inicio: plano.inicio, feitasNoInicio: plano.feitasNoInicio }
+    : null;
+  const perfil = e.perfil;
+  e.perfil = perfil && /^[0-9a-f]{32}$/.test(perfil.id) && /^[0-9a-f]{64}$/.test(perfil.chave)
+    ? { id: perfil.id, chave: perfil.chave, email: typeof perfil.email === "string" ? perfil.email : "", relatorio: perfil.relatorio !== false, alertas: perfil.alertas !== false, situacao: typeof perfil.situacao === "string" ? perfil.situacao : "" }
+    : null;
   for (const id of Object.keys(e.concluidas)) if (!POR_ID.has(id)) delete e.concluidas[id];
   if (!METAS.some((m) => m.xp === e.meta)) e.meta = base.meta;
   if (typeof e.bonus !== "number") e.bonus = 0;
@@ -5510,7 +5685,7 @@ async function conectarNuvem() {
 function xpTotal() { return Object.values(estado.concluidas).reduce((s, c) => s + (c.xp || 0), 0) + estado.xpTreino; }
 function moedas() { return MOEDAS_INICIAIS + Object.values(estado.concluidas).reduce((s, c) => s + (c.moedas || 0), 0) + estado.bonus - estado.gastos; }
 function nivelDe(xp) { return Math.floor(xp / XP_POR_NIVEL) + 1; }
-function nomeHeroi() { return estado.heroi.nome || "Aventureiro"; }
+function nomeHeroi() { return estado.heroi.nome || G("Aventureiro", "Aventureira"); }
 function hojeISO(data = new Date()) {
   const p = (n) => String(n).padStart(2, "0");
   return `${data.getFullYear()}-${p(data.getMonth() + 1)}-${p(data.getDate())}`;
@@ -5596,6 +5771,7 @@ function conferirDiario() {
     dia.metaBatida = true;
     registrarDia();
     sincronizarAvisos(); // o servidor fica sabendo e não avisa hoje
+    sincronizarFicha();
     vibrar([30, 30, 30]);
     avisar(`Meta do dia cumprida! Sequência: ${sequenciaDias()} ${sequenciaDias() === 1 ? "dia" : "dias"}`);
   }
@@ -5854,6 +6030,7 @@ function atualizarHUD() {
   const noNivel = xp % XP_POR_NIVEL;
   const pct = Math.round((noNivel / XP_POR_NIVEL) * 100) + "%";
   $("#hud-avatar").src = iconeHeroi();
+  $("#bi-heroi").src = iconeHeroi();
   $("#hud-nome").textContent = nomeHeroi();
   $("#hud-nivel").textContent = `Nv. ${nivel}`;
   $("#hud-xp-barra").style.width = pct;
@@ -5867,8 +6044,10 @@ function atualizarHUD() {
 function atualizarProgresso() {
   const xp = xpTotal();
   const noNivel = xp % XP_POR_NIVEL;
-  const campo = $("#nome-heroi");
-  if (document.activeElement !== campo) campo.value = estado.heroi.nome;
+  aplicarRetrato();
+  $("#p-nome").textContent = nomeHeroi();
+  $("#painel-heroi-titulo").textContent = G("Seu herói", "Sua heroína");
+  $("#cena-reino").setAttribute("aria-label", `${G("Seu herói caminha", "Sua heroína caminha")} pelo Reino de Pythonia, com ilhas flutuantes e um castelo`);
   $("#p-nivel").textContent = `Nível ${nivelDe(xp)}`;
   $("#p-xp").textContent = `${noNivel} / ${XP_POR_NIVEL} XP`;
   $("#p-xp-barra").style.width = Math.round((noNivel / XP_POR_NIVEL) * 100) + "%";
@@ -5882,7 +6061,7 @@ function atualizarProgresso() {
 function renderTrilha() {
   const vez = missaoDaVez();
   const atual = vez ? vez.regiao.indice : REGIOES.length;
-  const etapas = REGIOES.map((r) => ({ nome: r.nivel, arte: arteInsignia(r) })).concat([{ nome: "Parabéns", arte: iconeFesta() }]);
+  const etapas = REGIOES.map((r) => ({ nome: tituloNivel(r), arte: arteInsignia(r) })).concat([{ nome: "Parabéns", arte: iconeFesta() }]);
   $("#trilha").innerHTML = etapas.map((e, i) => {
     const classe = i < atual ? "feita" : i === atual ? "atual" : "futura";
     return `<li class="etapa ${classe}"><span class="etapa-icone"><span class="etapa-num">${i + 1}</span><img class="px" src="${e.arte}" alt=""></span><span class="etapa-nome">${esc(e.nome)}</span></li>`;
@@ -5896,7 +6075,7 @@ function renderHoje() {
   aplicarMentor($("#hoje-mentor-img"), mentorDe, 64);
   $("#hoje-mentor-nome").textContent = mentorDe.mentor.nome;
   $("#hoje-fala").textContent = m
-    ? m.historia.replace("{heroi}", nomeHeroi())
+    ? textoComHeroi(m.historia)
     : `Parabéns, ${nomeHeroi()}! Pythonia está a salvo. Volte quando quiser para treinar.`;
   if (!m) {
     $("#hoje-onde").textContent = "Jornada completa";
@@ -5947,7 +6126,7 @@ function renderRegioes() {
   const regioes = REGIOES.map((r) => {
     const feitas = r.missoes.filter((m) => estado.concluidas[m.id]).length;
     return `<details class="janela regiao" data-indice="${r.indice}"${regioesAbertas.has(r.indice) ? " open" : ""}>
-      <summary class="janela-barra"><span>Região ${r.indice + 1} · ${esc(r.nome)}</span><span class="dir">${esc(r.nivel)} · ${feitas}/${r.missoes.length}<b class="seta" aria-hidden="true"></b></span></summary>
+      <summary class="janela-barra"><span>Região ${r.indice + 1} · ${esc(r.nome)}</span><span class="dir">${esc(tituloNivel(r))} · ${feitas}/${r.missoes.length}<b class="seta" aria-hidden="true"></b></span></summary>
       <canvas class="px cena-regiao" width="512" height="128" data-regiao="${r.indice}" role="img" aria-label="Paisagem animada: ${esc(r.nome)}"></canvas>
       <div class="regiao-info">
         ${htmlMentor(r, 64)}
@@ -6000,7 +6179,7 @@ function renderParabens() {
   const chefes = MISSOES.filter((m) => m.chefe).length;
   const final = REGIOES[REGIOES.length - 1];
   const treino = sortear(MISSOES);
-  el.innerHTML = `<div class="festa-cena"><canvas class="px" id="festa-canvas" width="480" height="240" role="img" aria-label="Fogos e confete no Reino de Pythonia, com o herói comemorando"></canvas></div>
+  el.innerHTML = `<div class="festa-cena"><canvas class="px" id="festa-canvas" width="480" height="240" role="img" aria-label="Fogos e confete no Reino de Pythonia, com ${G("o herói", "a heroína")} comemorando"></canvas></div>
     <div class="festa-texto">
       <p class="sobre">Jornada Python completa</p>
       <h1 class="festa-titulo">Parabéns, ${esc(nomeHeroi())}!</h1>
@@ -6098,6 +6277,10 @@ function renderDiarias() {
   $("#d-hora").value = estado.lembrete;
   $("#d-google").href = linkGoogleAgenda(estado.lembrete);
   $("#d-ics").hidden = !NO_APP;
+  const ritmo = textoRitmo(ritmoDoPlano());
+  $("#d-plano").innerHTML = faltamMissoes()
+    ? `Plano: ${prazoDoPlano().nome.toLowerCase()} · previsão de término ${dataCurta(previsaoTermino())}. ${ritmo} <a href="#ficha">Mudar plano</a>`
+    : "";
   renderAvisosDoApp();
 }
 
@@ -6156,7 +6339,10 @@ async function pedirAoServidor(rota, corpo) {
   const resposta = await fetch(SERVIDOR_AVISOS + rota, corpo
     ? { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(corpo) }
     : {});
-  if (!resposta.ok) throw new Error(`servidor de avisos respondeu ${resposta.status}`);
+  if (!resposta.ok) {
+    const { erro } = await resposta.json().catch(() => ({}));
+    throw new Error(`servidor de avisos respondeu ${resposta.status}${erro ? ": " + erro : ""}`);
+  }
   return resposta.json();
 }
 function base64urlParaBytes(texto) {
@@ -6251,6 +6437,185 @@ function renderAvisosDoApp() {
     ? `Ligado: o app avisa às ${estado.lembrete} nos dias em que a meta ainda não foi batida.`
     : "Desligado.";
 }
+
+// ---------- Ficha do jogador e plano de estudos ----------
+const DIA_MS = 86400000;
+const diasEntre = (deISO, ateISO) => Math.round((new Date(`${ateISO}T12:00:00`) - new Date(`${deISO}T12:00:00`)) / DIA_MS);
+const metaAtual = () => METAS.find((m) => m.xp === estado.meta) || METAS[0];
+const prazoDoPlano = () => PRAZOS.find((p) => p.id === (estado.plano ? estado.plano.prazo : "livre"));
+const faltamMissoes = () => MISSOES.length - contarFeitas();
+const plural = (n, um, varios) => `${n} ${n === 1 ? um : varios}`;
+// Missões por dia, a partir de hoje, para terminar dentro do prazo.
+const missoesPorDiaPara = (prazo) => Math.max(1, Math.ceil(faltamMissoes() / prazo.dias));
+const metaParaRitmo = (missoesPorDia) => METAS.find((m) => m.missoes >= missoesPorDia) || METAS[METAS.length - 1];
+const dataCurta = (data) => data.toLocaleDateString("pt-BR", { day: "2-digit", month: "2-digit", year: "numeric" });
+function previsaoTermino() {
+  const data = new Date();
+  data.setDate(data.getDate() + Math.ceil(faltamMissoes() / metaAtual().missoes));
+  return data;
+}
+// Missões à frente (positivo) ou atrás (negativo) do combinado no plano.
+function ritmoDoPlano() {
+  if (!estado.plano) return null;
+  const { inicio, feitasNoInicio } = estado.plano;
+  const passados = Math.max(0, diasEntre(inicio, hojeISO()));
+  const prazo = prazoDoPlano();
+  const esperadas = prazo.dias
+    ? feitasNoInicio + (MISSOES.length - feitasNoInicio) * Math.min(1, passados / prazo.dias)
+    : feitasNoInicio + passados * metaAtual().missoes;
+  return contarFeitas() - Math.min(MISSOES.length, Math.floor(esperadas));
+}
+function textoRitmo(diferenca) {
+  if (diferenca === null) return "";
+  if (diferenca > 0) return `Adiantado: ${plural(diferenca, "missão", "missões")} à frente do plano.`;
+  if (diferenca === 0) return "No ritmo do plano.";
+  return `Atrasado: ${plural(-diferenca, "missão", "missões")} atrás do plano. Dá para recuperar!`;
+}
+// Escolher um prazo recomeça a conta do plano e ajusta a meta diária ao ritmo necessário.
+function definirPlano(prazoId) {
+  const prazo = PRAZOS.find((p) => p.id === prazoId);
+  estado.plano = { prazo: prazo.id, inicio: hojeISO(), feitasNoInicio: contarFeitas() };
+  if (prazo.dias) estado.meta = metaParaRitmo(missoesPorDiaPara(prazo)).xp;
+}
+function htmlPlano() {
+  if (!faltamMissoes()) return "<p>Curso completo! Continue treinando para manter a chama acesa.</p>";
+  const meta = metaAtual();
+  const prazo = prazoDoPlano();
+  const linhas = [];
+  if (prazo.dias) {
+    const precisa = missoesPorDiaPara(prazo);
+    linhas.push(`<p>Para terminar em <b>${prazo.nome}</b>: ~${plural(precisa, "missão", "missões")} por dia (faltam ${faltamMissoes()}).</p>`);
+    if (precisa > meta.missoes) linhas.push(`<p>⚠ A meta ${meta.nome} faz ${meta.texto} por dia: fica apertado. Escolha mais tempo por dia ou um prazo maior.</p>`);
+  }
+  linhas.push(`<p>Ritmo <b>${meta.nome}</b>: ~${meta.minutos} min por dia (${meta.texto}). Previsão de término: <b>${dataCurta(previsaoTermino())}</b>.</p>`);
+  const ritmo = textoRitmo(ritmoDoPlano());
+  if (ritmo) linhas.push(`<p>${ritmo}</p>`);
+  return linhas.join("");
+}
+let generoDoRetrato = null;
+function aplicarRetrato() {
+  if (generoDoRetrato === estado.heroi.genero) return;
+  generoDoRetrato = estado.heroi.genero;
+  aplicarAnimacao($("#retrato"), personagem().andando.src, 96, G("Seu herói", "Sua heroína"), 0.8);
+}
+function renderFicha() {
+  const nova = !estado.fichaCriada;
+  const vez = missaoDaVez();
+  $("#f-intro").hidden = !nova;
+  $("#f-titulo").textContent = nova ? "Crie sua ficha" : "Sua ficha";
+  $("#f-pronto").textContent = nova ? "Começar a jornada ▶" : "Salvar ficha ▶";
+  $("#f-pronto").href = nova && vez ? `#m-${vez.id}` : "#mapa";
+  for (const genero of ["m", "f"]) {
+    const arte = $(`#f-arte-${genero}`);
+    if (!arte.classList.contains("anim")) aplicarAnimacao(arte, personagem(genero).andando.src, 80, genero === "f" ? "Heroína" : "Herói", 0.8);
+  }
+  document.querySelectorAll("#f-generos [data-genero]").forEach((botao) => botao.setAttribute("aria-checked", String(botao.dataset.genero === estado.heroi.genero)));
+  const nome = $("#f-nome");
+  if (document.activeElement !== nome) nome.value = estado.heroi.nome;
+  nome.placeholder = G("Como quer ser chamado?", "Como quer ser chamada?");
+  $("#f-objetivos").innerHTML = OBJETIVOS.map((o) =>
+    `<button class="meta-btn" type="button" data-objetivo="${o.id}" aria-pressed="${o.id === estado.objetivo}">${o.nome}</button>`).join("");
+  const prazoEscolhido = estado.plano ? estado.plano.prazo : "";
+  $("#f-prazos").innerHTML = PRAZOS.map((p) =>
+    `<button class="meta-btn" type="button" data-prazo="${p.id}" aria-pressed="${p.id === prazoEscolhido}">${p.nome}<small>${p.dias && faltamMissoes() ? `~${plural(missoesPorDiaPara(p), "missão", "missões")}/dia` : "no seu ritmo"}</small></button>`).join("");
+  $("#f-metas").innerHTML = METAS.map((m) =>
+    `<button class="meta-btn" type="button" data-meta="${m.xp}" aria-pressed="${m.xp === estado.meta}">${m.nome}<small>~${m.minutos} min · ${m.texto}</small></button>`).join("");
+  $("#f-plano-resumo").innerHTML = htmlPlano();
+  renderEmailDaFicha();
+}
+
+// E-mail da ficha (só na versão app): o servidor guarda a ficha para mandar relatórios e alertas.
+const EMAIL_VALIDO = /^[^\s@<>"',;]{1,64}@[a-z0-9.-]+\.[a-z]{2,}$/i;
+function novoSegredo(bytes) {
+  const numeros = crypto.getRandomValues(new Uint8Array(bytes));
+  return Array.from(numeros, (n) => n.toString(16).padStart(2, "0")).join("");
+}
+function resumoDoProgresso() {
+  const porDia = {};
+  const desde = Date.now() - 35 * DIA_MS;
+  for (const feita of Object.values(estado.concluidas)) {
+    if (!(feita.quando >= desde)) continue;
+    const dia = hojeISO(new Date(feita.quando));
+    porDia[dia] = (porDia[dia] || 0) + 1;
+  }
+  const vez = missaoDaVez();
+  return {
+    feitas: contarFeitas(), total: MISSOES.length, xp: xpTotal(), nivel: nivelDe(xpTotal()), dias: estado.dias.slice(-60), porDia,
+    proxima: vez ? `${vez.regiao.nome}: ${vez.titulo}` : "", ritmo: ritmoDoPlano(), previsao: hojeISO(previsaoTermino()), metaMissoes: metaAtual().missoes,
+  };
+}
+async function enviarFicha() {
+  const perfil = estado.perfil;
+  const resposta = await pedirAoServidor("/perfil", {
+    id: perfil.id, chave: perfil.chave, email: perfil.email, relatorio: perfil.relatorio, alertas: perfil.alertas,
+    nome: nomeHeroi(), genero: estado.heroi.genero, objetivo: estado.objetivo, prazo: estado.plano ? estado.plano.prazo : "",
+    fuso: Intl.DateTimeFormat().resolvedOptions().timeZone, hora: estado.lembrete, progresso: resumoDoProgresso(),
+  });
+  perfil.situacao = resposta.situacao;
+  salvar();
+}
+let fichaTimer = null;
+// Mantém o resumo do servidor em dia (relatórios e alertas usam ele). Sem internet, tenta na próxima vez.
+function sincronizarFicha() {
+  if (!NO_APP || !estado.perfil || !estado.perfil.email) return;
+  clearTimeout(fichaTimer);
+  fichaTimer = setTimeout(() => enviarFicha().then(() => { if (telaAtual === "ficha") renderEmailDaFicha(); }).catch(() => {}), 3000);
+}
+function situacaoDoEmail() {
+  const perfil = estado.perfil;
+  if (!perfil || !perfil.email) return "";
+  if (perfil.situacao === "confirmado") {
+    const recebe = [perfil.relatorio && "o relatório semanal", perfil.alertas && "o alerta de sequência"].filter(Boolean).join(" e ");
+    return `Confirmado: ${perfil.email} recebe ${recebe || "nada por enquanto (marque uma opção e salve)"}.`;
+  }
+  if (perfil.situacao === "fila") return `Guardado! O link de confirmação para ${perfil.email} chega em breve.`;
+  return `Falta confirmar: abra o e-mail que mandamos para ${perfil.email} e toque no link (veja também o spam).`;
+}
+function renderEmailDaFicha() {
+  if (!NO_APP) {
+    $("#f-email-form").hidden = true;
+    $("#f-email-intro").innerHTML = `Os relatórios por e-mail funcionam na versão app: <a href="${ENDERECO_APP}" target="_blank" rel="noopener">${ENDERECO_APP.replace("https://", "")}</a>.`;
+    return;
+  }
+  const perfil = estado.perfil;
+  const campo = $("#f-email");
+  if (document.activeElement !== campo) campo.value = perfil ? perfil.email : "";
+  $("#f-relatorio").checked = perfil ? perfil.relatorio : true;
+  $("#f-alerta").checked = perfil ? perfil.alertas : true;
+  $("#f-consentimento").checked = Boolean(perfil && perfil.email);
+  $("#f-email-apagar").hidden = !(perfil && perfil.email);
+  $("#f-email-situacao").textContent = situacaoDoEmail();
+}
+async function salvarEmail() {
+  const email = $("#f-email").value.trim().toLowerCase();
+  if (!EMAIL_VALIDO.test(email)) { avisar("Confira o e-mail: parece que falta alguma coisa."); return; }
+  if (!$("#f-consentimento").checked) { avisar("Marque a caixa de consentimento para receber e-mails."); return; }
+  const botao = $("#f-email-salvar");
+  botao.disabled = true;
+  const base = estado.perfil || { id: novoSegredo(16), chave: novoSegredo(32), situacao: "" };
+  estado.perfil = { ...base, email, relatorio: $("#f-relatorio").checked, alertas: $("#f-alerta").checked };
+  try {
+    await enviarFicha();
+    avisar(estado.perfil.situacao === "confirmado" ? "Preferências de e-mail salvas." : "E-mail salvo! Confirme pelo link que vai chegar.");
+  } catch (erro) {
+    avisar("Não deu para salvar agora. Confira a internet; se o navegador pedir acesso à rede local, toque em Permitir.");
+  } finally {
+    botao.disabled = false;
+    salvar();
+    renderEmailDaFicha();
+  }
+}
+async function apagarDadosDoServidor() {
+  try {
+    await pedirAoServidor("/perfil/apagar", { id: estado.perfil.id, chave: estado.perfil.chave });
+    estado.perfil = null;
+    salvar();
+    avisar("Pronto: seus dados foram apagados do servidor.");
+  } catch (erro) {
+    avisar("Não deu para apagar agora. Tente de novo com internet.");
+  }
+  renderEmailDaFicha();
+}
 function renderTudo() {
   garantirDia();
   atualizarHUD();
@@ -6259,9 +6624,12 @@ function renderTudo() {
   renderHoje();
   renderResumoDoDia();
   renderAvisoSequencia();
+  $("#aviso-ficha").hidden = estado.fichaCriada;
+  $("#aviso-ficha-img").src = iconeHeroi();
   renderRegioes();
   if (telaAtual === "parabens") renderParabens();
   if (telaAtual === "diarias") renderDiarias();
+  if (telaAtual === "ficha") renderFicha();
   if (telaAtual === "missao" && missaoAtual) atualizarCabecalhoMissao();
   atualizarBarraInferior();
 }
@@ -6303,7 +6671,7 @@ function abrirMissao(m) {
   aplicarMentor($("#m-mentor"), m.regiao, 128);
   prepararArena(m);
   $("#m-mentor-nome").textContent = m.regiao.mentor.nome;
-  falar(m.historia.replace("{heroi}", nomeHeroi()));
+  falar(textoComHeroi(m.historia));
   $("#m-licao").innerHTML = m.licao;
   $("#m-exemplo").innerHTML = realcar(m.exemplo);
   $("#m-tarefa").innerHTML = m.tarefa;
@@ -6535,6 +6903,7 @@ function vencer(m) {
   if (dePrimeira) estado.diario.primeira += 1;
   if (semAjuda) estado.diario.semDica += 1;
   contarNoDia("missoes");
+  sincronizarFicha();
   renderTudo();
   celebrar(m, { xp, moedas: ganhas, metade: xp < base, novoNivel: nivelDe(xpTotal()) > nivelAntes ? nivelDe(xpTotal()) : null, proxima });
 }
@@ -6547,7 +6916,7 @@ function celebrar(m, info) {
   }, DURACAO_DERROTA * 1000 + 200);
 }
 function mostrarVitoria(m, info) {
-  aplicarAnimacao($("#vit-heroi"), ANIM.heroiVitoria.src, 128, "Seu herói comemorando", 0.9);
+  animarComemoracao($("#vit-heroi"), 128, G("Seu herói comemorando", "Sua heroína comemorando"), 0.9);
   $("#vit-sobre").textContent = info.treino ? "Treino" : m.chefe ? "Chefe derrotado" : "Missão cumprida";
   $("#vit-titulo").textContent = info.treino ? "Continua afiado!" : m.chefe ? "Chefe vencido!" : "Vitória!";
   const premios = info.treino
@@ -6641,12 +7010,14 @@ function mostrarTela(nome, missao) {
   $("#tela-missao").hidden = nome !== "missao";
   $("#tela-parabens").hidden = nome !== "parabens";
   $("#tela-diarias").hidden = nome !== "diarias";
+  $("#tela-ficha").hidden = nome !== "ficha";
   fecharVitoria();
   garantirDia();
   atualizarHUD();
   if (nome === "missao") abrirMissao(missao);
   if (nome === "parabens") renderParabens();
   if (nome === "diarias") renderDiarias();
+  if (nome === "ficha") renderFicha();
   if (nome === "mapa") { renderTudo(); ligarLaco(); }
   if (anterior !== nome || nome === "missao") window.scrollTo(0, 0);
   atualizarBarraInferior();
@@ -6660,21 +7031,18 @@ function rotear() {
   // "certificado" era o fim antigo: quem tinha o link salvo cai na festa.
   if (destino === "parabens" || destino === "certificado") return mostrarTela("parabens");
   if (destino === "diarias") return mostrarTela("diarias");
+  // "heroi" era o painel antigo do herói: agora é a ficha.
+  if (destino === "ficha" || destino === "heroi") return mostrarTela("ficha");
   mostrarTela("mapa");
-  if (destino === "heroi") {
-    $("#painel-heroi").scrollIntoView({ block: "start" });
-    atualizarBarraInferior();
-  }
 }
 
-// Barra de baixo (celular): Mapa, Jogar (missão da vez), Diárias e Herói.
+// Barra de baixo (celular): Mapa, Jogar (missão da vez), Diárias e Ficha.
 function atualizarBarraInferior() {
   const vez = missaoDaVez();
   $("#bi-jogar").href = vez ? `#m-${vez.id}` : "#parabens";
   document.body.classList.toggle("com-barra", telaAtual !== "missao");
-  const destino = location.hash.replace(/^#/, "") === "heroi" ? "heroi" : telaAtual;
   document.querySelectorAll("#barra-inferior a").forEach((link) => {
-    if (link.dataset.destino === destino) link.setAttribute("aria-current", "page");
+    if (link.dataset.destino === telaAtual) link.setAttribute("aria-current", "page");
     else link.removeAttribute("aria-current");
   });
 }
@@ -6721,18 +7089,71 @@ function prepararInstalacao() {
   });
 }
 
+// Ficha: cada escolha já vale e fica salva; o botão do fim só marca a ficha como criada.
+function ligarEventosDaFicha() {
+  const mudou = () => { salvar(); renderFicha(); atualizarHUD(); atualizarProgresso(); sincronizarFicha(); };
+  $("#f-generos").addEventListener("click", (e) => {
+    const botao = e.target.closest("[data-genero]");
+    if (!botao) return;
+    estado.heroi.genero = botao.dataset.genero;
+    mudou();
+  });
+  $("#f-nome").addEventListener("input", (e) => {
+    estado.heroi.nome = e.target.value.trim().slice(0, 24);
+    atualizarHUD();
+    clearTimeout(rascunhoTimer);
+    rascunhoTimer = setTimeout(() => { salvar(); sincronizarFicha(); }, 600);
+  });
+  $("#f-objetivos").addEventListener("click", (e) => {
+    const botao = e.target.closest("[data-objetivo]");
+    if (!botao) return;
+    estado.objetivo = estado.objetivo === botao.dataset.objetivo ? "" : botao.dataset.objetivo;
+    mudou();
+  });
+  $("#f-prazos").addEventListener("click", (e) => {
+    const botao = e.target.closest("[data-prazo]");
+    if (!botao) return;
+    definirPlano(botao.dataset.prazo);
+    conferirDiario();
+    mudou();
+  });
+  $("#f-metas").addEventListener("click", (e) => {
+    const botao = e.target.closest("[data-meta]");
+    if (!botao) return;
+    estado.meta = Number(botao.dataset.meta);
+    // Sem prazo, o plano segue a meta: a conta recomeça no ritmo novo.
+    if (!estado.plano || estado.plano.prazo === "livre") definirPlano("livre");
+    conferirDiario();
+    mudou();
+  });
+  $("#f-email-salvar").addEventListener("click", salvarEmail);
+  $("#f-email-apagar").addEventListener("click", (e) => confirmarDuasVezes(e.currentTarget, "Apagar mesmo?", apagarDadosDoServidor));
+  for (const id of ["#f-relatorio", "#f-alerta"]) {
+    $(id).addEventListener("change", () => {
+      if (!estado.perfil || !estado.perfil.email) return;
+      estado.perfil.relatorio = $("#f-relatorio").checked;
+      estado.perfil.alertas = $("#f-alerta").checked;
+      salvar();
+      sincronizarFicha();
+      $("#f-email-situacao").textContent = situacaoDoEmail();
+    });
+  }
+  $("#f-pronto").addEventListener("click", () => {
+    estado.fichaCriada = true;
+    if (!estado.plano) definirPlano("livre");
+    salvar();
+    sincronizarFicha();
+    avisar(`Ficha salva. Boa jornada, ${nomeHeroi()}!`);
+  });
+}
+
 function ligarEventos() {
   window.addEventListener("hashchange", rotear);
   $("#regioes").addEventListener("click", (e) => {
     const botao = e.target.closest("[data-missao]");
     if (botao && !botao.disabled) location.hash = "m-" + botao.dataset.missao;
   });
-  $("#nome-heroi").addEventListener("input", (e) => {
-    estado.heroi.nome = e.target.value.trim().slice(0, 24);
-    atualizarHUD();
-    clearTimeout(rascunhoTimer);
-    rascunhoTimer = setTimeout(salvar, 600);
-  });
+  ligarEventosDaFicha();
   const editor = $("#editor");
   editor.addEventListener("keydown", teclaNoEditor);
   editor.addEventListener("input", aoEditar);
@@ -6887,16 +7308,19 @@ $("#p-moeda").src = icone("moeda");
 $("#p-chama").src = icone("chama");
 $("#bi-mapa").src = icone("casa");
 $("#bi-espada").src = icone("espada");
-$("#bi-heroi").src = ARTE.heroi;
 $("#bi-diarias").src = icone("chama");
 garantirDia();
 ligarEventos();
 prepararInstalacao();
 if (NO_APP && "serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").then(sincronizarAvisos).catch(() => {});
 atualizarMotor();
-aplicarAnimacao($("#retrato"), ANIM.heroiAndando.src, 96, "Seu herói", 0.8);
 criarCena($("#cena-reino"), ARTE.cena, "reino");
+// Quem chega pela primeira vez começa montando a ficha.
+if (!location.hash && !estado.fichaCriada && contarFeitas() === 0) {
+  try { history.replaceState(null, "", "#ficha"); } catch (erro) { /* página sem histórico: abre no mapa */ }
+}
 rotear();
+sincronizarFicha();
 imagensProntas.then(redesenharCenasParadas);
 conectarNuvem();
 </script>
