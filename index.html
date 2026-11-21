@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Reino de Pythonia</title>
-<meta name="description" content="Curso de Python em forma de RPG: 144 missões, chefes animados, desafios diários e festa no final. Funciona no celular, mesmo sem internet.">
+<meta name="description" content="Curso de Python em forma de RPG: 216 missões, chefes animados, desafios diários e festa no final. Funciona no celular, mesmo sem internet.">
 <meta name="theme-color" content="#231e47">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -724,7 +724,7 @@ details[open] .seta::before { content: "▾"; }
         <p class="lema">Aprenda Python jogando. Cada missão ensina um feitiço novo, cada região termina num <b>chefe</b>. O código roda aqui mesmo, sem instalar nada, e a missão confere se você acertou.</p>
         <div class="topo-acoes">
           <a class="btn btn-ouro" id="btn-continuar" href="#mapa">▶ Começar jornada</a>
-          <span class="topo-meta" id="topo-meta">144 missões · 18 regiões</span>
+          <span class="topo-meta" id="topo-meta">216 missões · 18 regiões</span>
         </div>
       </div>
       <div class="tela-jogo">
@@ -1335,6 +1335,109 @@ print(palavra[:3])`,
         ],
       },
       {
+        id: "1-9", titulo: "A conta da taverna",
+        historia: "Na taverna da vila, o almoço custa 12,50 moedas de prata. Em Python, número com vírgula se escreve com ponto: 12.50. São os números decimais, chamados float.",
+        licao: `<p>Números com casas decimais usam <b>ponto</b>: <code>12.5</code>. Para ler um decimal digitado, use <code>float(input())</code>.</p>
+<p>Para mostrar com 2 casas, use <code>f"{valor:.2f}"</code>: o <code>:.2f</code> arredonda e completa com zero.</p>`,
+        exemplo: `preco = 3.5
+print(preco * 3)
+print(f"{preco * 3:.2f}")`,
+        tarefa: `Leia o preço de um prato (pode ter casas decimais) e quantas pessoas vão comer. Mostre o total com duas casas: <b>Total: 37.50</b>.`,
+        requisitos: ["Ler o preço com float()", "Mostrar com :.2f", "12.5 e 3 pessoas dá Total: 37.50"],
+        inicial: `preco = float(input("Preço do prato: "))
+pessoas = int(input("Pessoas: "))
+
+`,
+        dica: `total = preco * pessoas e depois print(f"Total: {total:.2f}")`,
+        solucao: `preco = float(input("Preço do prato: "))
+pessoas = int(input("Pessoas: "))
+total = preco * pessoas
+print(f"Total: {total:.2f}")`,
+        casos: [
+          { entradas: ["12.5", "3"], saida: ["Total: 37.50"] },
+          { entradas: ["9.9", "2"], saida: ["Total: 19.80"] },
+          { entradas: ["4", "1"], saida: ["Total: 4.00"] },
+          { entradas: ["0.1", "3"], saida: ["Total: 0.30"] },
+        ],
+        usar: [{ re: /:\s*\.2f/, msg: "Mostre o total com duas casas: {total:.2f}." }],
+      },
+      {
+        id: "1-10", titulo: "Trocando as poções",
+        historia: "O aprendiz trocou as poções de mão: a vermelha foi parar na esquerda e a azul na direita. Em Python dá para trocar duas variáveis numa linha só.",
+        licao: `<p><code>a, b = b, a</code> troca os valores de <code>a</code> e <code>b</code> de uma vez, sem precisar de uma terceira variável.</p>`,
+        exemplo: `x = 1
+y = 2
+x, y = y, x
+print(x, y)`,
+        tarefa: `O programa lê o que está em cada mão e mostra. Antes dos prints, troque as duas variáveis numa linha só, para sair <b>Esquerda: azul</b> e <b>Direita: vermelha</b> quando as entradas forem vermelha e azul.`,
+        requisitos: ["Trocar com esquerda, direita = direita, esquerda", "Uma linha só", "Os prints continuam iguais"],
+        inicial: `esquerda = input("Mão esquerda: ")
+direita = input("Mão direita: ")
+
+print(f"Esquerda: {esquerda}")
+print(f"Direita: {direita}")
+`,
+        dica: `Antes dos prints: esquerda, direita = direita, esquerda`,
+        solucao: `esquerda = input("Mão esquerda: ")
+direita = input("Mão direita: ")
+esquerda, direita = direita, esquerda
+print(f"Esquerda: {esquerda}")
+print(f"Direita: {direita}")`,
+        casos: [
+          { entradas: ["vermelha", "azul"], saida: ["Esquerda: azul", "Direita: vermelha"] },
+          { entradas: ["espada", "escudo"], saida: ["Esquerda: escudo", "Direita: espada"] },
+        ],
+        usar: [{ re: /(\w+)\s*,\s*(\w+)\s*=\s*\2\s*,\s*\1/, msg: "Troque numa linha só: esquerda, direita = direita, esquerda." }],
+      },
+      {
+        id: "1-11", titulo: "Uma moeda por letra",
+        historia: "O escriba da vila cobra uma moeda por letra para gravar seu nome na placa da porta. A função len conta quantos caracteres um texto tem.",
+        licao: `<p><code>len(texto)</code> devolve quantos caracteres o texto tem (espaços também contam).</p>
+<p>Guarde numa variável para usar mais de uma vez: <code>letras = len(nome)</code>.</p>`,
+        exemplo: `palavra = "dragão"
+print(len(palavra))`,
+        tarefa: `Leia o nome e mostre <b>Seu nome tem 3 letras</b> e, na linha de baixo, <b>Custa 3 moedas</b>.`,
+        requisitos: ["Contar com len()", "Duas linhas de resposta", "Bartolomeu tem 10 letras"],
+        inicial: `nome = input("Seu nome: ")
+
+`,
+        dica: `letras = len(nome); depois dois prints com f-string usando {letras}.`,
+        solucao: `nome = input("Seu nome: ")
+letras = len(nome)
+print(f"Seu nome tem {letras} letras")
+print(f"Custa {letras} moedas")`,
+        casos: [
+          { entradas: ["Ana"], saida: ["Seu nome tem 3 letras", "Custa 3 moedas"] },
+          { entradas: ["Bartolomeu"], saida: ["Seu nome tem 10 letras", "Custa 10 moedas"] },
+          { entradas: ["Li"], saida: ["Seu nome tem 2 letras", "Custa 2 moedas"] },
+        ],
+        usar: [{ re: /len\s*\(/, msg: "Conte as letras com len()." }],
+      },
+      {
+        id: "1-12", titulo: "O câmbio dos rubis",
+        historia: "Um mercador de outro reino paga em rubis, e cada rubi vale 2.5 moedas de ouro. Para não se enrolar no troco, ele arredonda a conta com round.",
+        licao: `<p><code>round(valor)</code> arredonda para o número inteiro mais perto; <code>round(valor, 1)</code> deixa uma casa decimal.</p>
+<p>Lembre das conversões: <code>int("7")</code> vira o número 7, <code>float("2.5")</code> vira 2.5 e <code>str(7)</code> vira o texto "7".</p>`,
+        exemplo: `print(round(3.7))
+print(round(3.14159, 2))`,
+        tarefa: `Leia quantos rubis o herói tem. Mostre <b>Valem 17.5 moedas de ouro</b> e, embaixo, <b>Arredondando: 18</b>.`,
+        requisitos: ["Multiplicar por 2.5", "Arredondar com round()", "7 rubis valem 17.5 e arredondam para 18"],
+        inicial: `rubis = int(input("Rubis: "))
+
+`,
+        dica: `ouro = rubis * 2.5; print(f"Valem {ouro} moedas de ouro"); print(f"Arredondando: {round(ouro)}")`,
+        solucao: `rubis = int(input("Rubis: "))
+ouro = rubis * 2.5
+print(f"Valem {ouro} moedas de ouro")
+print(f"Arredondando: {round(ouro)}")`,
+        casos: [
+          { entradas: ["7"], saida: ["Valem 17.5 moedas de ouro", "Arredondando: 18"] },
+          { entradas: ["3"], saida: ["Valem 7.5 moedas de ouro", "Arredondando: 8"] },
+          { entradas: ["4"], saida: ["Valem 10.0 moedas de ouro", "Arredondando: 10"] },
+        ],
+        usar: [{ re: /round\s*\(/, msg: "Arredonde com round()." }],
+      },
+      {
         id: "1-4", titulo: "O guarda do portão", chefe: true, inimigo: inimigo("guarda", "Guarda do Portão"),
         historia: "O guarda da vila só deixa sair quem se apresenta. Ele pergunta seu nome e sua idade, e quer ouvir a resposta certinha. Este é o chefe da vila!",
         licao: `<p><code>input()</code> faz uma pergunta para quem usa o programa e devolve a resposta como <b>texto</b>: <code>nome = input("Qual seu nome? ")</code>.</p>
@@ -1581,6 +1684,136 @@ except ZeroDivisionError:
         usar: [{ re: /except\s+ZeroDivisionError/, msg: "Trate a divisão por zero com except ZeroDivisionError:." }],
       },
       {
+        id: "2-9", titulo: "O ano bissexto",
+        historia: "A fada do calendário dá uma festa todo 29 de fevereiro. O ano é bissexto se for divisível por 4 e não por 100, a não ser que também seja divisível por 400.",
+        licao: `<p>Junte condições com <code>and</code> (as duas precisam valer), <code>or</code> (basta uma) e <code>not</code> (inverte). Use parênteses para deixar claro o que vai junto.</p>
+<p>A regra fica: <code>(ano % 4 == 0 and ano % 100 != 0) or ano % 400 == 0</code>.</p>`,
+        exemplo: `n = 12
+print(n % 3 == 0 and n % 4 == 0)
+print(n % 5 == 0 or n % 6 == 0)`,
+        tarefa: `Leia um ano e mostre <b>2028 é bissexto</b> ou <b>2026 não é bissexto</b>.`,
+        requisitos: ["Usar and e or numa condição", "1900 não é bissexto", "2000 é bissexto"],
+        inicial: `ano = int(input("Ano: "))
+
+`,
+        dica: `if (ano % 4 == 0 and ano % 100 != 0) or ano % 400 == 0: print(f"{ano} é bissexto") else: print(f"{ano} não é bissexto")`,
+        solucao: `ano = int(input("Ano: "))
+if (ano % 4 == 0 and ano % 100 != 0) or ano % 400 == 0:
+    print(f"{ano} é bissexto")
+else:
+    print(f"{ano} não é bissexto")`,
+        casos: [
+          { entradas: ["2028"], saida: ["2028 é bissexto"] },
+          { entradas: ["2026"], saida: ["2026 não é bissexto"] },
+          { entradas: ["1900"], saida: ["1900 não é bissexto"] },
+          { entradas: ["2000"], saida: ["2000 é bissexto"] },
+        ],
+        usar: [{ re: /\band\b/, msg: "Use and para juntar condições." }, { re: /\bor\b/, msg: "Use or para a regra do 400." }],
+      },
+      {
+        id: "2-10", titulo: "A loja com desconto",
+        historia: "A loja da floresta dá desconto para quem compra bastante: a partir de 100 moedas, 10%; a partir de 200, 20%.",
+        licao: `<p>Num <code>if / elif / else</code>, o Python testa de cima para baixo e para na primeira condição verdadeira. Por isso, ponha a faixa maior primeiro: <code>if total &gt;= 200</code> antes de <code>elif total &gt;= 100</code>.</p>
+<p>Para tirar uma porcentagem: <code>total * (100 - desconto) / 100</code>.</p>`,
+        exemplo: `pontos = 85
+if pontos >= 90:
+    print("ouro")
+elif pontos >= 70:
+    print("prata")
+else:
+    print("bronze")`,
+        tarefa: `Leia o total da compra. Mostre <b>Desconto: 20%</b> e <b>A pagar: 200.00</b> (com duas casas). Abaixo de 100, <b>Desconto: 0%</b>.`,
+        requisitos: ["Faixa maior primeiro", "Mostrar o valor com :.2f", "Exatamente 200 já ganha 20%"],
+        inicial: `total = float(input("Total da compra: "))
+
+`,
+        dica: `if total >= 200: desconto = 20 / elif total >= 100: desconto = 10 / else: desconto = 0. Depois pagar = total * (100 - desconto) / 100.`,
+        solucao: `total = float(input("Total da compra: "))
+if total >= 200:
+    desconto = 20
+elif total >= 100:
+    desconto = 10
+else:
+    desconto = 0
+pagar = total * (100 - desconto) / 100
+print(f"Desconto: {desconto}%")
+print(f"A pagar: {pagar:.2f}")`,
+        casos: [
+          { entradas: ["250"], saida: ["Desconto: 20%", "A pagar: 200.00"] },
+          { entradas: ["150"], saida: ["Desconto: 10%", "A pagar: 135.00"] },
+          { entradas: ["99.9"], saida: ["Desconto: 0%", "A pagar: 99.90"] },
+          { entradas: ["200"], saida: ["Desconto: 20%", "A pagar: 160.00"] },
+          { entradas: ["100"], saida: ["Desconto: 10%", "A pagar: 90.00"] },
+        ],
+        usar: [{ re: /\belif\b/, msg: "Use elif para as faixas de desconto." }],
+      },
+      {
+        id: "2-11", titulo: "Pedra, papel e tesoura",
+        historia: "Para atravessar o riacho, o duende propõe um jogo: pedra, papel e tesoura. Pedra quebra tesoura, tesoura corta papel e papel embrulha pedra.",
+        licao: `<p>Primeiro trate o empate com <code>==</code>. Depois, junte numa condição só os três jeitos de o herói ganhar: cada jeito entre parênteses com <code>and</code>, e os três ligados por <code>or</code>.</p>`,
+        exemplo: `a = "sol"
+b = "chuva"
+if (a == "sol" and b == "chuva") or (a == "chuva" and b == "sol"):
+    print("arco-íris!")`,
+        tarefa: `Leia a jogada do herói e a do duende. Mostre <b>Empate</b>, <b>Herói vence</b> ou <b>Duende vence</b>.`,
+        requisitos: ["Empate primeiro", "Os três jeitos de vencer com and e or", "papel contra pedra: Herói vence"],
+        inicial: `heroi = input("Herói: ")
+duende = input("Duende: ")
+
+`,
+        dica: `if heroi == duende: Empate. elif (heroi == "pedra" and duende == "tesoura") or (heroi == "tesoura" and duende == "papel") or (heroi == "papel" and duende == "pedra"): Herói vence. else: Duende vence.`,
+        solucao: `heroi = input("Herói: ")
+duende = input("Duende: ")
+if heroi == duende:
+    print("Empate")
+elif (heroi == "pedra" and duende == "tesoura") or (heroi == "tesoura" and duende == "papel") or (heroi == "papel" and duende == "pedra"):
+    print("Herói vence")
+else:
+    print("Duende vence")`,
+        casos: [
+          { entradas: ["pedra", "tesoura"], saida: ["Herói vence"] },
+          { entradas: ["papel", "tesoura"], saida: ["Duende vence"] },
+          { entradas: ["papel", "papel"], saida: ["Empate"] },
+          { entradas: ["papel", "pedra"], saida: ["Herói vence"] },
+          { entradas: ["tesoura", "pedra"], saida: ["Duende vence"] },
+        ],
+        usar: [{ re: /\bor\b/, msg: "Junte os jeitos de vencer com or." }],
+      },
+      {
+        id: "2-12", titulo: "A senha da clareira",
+        historia: "A clareira só abre para quem diz uma das senhas mágicas e tem entre 12 e 99 anos. O in procura um valor numa lista, e o Python aceita comparação encadeada.",
+        licao: `<ul><li><code>senha in ["sol", "lua"]</code> é <code>True</code> se a senha estiver na lista (e <code>not in</code> é o contrário)</li><li><code>12 &lt;= idade &lt;= 99</code> testa as duas pontas de uma vez</li></ul>`,
+        exemplo: `cores = ["azul", "verde"]
+print("azul" in cores)
+x = 5
+print(1 <= x <= 10)`,
+        tarefa: `Leia a senha e a idade. Senha fora da lista: <b>Senha errada</b>. Senha certa e idade entre 12 e 99: <b>Pode entrar</b>. Senha certa e idade fora: <b>Idade não permitida</b>.`,
+        requisitos: ["Usar in (ou not in) com a lista senhas", "Usar 12 <= idade <= 99", "lua com 8 anos: Idade não permitida"],
+        inicial: `senhas = ["sol", "lua", "estrela"]
+senha = input("Senha: ")
+idade = int(input("Idade: "))
+
+`,
+        dica: `if senha not in senhas: Senha errada. elif 12 <= idade <= 99: Pode entrar. else: Idade não permitida.`,
+        solucao: `senhas = ["sol", "lua", "estrela"]
+senha = input("Senha: ")
+idade = int(input("Idade: "))
+if senha not in senhas:
+    print("Senha errada")
+elif 12 <= idade <= 99:
+    print("Pode entrar")
+else:
+    print("Idade não permitida")`,
+        casos: [
+          { entradas: ["sol", "15"], saida: ["Pode entrar"] },
+          { entradas: ["chuva", "15"], saida: ["Senha errada"] },
+          { entradas: ["lua", "8"], saida: ["Idade não permitida"] },
+          { entradas: ["estrela", "99"], saida: ["Pode entrar"] },
+          { entradas: ["sol", "100"], saida: ["Idade não permitida"] },
+        ],
+        usar: [{ re: /\bin\s+senhas\b/, msg: "Procure a senha na lista com in senhas." }, { re: /<=\s*idade\s*<=/, msg: "Teste a idade com 12 <= idade <= 99." }],
+      },
+      {
         id: "2-4", titulo: "O lobo da floresta", chefe: true, inimigo: inimigo("lobo", "Lobo da Floresta"),
         historia: "Um lobo gigante bloqueia a trilha! Com bastante vida, você luta. Com pouca vida, só luta se tiver poção. Fora isso, o melhor é fugir. Este é o chefe da floresta!",
         licao: `<p>Dá para juntar condições:</p>
@@ -1779,6 +2012,137 @@ for cor, brilho in zip(cores, brilhos):
     print(f"{cor}: {brilho}")`,
         casos: [{ saida: ["azul: 3", "rosa: 7", "verde: 5"] }],
         usar: [{ re: /zip\s*\(/, msg: "Use zip para juntar as duas listas." }],
+      },
+      {
+        id: "3-9", titulo: "O maior cristal",
+        historia: "O anão pesa os cristais um por um. Quando digita 0, a pesagem acaba. Ele quer saber qual foi o mais pesado, comparando na mão, sem usar max.",
+        licao: `<p>Comece com <code>maior = 0</code>. A cada número lido: <code>if peso &gt; maior: maior = peso</code>.</p>
+<p>Conte também quantos foram com <code>quantos += 1</code>. O <code>while True</code> com <code>break</code> para quando chegar o 0.</p>`,
+        exemplo: `maior = 0
+for n in [4, 9, 2]:
+    if n > maior:
+        maior = n
+print(maior)`,
+        tarefa: `Leia pesos até digitar 0. Mostre <b>Mais pesado: 42</b> e <b>Cristais pesados: 3</b> (sem contar o 0). Se o primeiro já for 0: <b>Nenhum cristal</b>.`,
+        requisitos: ["Comparar um a um, sem max", "Contar os cristais", "Nenhum cristal quando só vier 0"],
+        inicial: `maior = 0
+quantos = 0
+while True:
+    peso = int(input("Peso (0 para parar): "))
+    if peso == 0:
+        break
+
+`,
+        dica: `Dentro do laço, depois do if do 0: if peso > maior: maior = peso; quantos += 1. Depois do laço: if quantos == 0: Nenhum cristal; senão os dois prints.`,
+        solucao: `maior = 0
+quantos = 0
+while True:
+    peso = int(input("Peso (0 para parar): "))
+    if peso == 0:
+        break
+    if peso > maior:
+        maior = peso
+    quantos += 1
+if quantos == 0:
+    print("Nenhum cristal")
+else:
+    print(f"Mais pesado: {maior}")
+    print(f"Cristais pesados: {quantos}")`,
+        casos: [
+          { entradas: ["5", "42", "17", "0"], saida: ["Mais pesado: 42", "Cristais pesados: 3"] },
+          { entradas: ["0"], saida: ["Nenhum cristal"] },
+          { entradas: ["7", "0"], saida: ["Mais pesado: 7", "Cristais pesados: 1"] },
+        ],
+        usar: [{ re: /max\s*\(/, nao: true, msg: "Resolva sem max: compare um a um com if." }],
+      },
+      {
+        id: "3-10", titulo: "Pulando os túneis pares",
+        historia: "Nos túneis de número par mora um troll dorminhoco. O mineiro passa direto por eles: o continue pula para a próxima volta do laço.",
+        licao: `<p>Dentro de um laço, <code>continue</code> pula o resto da volta atual e vai direto para a próxima. É diferente do <code>break</code>, que sai do laço de vez.</p>`,
+        exemplo: `for n in range(1, 6):
+    if n == 3:
+        continue
+    print(n)`,
+        tarefa: `O código explora todos os túneis de 1 a N. Use <code>continue</code> para pular os pares: deve mostrar <b>Explorando túnel 1</b>, 3, 5... e no fim <b>Túneis explorados: 3</b>.`,
+        requisitos: ["Pular os pares com continue", "Contar só os explorados", "N = 6 explora 1, 3 e 5"],
+        inicial: `n = int(input("Túneis: "))
+explorados = 0
+for tunel in range(1, n + 1):
+    print(f"Explorando túnel {tunel}")
+    explorados += 1
+print(f"Túneis explorados: {explorados}")
+`,
+        dica: `No começo do for: if tunel % 2 == 0: continue`,
+        solucao: `n = int(input("Túneis: "))
+explorados = 0
+for tunel in range(1, n + 1):
+    if tunel % 2 == 0:
+        continue
+    print(f"Explorando túnel {tunel}")
+    explorados += 1
+print(f"Túneis explorados: {explorados}")`,
+        casos: [
+          { entradas: ["5"], saida: ["Explorando túnel 1", "Explorando túnel 3", "Explorando túnel 5", "Túneis explorados: 3"] },
+          { entradas: ["1"], saida: ["Explorando túnel 1", "Túneis explorados: 1"] },
+          { entradas: ["6"], saida: ["Explorando túnel 1", "Explorando túnel 3", "Explorando túnel 5", "Túneis explorados: 3"] },
+        ],
+        usar: [{ re: /\bcontinue\b/, msg: "Pule os túneis pares com continue." }],
+      },
+      {
+        id: "3-11", titulo: "A pirâmide de pedras",
+        historia: "Na saída da caverna, os anões empilham pedras em forma de pirâmide: uma no topo, duas embaixo, três embaixo...",
+        licao: `<p>Um laço dentro de outro é um <b>laço aninhado</b>. Para cada linha <code>i</code>, o laço de dentro repete <code>i</code> vezes.</p>
+<p><code>print("*", end="")</code> não pula linha: o próximo print continua do lado. Um <code>print()</code> vazio pula a linha.</p>`,
+        exemplo: `for i in range(1, 3):
+    for j in range(3):
+        print(i, end="")
+    print()`,
+        tarefa: `Leia a altura e desenhe a pirâmide com <b>*</b> usando dois for, um dentro do outro: a linha 1 tem 1 estrela, a linha 2 tem 2, e assim por diante.`,
+        requisitos: ["Um for dentro de outro", "print com end=\"\"", "Altura 3: *, ** e ***"],
+        inicial: `altura = int(input("Altura: "))
+
+`,
+        dica: `for i in range(1, altura + 1): (dentro) for j in range(i): print("*", end=""); depois do for de dentro: print()`,
+        solucao: `altura = int(input("Altura: "))
+for i in range(1, altura + 1):
+    for j in range(i):
+        print("*", end="")
+    print()`,
+        casos: [
+          { entradas: ["3"], saida: ["*", "**", "***"] },
+          { entradas: ["1"], saida: ["*"] },
+          { entradas: ["4"], saida: ["*", "**", "***", "****"] },
+        ],
+        usar: [{ re: /for[^\n]*:\s*\n\s+for\b/, msg: "Use um for dentro de outro for." }],
+      },
+      {
+        id: "3-12", titulo: "A média das pepitas",
+        historia: "Cada mineiro anota quantas pepitas achou. O capataz quer a média da equipe, com uma casa decimal, e saber quem ficou acima dela.",
+        licao: `<p>Média é a soma dividida pela quantidade: <code>sum(lista) / len(lista)</code>. Para mostrar com uma casa: <code>f"{media:.1f}"</code>.</p>
+<p>Depois, percorra nomes e pepitas juntos com <code>zip</code> para achar quem passou da média.</p>`,
+        exemplo: `notas = [7, 8, 10]
+media = sum(notas) / len(notas)
+print(f"{media:.1f}")`,
+        tarefa: `Leia os nomes numa linha e as pepitas na outra (na mesma ordem). Mostre <b>Média: 6.3</b> e, em seguida, cada mineiro acima da média: <b>Acima: Bia (9)</b>.`,
+        requisitos: ["Média com sum e len", "Uma casa decimal", "Percorrer com zip"],
+        inicial: `nomes = input("Mineiros: ").split()
+pepitas = [int(p) for p in input("Pepitas: ").split()]
+
+`,
+        dica: `media = sum(pepitas) / len(pepitas); print(f"Média: {media:.1f}"); for nome, qtd in zip(nomes, pepitas): if qtd > media: print(f"Acima: {nome} ({qtd})")`,
+        solucao: `nomes = input("Mineiros: ").split()
+pepitas = [int(p) for p in input("Pepitas: ").split()]
+media = sum(pepitas) / len(pepitas)
+print(f"Média: {media:.1f}")
+for nome, qtd in zip(nomes, pepitas):
+    if qtd > media:
+        print(f"Acima: {nome} ({qtd})")`,
+        casos: [
+          { entradas: ["Ana Bia Caio", "5 9 5"], saida: ["Média: 6.3", "Acima: Bia (9)"] },
+          { entradas: ["Zé Lia", "4 4"], saida: ["Média: 4.0"] },
+          { entradas: ["A B C D", "1 2 3 10"], saida: ["Média: 4.0", "Acima: D (10)"] },
+        ],
+        usar: [{ re: /zip\s*\(/, msg: "Percorra nomes e pepitas juntos com zip." }],
       },
       {
         id: "3-4", titulo: "O túnel sem fim", chefe: true, inimigo: inimigo("golem", "Golem do Túnel"),
@@ -1985,6 +2349,117 @@ for nome in sorted(alturas, key=alturas.get, reverse=True):
     print(f"{nome}: {alturas[nome]} m")`,
         casos: [{ saida: ["Bia: 5100 m", "Ana: 4200 m", "Caio: 3900 m"] }],
         usar: [{ re: /sorted\s*\(/, msg: "Use sorted() para montar o ranking." }],
+      },
+      {
+        id: "4-9", titulo: "Tirando da mochila",
+        historia: "A mochila está pesada demais para a subida! Para tirar um item pelo nome, use remove. Mas cuidado: se o item não estiver lá, dá erro. Confira antes com in.",
+        licao: `<ul><li><code>item in lista</code> diz se o item está na lista</li><li><code>lista.remove(item)</code> tira a primeira vez que ele aparece</li><li>Lista vazia vale <code>False</code> num <code>if</code></li></ul>`,
+        exemplo: `bolsa = ["pão", "água", "pão"]
+bolsa.remove("pão")
+print(bolsa)
+print("queijo" in bolsa)`,
+        tarefa: `Leia itens para tirar até <b>fim</b>. Se estiver na mochila, tire e mostre <b>Tirei corda</b>; senão, <b>Não tenho escudo</b>. No fim, mostre <b>Mochila: tocha, mapa</b>, ou <b>Mochila vazia</b>.`,
+        requisitos: ["Conferir com in antes de tirar", "Tirar com remove", "Mochila vazia quando não sobra nada"],
+        inicial: `mochila = ["corda", "tocha", "pedra", "mapa", "pedra"]
+while True:
+    item = input("Tirar (ou fim): ")
+    if item == "fim":
+        break
+
+`,
+        dica: `if item in mochila: mochila.remove(item); print(f"Tirei {item}") else: print(f"Não tenho {item}"). No fim: if mochila: print("Mochila: " + ", ".join(mochila)) else: print("Mochila vazia")`,
+        solucao: `mochila = ["corda", "tocha", "pedra", "mapa", "pedra"]
+while True:
+    item = input("Tirar (ou fim): ")
+    if item == "fim":
+        break
+    if item in mochila:
+        mochila.remove(item)
+        print(f"Tirei {item}")
+    else:
+        print(f"Não tenho {item}")
+if mochila:
+    print("Mochila: " + ", ".join(mochila))
+else:
+    print("Mochila vazia")`,
+        casos: [
+          { entradas: ["corda", "escudo", "pedra", "fim"], saida: ["Tirei corda", "Não tenho escudo", "Tirei pedra", "Mochila: tocha, mapa, pedra"] },
+          { entradas: ["fim"], saida: ["Mochila: corda, tocha, pedra, mapa, pedra"] },
+          { entradas: ["corda", "tocha", "pedra", "mapa", "pedra", "fim"], saida: ["Tirei corda", "Tirei tocha", "Tirei pedra", "Tirei mapa", "Tirei pedra", "Mochila vazia"] },
+        ],
+        usar: [{ re: /\.remove\s*\(/, msg: "Tire o item com remove." }],
+      },
+      {
+        id: "4-10", titulo: "Fatiando a trilha",
+        historia: "O mapa da trilha é uma lista de paradas. Fatiando a lista com [início:fim], a cartógrafa mostra só o pedaço que interessa.",
+        licao: `<ul><li><code>trilha[1:3]</code>: da posição 1 até antes da 3</li><li><code>trilha[:3]</code>: as três primeiras</li><li><code>trilha[-2:]</code>: as duas últimas</li><li><code>trilha[1:-1]</code>: tudo menos a primeira e a última</li></ul>`,
+        exemplo: `letras = ["a", "b", "c", "d", "e"]
+print(letras[1:3])
+print(letras[-2:])`,
+        tarefa: `Usando fatias, mostre (cada grupo numa linha, separado por vírgula): as 3 primeiras paradas, as 2 últimas e as do meio (sem a primeira e sem a última).`,
+        requisitos: ["Usar [:3]", "Usar [-2:]", "Usar [1:-1]"],
+        inicial: `trilha = ["vila", "ponte", "lago", "gruta", "pico", "castelo"]
+
+`,
+        dica: `print(", ".join(trilha[:3])), depois trilha[-2:] e trilha[1:-1] do mesmo jeito.`,
+        solucao: `trilha = ["vila", "ponte", "lago", "gruta", "pico", "castelo"]
+print(", ".join(trilha[:3]))
+print(", ".join(trilha[-2:]))
+print(", ".join(trilha[1:-1]))`,
+        casos: [{ saida: ["vila, ponte, lago", "pico, castelo", "ponte, lago, gruta, pico"] }],
+        usar: [{ re: /\[\s*:\s*3\s*\]/, msg: "Pegue as três primeiras com [:3]." }, { re: /\[\s*-2\s*:\s*\]/, msg: "Pegue as duas últimas com [-2:]." }, { re: /\[\s*1\s*:\s*-1\s*\]/, msg: "Pegue as do meio com [1:-1]." }],
+      },
+      {
+        id: "4-11", titulo: "Só as pedras preciosas",
+        historia: "No saco do minerador vem de tudo: areia, pedra e, às vezes, uma joia. Uma lista por compreensão com if filtra só o que interessa, numa linha só.",
+        licao: `<p><code>[x for x in lista if condição]</code> monta uma lista nova só com quem passa no teste.</p>
+<p>Dá para filtrar e transformar junto: <code>[x.upper() for x in lista if len(x) &gt; 3]</code>.</p>`,
+        exemplo: `numeros = [3, 12, 7, 20]
+print([n * 2 for n in numeros if n > 5])`,
+        tarefa: `Leia os achados (separados por espaço). Com uma lista por compreensão com if, mostre só as pedras preciosas, em maiúsculas, e na linha de baixo quantas são.`,
+        requisitos: ["Lista por compreensão com if", "Em maiúsculas com .upper()", "Depois, a quantidade com len"],
+        inicial: `preciosas = ["rubi", "safira", "esmeralda", "diamante"]
+achados = input("Achados: ").split()
+
+`,
+        dica: `joias = [a.upper() for a in achados if a in preciosas]; print(joias); print(len(joias))`,
+        solucao: `preciosas = ["rubi", "safira", "esmeralda", "diamante"]
+achados = input("Achados: ").split()
+joias = [a.upper() for a in achados if a in preciosas]
+print(joias)
+print(len(joias))`,
+        casos: [
+          { entradas: ["pedra rubi areia safira rubi"], saida: ["['RUBI', 'SAFIRA', 'RUBI']", "3"] },
+          { entradas: ["areia"], saida: ["[]", "0"] },
+          { entradas: ["diamante"], saida: ["['DIAMANTE']", "1"] },
+        ],
+        usar: [{ re: /\[[^\]\n]*\bfor\b[^\]\n]*\bif\b[^\]\n]*\]/, msg: "Filtre com uma lista por compreensão com if." }],
+      },
+      {
+        id: "4-12", titulo: "O diário de altitudes",
+        historia: "A cartógrafa anotou a altitude de cada pico num dicionário. Com .items() ela percorre o nome e a altitude juntos.",
+        licao: `<p><code>for nome, altura in picos.items():</code> percorre as duas coisas de cada par.</p>
+<p><code>sorted(picos, key=picos.get)</code> ordena os nomes pela altitude (o valor de cada um).</p>`,
+        exemplo: `idades = {"Ana": 30, "Bia": 12}
+for nome, idade in idades.items():
+    print(nome, idade)
+print(sorted(idades, key=idades.get))`,
+        tarefa: `Mostre cada pico, da menor para a maior altitude: <b>Morro Verde: 800 m</b>. Depois, com <code>.items()</code>, conte e mostre <b>Acima de 2000 m: 2</b>.`,
+        requisitos: ["Ordenar com key=picos.get", "Percorrer com .items()", "Quatro picos e depois a contagem"],
+        inicial: `picos = {"Pico Azul": 1200, "Monte Gelo": 3100, "Morro Verde": 800, "Serra Alta": 2400}
+
+`,
+        dica: `for nome in sorted(picos, key=picos.get): print(f"{nome}: {picos[nome]} m"). Depois: altos = 0; for nome, altura in picos.items(): if altura > 2000: altos += 1`,
+        solucao: `picos = {"Pico Azul": 1200, "Monte Gelo": 3100, "Morro Verde": 800, "Serra Alta": 2400}
+for nome in sorted(picos, key=picos.get):
+    print(f"{nome}: {picos[nome]} m")
+altos = 0
+for nome, altura in picos.items():
+    if altura > 2000:
+        altos += 1
+print(f"Acima de 2000 m: {altos}")`,
+        casos: [{ saida: ["Morro Verde: 800 m", "Pico Azul: 1200 m", "Serra Alta: 2400 m", "Monte Gelo: 3100 m", "Acima de 2000 m: 2"] }],
+        usar: [{ re: /\.items\s*\(/, msg: "Percorra com .items()." }, { re: /key\s*=/, msg: "Ordene pela altitude com key=picos.get." }],
       },
       {
         id: "4-4", titulo: "O mercador da montanha", chefe: true, inimigo: inimigo("mercador", "Mercador da Montanha"),
@@ -2287,6 +2762,186 @@ print(m.lancar())`,
         usar: [{ re: /class\s+Mago\s*\(\s*Personagem\s*\)/, msg: "A classe precisa herdar: class Mago(Personagem):" }],
       },
       {
+        id: "5-9", titulo: "Feitiço dentro de feitiço",
+        historia: "Um mago esperto não repete fórmula: uma função pode chamar outra. A função de dano usa a função de bônus da arma, e cada uma faz uma coisa só.",
+        licao: `<p>Dentro de uma função você pode chamar outra que já existe. Cada função cuida de uma parte, e fica fácil de entender e testar.</p>
+<p>Logo abaixo do <code>def</code>, um texto entre três aspas é a <b>docstring</b>: ela explica o que a função faz.</p>`,
+        exemplo: `def dobro(n):
+    """Devolve o dobro de n."""
+    return n * 2
+
+def quadruplo(n):
+    return dobro(dobro(n))
+
+print(quadruplo(3))`,
+        tarefa: `Complete <code>bonus(arma)</code> (espada dá 5, arco dá 3, qualquer outra dá 0) e <code>dano(forca, arma)</code>, que devolve a força mais o bônus, <b>chamando a função bonus</b>.`,
+        requisitos: ["bonus devolve 5, 3 ou 0", "dano chama bonus(arma)", "Saída: 15, 7 e 7"],
+        inicial: `def bonus(arma):
+    """Bônus de dano de cada arma."""
+    return 0
+
+def dano(forca, arma):
+    """Força do golpe mais o bônus da arma."""
+    return forca
+
+print(dano(10, "espada"))
+print(dano(4, "arco"))
+print(dano(7, "graveto"))
+`,
+        dica: `bonus: if arma == "espada": return 5; if arma == "arco": return 3; return 0. dano: return forca + bonus(arma)`,
+        solucao: `def bonus(arma):
+    """Bônus de dano de cada arma."""
+    if arma == "espada":
+        return 5
+    if arma == "arco":
+        return 3
+    return 0
+
+def dano(forca, arma):
+    """Força do golpe mais o bônus da arma."""
+    return forca + bonus(arma)
+
+print(dano(10, "espada"))
+print(dano(4, "arco"))
+print(dano(7, "graveto"))`,
+        casos: [{ saida: ["15", "7", "7"] }],
+        teste: `assert bonus("espada") == 5 and bonus("arco") == 3 and bonus("pá") == 0, "bonus deveria dar 5, 3 ou 0."
+assert dano(1, "arco") == 4, "dano(1, 'arco') deveria ser 4."`,
+        usar: [{ re: /def\s+dano[\s\S]*bonus\s*\(/, msg: "Dentro de dano, chame a função bonus(arma)." }],
+      },
+      {
+        id: "5-10", titulo: "Duas respostas de uma vez",
+        historia: "O mago quer saber, de uma vez só, a menor e a maior runa de uma lista. Uma função pode devolver dois valores separados por vírgula.",
+        licao: `<p><code>return menor, maior</code> devolve os dois juntos (numa tupla). Quem chama recebe assim: <code>a, b = extremos(lista)</code>.</p>`,
+        exemplo: `def dividir(a, b):
+    return a // b, a % b
+
+q, r = dividir(17, 5)
+print(q, r)`,
+        tarefa: `Complete <code>extremos(numeros)</code> para devolver o menor e o maior número. O programa lê as runas e mostra <b>Menor: 2</b> e <b>Maior: 9</b>.`,
+        requisitos: ["Devolver dois valores com return a, b", "O programa recebe com menor, maior =", "Uma runa só: menor e maior iguais"],
+        inicial: `def extremos(numeros):
+    return 0, 0
+
+numeros = [int(n) for n in input("Runas: ").split()]
+menor, maior = extremos(numeros)
+print(f"Menor: {menor}")
+print(f"Maior: {maior}")
+`,
+        dica: `return min(numeros), max(numeros)`,
+        solucao: `def extremos(numeros):
+    return min(numeros), max(numeros)
+
+numeros = [int(n) for n in input("Runas: ").split()]
+menor, maior = extremos(numeros)
+print(f"Menor: {menor}")
+print(f"Maior: {maior}")`,
+        casos: [
+          { entradas: ["4 9 2 7"], saida: ["Menor: 2", "Maior: 9"] },
+          { entradas: ["5"], saida: ["Menor: 5", "Maior: 5"] },
+          { entradas: ["-3 0 3"], saida: ["Menor: -3", "Maior: 3"] },
+        ],
+        teste: `assert extremos([8, 1, 5]) == (1, 8), "extremos([8, 1, 5]) deveria devolver (1, 8)."`,
+        usar: [{ re: /return\s+[^\n,]+,\s*\S/, msg: "Devolva os dois valores com return menor, maior." }],
+      },
+      {
+        id: "5-11", titulo: "O que é do castelo fica no castelo",
+        historia: "Uma variável criada dentro de uma função só existe lá dentro. Para levar um valor para fora, a função tem que devolver com return, e quem chamou tem que guardar.",
+        licao: `<p>Variáveis criadas dentro de um <code>def</code> são <b>locais</b>: somem quando a função termina. Mudar lá dentro uma variável com o mesmo nome de uma de fora cria outra, só local.</p>
+<p>O jeito certo de mudar o valor de fora é devolver e guardar: <code>ouro = ganhar(ouro, 5)</code>.</p>`,
+        exemplo: `def aumentar(n):
+    n = n + 1
+    return n
+
+x = 1
+aumentar(x)
+print(x)
+x = aumentar(x)
+print(x)`,
+        tarefa: `O código tenta aumentar o ouro dentro da função, mas o ouro de fora não muda. Conserte: a função devolve o novo valor e o programa guarda em <code>ouro</code>. Deve mostrar <b>Ouro: 35</b>.`,
+        requisitos: ["A função devolve com return", "Guardar com ouro = ganhar(...)", "Sem usar global"],
+        inicial: `def ganhar(ouro, quantia):
+    ouro = ouro + quantia
+
+ouro = 10
+ganhar(ouro, 5)
+ganhar(ouro, 20)
+print(f"Ouro: {ouro}")
+`,
+        dica: `Na função: return ouro + quantia. Nas chamadas: ouro = ganhar(ouro, 5) e ouro = ganhar(ouro, 20).`,
+        solucao: `def ganhar(ouro, quantia):
+    return ouro + quantia
+
+ouro = 10
+ouro = ganhar(ouro, 5)
+ouro = ganhar(ouro, 20)
+print(f"Ouro: {ouro}")`,
+        casos: [{ saida: ["Ouro: 35"] }],
+        teste: `assert ganhar(1, 2) == 3, "ganhar(1, 2) deveria devolver 3."`,
+        usar: [{ re: /ouro\s*=\s*ganhar\s*\(/, msg: "Guarde o resultado: ouro = ganhar(ouro, ...)." }, { re: /\bglobal\b/, nao: true, msg: "Resolva com return, sem global." }],
+      },
+      {
+        id: "5-12", titulo: "O baú do castelo",
+        historia: "O baú do castelo guarda itens e sabe dizer o peso de tudo. Um objeto pode ter uma lista dentro dele e métodos que mexem nela.",
+        licao: `<p>No <code>__init__</code>, crie a lista vazia: <code>self.itens = []</code>. Os métodos usam <code>self.itens</code> para guardar e calcular.</p>
+<p>Cada objeto tem a sua própria lista: dois baús não se misturam.</p>`,
+        exemplo: `class Saco:
+    def __init__(self):
+        self.moedas = []
+
+    def pegar(self, valor):
+        self.moedas.append(valor)
+
+s = Saco()
+s.pegar(5)
+print(s.moedas)`,
+        tarefa: `Complete o Bau: <code>guardar(nome, peso)</code> põe a tupla <code>(nome, peso)</code> na lista e <code>peso_total()</code> devolve a soma dos pesos.`,
+        requisitos: ["guardar usa self.itens.append", "peso_total soma os pesos", "Saída: 3 e 13"],
+        inicial: `class Bau:
+    def __init__(self):
+        self.itens = []
+
+    def guardar(self, nome, peso):
+        pass
+
+    def peso_total(self):
+        return 0
+
+bau = Bau()
+bau.guardar("espada", 7)
+bau.guardar("escudo", 5)
+bau.guardar("poção", 1)
+print(len(bau.itens))
+print(bau.peso_total())
+`,
+        dica: `guardar: self.itens.append((nome, peso)). peso_total: total = 0; for nome, peso in self.itens: total += peso; return total`,
+        solucao: `class Bau:
+    def __init__(self):
+        self.itens = []
+
+    def guardar(self, nome, peso):
+        self.itens.append((nome, peso))
+
+    def peso_total(self):
+        total = 0
+        for nome, peso in self.itens:
+            total += peso
+        return total
+
+bau = Bau()
+bau.guardar("espada", 7)
+bau.guardar("escudo", 5)
+bau.guardar("poção", 1)
+print(len(bau.itens))
+print(bau.peso_total())`,
+        casos: [{ saida: ["3", "13"] }],
+        teste: `__b = Bau()
+assert __b.peso_total() == 0, "Um baú vazio deveria pesar 0."
+__b.guardar("pena", 2)
+assert __b.peso_total() == 2 and len(Bau().itens) == 0, "Cada baú deveria ter a sua própria lista."`,
+        usar: [{ re: /self\.itens\.append\s*\(/, msg: "Guarde com self.itens.append((nome, peso))." }],
+      },
+      {
         id: "5-4", titulo: "O Dragão Bug", chefe: true, inimigo: inimigo("dragao", "Dragão Bug"),
         historia: "O Dragão Bug invadiu a sala do trono e bagunçou o código do castelo! A função pares() deveria devolver só os números pares de uma lista. Leia as mensagens de erro: são suas melhores armas. Este é o chefe final!",
         licao: `<p><b>Bug</b> é um erro no código. Caçar bugs faz parte do trabalho de todo programador.</p>
@@ -2499,6 +3154,128 @@ else:
           { entradas: ["Ab1"], saida: ["Senha fraca"] },
         ],
         usar: [{ re: /\.isdigit\s*\(/, msg: "Use .isdigit() para achar números." }, { re: /\.isupper\s*\(/, msg: "Use .isupper() para achar maiúsculas." }],
+      },
+      {
+        id: "6-9", titulo: "Títulos de nobreza",
+        historia: "Os livros chegam com o título todo bagunçado. A Coruja Lumen quer cada palavra com a primeira letra maiúscula, como manda a etiqueta da biblioteca.",
+        licao: `<ul><li><code>texto.capitalize()</code> põe a primeira letra do texto em maiúscula e o resto em minúscula</li><li>Para cada palavra: <code>[p.capitalize() for p in texto.split()]</code></li><li><code>" ".join(lista)</code> junta as palavras com um espaço só (o <code>split()</code> já some com os espaços a mais)</li></ul>
+<p>Curiosidade: no Python do computador também existe <code>texto.title()</code>, que faz isso de uma vez. O motor desta biblioteca se atrapalha com acentos no <code>title()</code>, por isso aqui vamos palavra por palavra.</p>`,
+        exemplo: `print("O REI DO NORTE".capitalize())
+print([p.capitalize() for p in "o rei do norte".split()])
+print(" ".join("muitos    espaços".split()))`,
+        tarefa: `Leia um título bagunçado. Mostre <b>Título: A Lenda Do Dragão</b> (cada palavra com maiúscula, um espaço entre elas) e, embaixo, <b>Frase: A lenda do dragão</b>.`,
+        requisitos: ["Arrumar os espaços com split e join", "Cada palavra com .capitalize()", "A frase inteira com .capitalize()"],
+        inicial: `titulo = input("Título: ")
+
+`,
+        dica: `palavras = titulo.split(); print("Título: " + " ".join([p.capitalize() for p in palavras])); print("Frase: " + " ".join(palavras).capitalize())`,
+        solucao: `titulo = input("Título: ")
+palavras = titulo.split()
+print("Título: " + " ".join([p.capitalize() for p in palavras]))
+print("Frase: " + " ".join(palavras).capitalize())`,
+        casos: [
+          { entradas: ["a LENDA   do dragão"], saida: ["Título: A Lenda Do Dragão", "Frase: A lenda do dragão"] },
+          { entradas: ["  POÇÕES  "], saida: ["Título: Poções", "Frase: Poções"] },
+          { entradas: ["o mago e a coruja"], saida: ["Título: O Mago E A Coruja", "Frase: O mago e a coruja"] },
+        ],
+        usar: [{ re: /\.capitalize\s*\(/, msg: "Use .capitalize() em cada palavra e na frase." }],
+      },
+      {
+        id: "6-10", titulo: "A cifra do escriba",
+        historia: "Os escribas escondem segredos com a cifra de César: cada letra anda algumas casas no alfabeto. Com 3 casas, a vira d, b vira e e o z dá a volta e vira c.",
+        licao: `<p>Todo caractere tem um número: <code>ord("a")</code> é 97 e <code>chr(97)</code> volta a ser <code>"a"</code>.</p>
+<p>Para andar <code>k</code> casas dando a volta no z: <code>chr((ord(letra) - ord("a") + k) % 26 + ord("a"))</code>. O <code>% 26</code> faz o 26 voltar a 0.</p>`,
+        exemplo: `print(ord("c"))
+print(chr(ord("c") + 1))
+print((25 + 3) % 26)`,
+        tarefa: `Leia uma mensagem em minúsculas e quantas casas andar. Cifre só as letras de a até z (espaços e o resto ficam iguais) e mostre a mensagem cifrada.`,
+        requisitos: ["Usar ord e chr", "Dar a volta com % 26", "abc xyz com 3 vira def abc"],
+        inicial: `mensagem = input("Mensagem: ")
+k = int(input("Casas: "))
+cifrada = ""
+
+`,
+        dica: `for letra in mensagem: if "a" <= letra <= "z": cifrada += chr((ord(letra) - ord("a") + k) % 26 + ord("a")) else: cifrada += letra. No fim: print(cifrada)`,
+        solucao: `mensagem = input("Mensagem: ")
+k = int(input("Casas: "))
+cifrada = ""
+for letra in mensagem:
+    if "a" <= letra <= "z":
+        cifrada += chr((ord(letra) - ord("a") + k) % 26 + ord("a"))
+    else:
+        cifrada += letra
+print(cifrada)`,
+        casos: [
+          { entradas: ["abc xyz", "3"], saida: ["def abc"] },
+          { entradas: ["ataque ao amanhecer!", "1"], saida: ["bubrvf bp bnboifdfs!"] },
+          { entradas: ["coruja", "26"], saida: ["coruja"] },
+        ],
+        usar: [{ re: /ord\s*\(/, msg: "Use ord para pegar o número da letra." }, { re: /chr\s*\(/, msg: "Use chr para voltar a ser letra." }, { re: /%\s*26/, msg: "Dê a volta no alfabeto com % 26." }],
+      },
+      {
+        id: "6-11", titulo: "A ficha do leitor",
+        historia: "Cada empréstimo é anotado numa linha só, com as partes separadas por ponto e vírgula: nome;livro;dias. O split corta em qualquer separador que você escolher.",
+        licao: `<p><code>"Ana;Magia;7".split(";")</code> dá <code>["Ana", "Magia", "7"]</code>. Dá para receber direto em variáveis: <code>nome, livro, dias = linha.split(";")</code>.</p>
+<p>Lembre: o que vem do split é texto. Para fazer conta, use <code>int(dias)</code>.</p>`,
+        exemplo: `nome, cidade = "Bia;Vila do Print".split(";")
+print(nome)
+print(cidade)`,
+        tarefa: `Leia uma ficha no formato <b>nome;livro;dias</b>. Mostre <b>Ana pegou Feitiços Antigos</b> e, embaixo, <b>Multa: 6 moedas</b> se passou de 14 dias (2 moedas por dia a mais) ou <b>Sem multa</b>.`,
+        requisitos: ["Cortar com split(\";\")", "Converter os dias com int", "17 dias dá Multa: 6 moedas"],
+        inicial: `ficha = input("Ficha: ")
+
+`,
+        dica: `nome, livro, dias = ficha.split(";"); dias = int(dias); print(f"{nome} pegou {livro}"); if dias > 14: print(f"Multa: {(dias - 14) * 2} moedas") else: print("Sem multa")`,
+        solucao: `ficha = input("Ficha: ")
+nome, livro, dias = ficha.split(";")
+dias = int(dias)
+print(f"{nome} pegou {livro}")
+if dias > 14:
+    print(f"Multa: {(dias - 14) * 2} moedas")
+else:
+    print("Sem multa")`,
+        casos: [
+          { entradas: ["Ana;Feitiços Antigos;17"], saida: ["Ana pegou Feitiços Antigos", "Multa: 6 moedas"] },
+          { entradas: ["Caio;Mapas;14"], saida: ["Caio pegou Mapas", "Sem multa"] },
+          { entradas: ["Bia;O Livro das Runas;30"], saida: ["Bia pegou O Livro das Runas", "Multa: 32 moedas"] },
+        ],
+        usar: [{ re: /\.split\s*\(\s*["'];["']\s*\)/, msg: "Corte a ficha com split(\";\")." }],
+      },
+      {
+        id: "6-12", titulo: "Vogais e consoantes",
+        historia: "Um feitiço antigo só funciona se a palavra mágica tiver mais vogais que consoantes. Vamos contar letra por letra.",
+        licao: `<p>Um <code>for</code> percorre um texto letra por letra. <code>letra in "aeiou"</code> diz se é vogal, e <code>letra.isalpha()</code> diz se é letra (espaços e números não são).</p>
+<p>Use <code>.lower()</code> antes, para A e a contarem igual.</p>`,
+        exemplo: `for letra in "Oi!":
+    print(letra, letra.isalpha(), letra.lower() in "aeiou")`,
+        tarefa: `Leia a palavra mágica. Mostre <b>Vogais: 4</b> e <b>Consoantes: 3</b> (só letras contam) e, embaixo, <b>O feitiço funciona!</b> se houver mais vogais, ou <b>Nada acontece</b>.`,
+        requisitos: ["Percorrer com for", "Usar in \"aeiou\" e .isalpha()", "Ignorar maiúsculas"],
+        inicial: `palavra = input("Palavra mágica: ").lower()
+vogais = 0
+consoantes = 0
+
+`,
+        dica: `for letra in palavra: if letra in "aeiou": vogais += 1 elif letra.isalpha(): consoantes += 1. Depois os prints e o if vogais > consoantes.`,
+        solucao: `palavra = input("Palavra mágica: ").lower()
+vogais = 0
+consoantes = 0
+for letra in palavra:
+    if letra in "aeiou":
+        vogais += 1
+    elif letra.isalpha():
+        consoantes += 1
+print(f"Vogais: {vogais}")
+print(f"Consoantes: {consoantes}")
+if vogais > consoantes:
+    print("O feitiço funciona!")
+else:
+    print("Nada acontece")`,
+        casos: [
+          { entradas: ["Aurelia"], saida: ["Vogais: 5", "Consoantes: 2", "O feitiço funciona!"] },
+          { entradas: ["Abracadabra"], saida: ["Vogais: 5", "Consoantes: 6", "Nada acontece"] },
+          { entradas: ["ui 7!"], saida: ["Vogais: 2", "Consoantes: 0", "O feitiço funciona!"] },
+        ],
+        usar: [{ re: /in\s+["']aeiou["']/, msg: "Confira as vogais com in \"aeiou\"." }, { re: /\.isalpha\s*\(/, msg: "Conte só letras com .isalpha()." }],
       },
       {
         id: "6-8", titulo: "O Livro Amaldiçoado", chefe: true, inimigo: inimigo("livro", "Livro Amaldiçoado"),
@@ -2761,6 +3538,192 @@ print(total)`,
         ],
       },
       {
+        id: "7-9", titulo: "O erro com nome próprio",
+        historia: "O Sapo Traceback cansou de erro genérico. No pântano, cada perigo tem nome: você pode criar a sua própria exceção, como SemFolego.",
+        licao: `<p>Crie uma exceção sua com uma classe que herda de <code>Exception</code>: <code>class SemFolego(Exception): pass</code>.</p>
+<p>Levante com <code>raise SemFolego("mensagem")</code> e trate com <code>except SemFolego as erro:</code>. Mostrar o <code>erro</code> mostra a mensagem.</p>`,
+        exemplo: `class Tropeco(Exception):
+    pass
+
+try:
+    raise Tropeco("pedra no caminho")
+except Tropeco as erro:
+    print("Cuidado:", erro)`,
+        tarefa: `Complete <code>nadar(metros, folego)</code>: se os metros passarem do fôlego, levante <code>SemFolego</code> com a mensagem <b>faltaram N metros</b>. O programa mostra <b>Atravessou!</b> ou <b>Afundou: faltaram 10 metros</b>.`,
+        requisitos: ["Levantar com raise SemFolego(...)", "Mensagem com quantos metros faltaram", "Fôlego igual aos metros atravessa"],
+        inicial: `class SemFolego(Exception):
+    pass
+
+def nadar(metros, folego):
+    print("Atravessou!")
+
+metros = int(input("Metros do lago: "))
+folego = int(input("Fôlego: "))
+try:
+    nadar(metros, folego)
+except SemFolego as erro:
+    print(f"Afundou: {erro}")
+`,
+        dica: `No começo de nadar: if metros > folego: raise SemFolego(f"faltaram {metros - folego} metros")`,
+        solucao: `class SemFolego(Exception):
+    pass
+
+def nadar(metros, folego):
+    if metros > folego:
+        raise SemFolego(f"faltaram {metros - folego} metros")
+    print("Atravessou!")
+
+metros = int(input("Metros do lago: "))
+folego = int(input("Fôlego: "))
+try:
+    nadar(metros, folego)
+except SemFolego as erro:
+    print(f"Afundou: {erro}")`,
+        casos: [
+          { entradas: ["10", "20"], saida: ["Atravessou!"] },
+          { entradas: ["30", "20"], saida: ["Afundou: faltaram 10 metros"] },
+          { entradas: ["20", "20"], saida: ["Atravessou!"] },
+        ],
+        teste: `__levantou = False
+try:
+    nadar(5, 1)
+except SemFolego:
+    __levantou = True
+assert __levantou, "nadar(5, 1) deveria levantar SemFolego."`,
+        usar: [{ re: /raise\s+SemFolego\s*\(/, msg: "Levante o erro com raise SemFolego(...)." }],
+      },
+      {
+        id: "7-10", titulo: "O erro que sobe",
+        historia: "Um erro que acontece lá no fundo de uma função sobe para quem a chamou, e para quem chamou quem chamou, até alguém tratar. Dá para tratar tudo num lugar só, lá em cima.",
+        licao: `<p>Se uma função não trata um erro, ele <b>sobe</b> para quem a chamou. Assim, um único <code>try</code> no programa principal protege todas as funções de dentro.</p>
+<p>Um <code>try</code> pode ter vários <code>except</code>, um para cada tipo de erro.</p>`,
+        exemplo: `def a():
+    return int("x")
+
+def b():
+    return a() + 1
+
+try:
+    b()
+except ValueError:
+    print("tratado lá em cima")`,
+        tarefa: `As funções estão prontas e não tratam erro. Trate no programa principal: texto que não é número mostra <b>Digite números</b>; zero partidas mostra <b>Nenhuma partida</b>. Com 3 vitórias em 4 partidas: <b>Aproveitamento: 75%</b>.`,
+        requisitos: ["Um try no programa principal", "except ValueError e except ZeroDivisionError", "Não mexer nas funções"],
+        inicial: `def ler_numero(texto):
+    return int(texto)
+
+def aproveitamento(vitorias, partidas):
+    return vitorias * 100 // partidas
+
+vitorias = input("Vitórias: ")
+partidas = input("Partidas: ")
+print(f"Aproveitamento: {aproveitamento(ler_numero(vitorias), ler_numero(partidas))}%")
+`,
+        dica: `Ponha o print dentro de try:. Depois except ValueError: print("Digite números") e except ZeroDivisionError: print("Nenhuma partida").`,
+        solucao: `def ler_numero(texto):
+    return int(texto)
+
+def aproveitamento(vitorias, partidas):
+    return vitorias * 100 // partidas
+
+vitorias = input("Vitórias: ")
+partidas = input("Partidas: ")
+try:
+    print(f"Aproveitamento: {aproveitamento(ler_numero(vitorias), ler_numero(partidas))}%")
+except ValueError:
+    print("Digite números")
+except ZeroDivisionError:
+    print("Nenhuma partida")`,
+        casos: [
+          { entradas: ["3", "4"], saida: ["Aproveitamento: 75%"] },
+          { entradas: ["x", "4"], saida: ["Digite números"] },
+          { entradas: ["2", "0"], saida: ["Nenhuma partida"] },
+          { entradas: ["5", "5"], saida: ["Aproveitamento: 100%"] },
+        ],
+        usar: [{ re: /except\s+ValueError/, msg: "Trate o texto com except ValueError." }, { re: /except\s+ZeroDivisionError/, msg: "Trate o zero com except ZeroDivisionError." }],
+      },
+      {
+        id: "7-11", titulo: "Três tentativas",
+        historia: "A ponte de cipó aguenta só três tentativas. Errou três vezes, ela se recolhe e você fica do lado de cá. Junte o while, o try e um contador.",
+        licao: `<p>Um contador limita as tentativas: <code>while tentativas &lt; 3:</code> e <code>tentativas += 1</code> a cada volta.</p>
+<p>Dentro, o <code>try</code> converte o texto; se der erro, <code>continue</code> vai para a próxima tentativa. Acertou? <code>break</code>. Uma variável como <code>pisou = False</code> lembra se deu certo.</p>`,
+        exemplo: `tentativas = 0
+while tentativas < 3:
+    tentativas += 1
+    print("tentativa", tentativas)`,
+        tarefa: `Leia o número da tábua (1 a 10), com até 3 tentativas. Texto que não é número: <b>Isso não é número</b>. Número fora de 1 a 10: <b>Fora da ponte</b>. Válido: <b>Pisou na tábua 7</b> e para. Depois de 3 erros: <b>A ponte se recolheu</b>.`,
+        requisitos: ["No máximo 3 tentativas", "try com except ValueError", "Parar com break ao acertar"],
+        inicial: `tentativas = 0
+pisou = False
+
+`,
+        dica: `while tentativas < 3: texto = input(...); tentativas += 1; try: tabua = int(texto) except ValueError: print("Isso não é número"); continue. Se 1 <= tabua <= 10: print, pisou = True, break. Senão: print("Fora da ponte"). No fim: if not pisou: ...`,
+        solucao: `tentativas = 0
+pisou = False
+while tentativas < 3:
+    texto = input("Tábua (1 a 10): ")
+    tentativas += 1
+    try:
+        tabua = int(texto)
+    except ValueError:
+        print("Isso não é número")
+        continue
+    if 1 <= tabua <= 10:
+        print(f"Pisou na tábua {tabua}")
+        pisou = True
+        break
+    print("Fora da ponte")
+if not pisou:
+    print("A ponte se recolheu")`,
+        casos: [
+          { entradas: ["5"], saida: ["Pisou na tábua 5"] },
+          { entradas: ["x", "12", "7"], saida: ["Isso não é número", "Fora da ponte", "Pisou na tábua 7"] },
+          { entradas: ["a", "b", "c"], saida: ["Isso não é número", "Isso não é número", "Isso não é número", "A ponte se recolheu"] },
+          { entradas: ["0", "11", "x"], saida: ["Fora da ponte", "Fora da ponte", "Isso não é número", "A ponte se recolheu"] },
+        ],
+        usar: [{ re: /except\s+ValueError/, msg: "Trate o texto com except ValueError." }, { re: /<\s*3/, msg: "Limite a 3 tentativas com while tentativas < 3." }],
+      },
+      {
+        id: "7-12", titulo: "A despensa do sapo",
+        historia: "Na despensa do sapo, pedir um ingrediente que não existe levanta KeyError. Desta vez, em vez do get, vamos tratar o erro e anotar tudo o que faltou.",
+        licao: `<p><code>despensa["pena"]</code> levanta <code>KeyError</code> se a chave não existe. Dentro de um <code>for</code>, um <code>try</code> com <code>except KeyError:</code> trata cada item sem parar o laço.</p>`,
+        exemplo: `precos = {"pão": 2}
+for item in ["pão", "bolo"]:
+    try:
+        print(precos[item])
+    except KeyError:
+        print("sem", item)`,
+        tarefa: `Leia a receita (ingredientes separados por espaço). Some o preço de cada um com <code>despensa[item]</code>; para cada um que não existir, mostre <b>Falta pena</b>. No fim: <b>Receita custa 3 moedas</b> ou, se faltou algo, <b>Não dá para fazer</b>.`,
+        requisitos: ["Usar despensa[item] dentro de try", "except KeyError para o que falta", "Sem usar .get"],
+        inicial: `despensa = {"musgo": 2, "lodo": 1, "vagalume": 5}
+receita = input("Receita: ").split()
+total = 0
+faltando = []
+
+`,
+        dica: `for item in receita: try: total += despensa[item] except KeyError: faltando.append(item); print(f"Falta {item}"). No fim: if faltando: "Não dá para fazer" else: f"Receita custa {total} moedas".`,
+        solucao: `despensa = {"musgo": 2, "lodo": 1, "vagalume": 5}
+receita = input("Receita: ").split()
+total = 0
+faltando = []
+for item in receita:
+    try:
+        total += despensa[item]
+    except KeyError:
+        faltando.append(item)
+        print(f"Falta {item}")
+if faltando:
+    print("Não dá para fazer")
+else:
+    print(f"Receita custa {total} moedas")`,
+        casos: [
+          { entradas: ["musgo lodo"], saida: ["Receita custa 3 moedas"] },
+          { entradas: ["musgo pena vagalume escama"], saida: ["Falta pena", "Falta escama", "Não dá para fazer"] },
+          { entradas: ["vagalume vagalume"], saida: ["Receita custa 10 moedas"] },
+        ],
+        usar: [{ re: /except\s+KeyError/, msg: "Trate o que falta com except KeyError." }, { re: /\.get\s*\(/, nao: true, msg: "Desta vez use try/except KeyError, sem .get." }],
+      },
+      {
         id: "7-8", titulo: "A Hidra das Exceções", chefe: true, inimigo: inimigo("hidra", "Hidra das Exceções"),
         historia: "A Hidra das Exceções tem três cabeças, e cada uma é um bug! Este programa deveria calcular a média só dos números válidos de uma lista. Corte as três cabeças. Este é o chefe do pântano!",
         licao: `<p>Este código tem <b>três bugs</b>: um erro de escrita, um except que pega o erro errado e uma conta que divide pela coisa errada.</p>
@@ -2968,6 +3931,158 @@ for palavra in sorted(contagem):
           { entradas: ["Sol sol lua"], saida: ["lua: 1", "sol: 2"] },
         ],
         usar: [{ re: /\.get\s*\([^)]*,\s*0\s*\)/, msg: "Conte com contagem.get(palavra, 0) + 1." }],
+      },
+      {
+        id: "8-9", titulo: "Cargas diferentes",
+        historia: "Duas caravanas se encontram no oásis e comparam as cargas. Com conjuntos, Zahra descobre na hora o que só uma tem e o que só a outra tem.",
+        licao: `<ul><li><code>a - b</code>: o que está em <code>a</code> e não está em <code>b</code></li><li><code>a ^ b</code>: o que está em só um dos dois</li><li><code>a | b</code>: tudo junto, sem repetir</li></ul>`,
+        exemplo: `a = {"sal", "seda"}
+b = {"seda", "mel"}
+print(sorted(a - b))
+print(sorted(a ^ b))`,
+        tarefa: `Leia a carga de cada caravana (uma linha cada). Usando a função <code>listar</code>, mostre <b>Só a primeira: ...</b>, <b>Só a segunda: ...</b> e <b>Diferentes: ...</b> (o que está em só uma das duas).`,
+        requisitos: ["Usar primeira - segunda e segunda - primeira", "Usar ^ para as diferentes", "Grupo vazio aparece como nada"],
+        inicial: `def listar(conjunto):
+    if not conjunto:
+        return "nada"
+    return ", ".join(sorted(conjunto))
+
+primeira = set(input("Caravana 1: ").split())
+segunda = set(input("Caravana 2: ").split())
+
+`,
+        dica: `print(f"Só a primeira: {listar(primeira - segunda)}"), depois segunda - primeira e, por fim, primeira ^ segunda.`,
+        solucao: `def listar(conjunto):
+    if not conjunto:
+        return "nada"
+    return ", ".join(sorted(conjunto))
+
+primeira = set(input("Caravana 1: ").split())
+segunda = set(input("Caravana 2: ").split())
+print(f"Só a primeira: {listar(primeira - segunda)}")
+print(f"Só a segunda: {listar(segunda - primeira)}")
+print(f"Diferentes: {listar(primeira ^ segunda)}")`,
+        casos: [
+          { entradas: ["sal seda tâmara", "seda especiaria sal"], saida: ["Só a primeira: tâmara", "Só a segunda: especiaria", "Diferentes: especiaria, tâmara"] },
+          { entradas: ["água", "água"], saida: ["Só a primeira: nada", "Só a segunda: nada", "Diferentes: nada"] },
+          { entradas: ["a b", "c"], saida: ["Só a primeira: a, b", "Só a segunda: c", "Diferentes: a, b, c"] },
+        ],
+        usar: [{ re: /primeira\s*-\s*segunda/, msg: "Use primeira - segunda." }, { re: /\^/, msg: "Use ^ para o que está em só uma." }],
+      },
+      {
+        id: "8-10", titulo: "Camelos com ficha",
+        historia: "Cada camelo da caravana tem uma ficha com idade e carga. Um dicionário pode guardar outros dicionários dentro dele.",
+        licao: `<p>Dicionário de dicionários: <code>caravana = {"Zeca": {"idade": 5, "carga": 30}}</code>. Para pegar um valor, use as duas chaves: <code>caravana["Zeca"]["carga"]</code>. Para mudar: <code>caravana["Zeca"]["carga"] += 10</code>.</p>`,
+        exemplo: `ficha = {"Bia": {"nivel": 3}}
+ficha["Bia"]["nivel"] += 1
+print(ficha["Bia"]["nivel"])`,
+        tarefa: `Leia cargas extras no formato <b>camelo quilos</b> até <b>fim</b> e some na carga do camelo (camelo que não existe: <b>Não conheço o camelo Tufão</b>). No fim, em ordem alfabética: <b>Zeca (5 anos): 40 kg</b>, com <b> - pesado demais!</b> no fim da linha se passar de 50 kg.`,
+        requisitos: ["Usar caravana[nome][\"carga\"]", "Avisar o camelo desconhecido", "Pesado demais acima de 50 kg"],
+        inicial: `caravana = {
+    "Zeca": {"idade": 5, "carga": 30},
+    "Duna": {"idade": 8, "carga": 45},
+    "Sol": {"idade": 3, "carga": 20},
+}
+while True:
+    linha = input("Carga extra (camelo quilos) ou fim: ")
+    if linha == "fim":
+        break
+
+`,
+        dica: `nome, quilos = linha.split(); if nome in caravana: caravana[nome]["carga"] += int(quilos) else: aviso. No fim: for nome in sorted(caravana): ficha = caravana[nome]; texto = f"{nome} ({ficha['idade']} anos): {ficha['carga']} kg"; se carga > 50: texto += " - pesado demais!"`,
+        solucao: `caravana = {
+    "Zeca": {"idade": 5, "carga": 30},
+    "Duna": {"idade": 8, "carga": 45},
+    "Sol": {"idade": 3, "carga": 20},
+}
+while True:
+    linha = input("Carga extra (camelo quilos) ou fim: ")
+    if linha == "fim":
+        break
+    nome, quilos = linha.split()
+    if nome in caravana:
+        caravana[nome]["carga"] += int(quilos)
+    else:
+        print(f"Não conheço o camelo {nome}")
+for nome in sorted(caravana):
+    ficha = caravana[nome]
+    texto = f"{nome} ({ficha['idade']} anos): {ficha['carga']} kg"
+    if ficha["carga"] > 50:
+        texto += " - pesado demais!"
+    print(texto)`,
+        casos: [
+          { entradas: ["Zeca 10", "Duna 10", "Tufão 5", "fim"], saida: ["Não conheço o camelo Tufão", "Duna (8 anos): 55 kg - pesado demais!", "Sol (3 anos): 20 kg", "Zeca (5 anos): 40 kg"] },
+          { entradas: ["fim"], saida: ["Duna (8 anos): 45 kg", "Sol (3 anos): 20 kg", "Zeca (5 anos): 30 kg"] },
+        ],
+        usar: [{ re: /\[\s*["']carga["']\s*\]/, msg: "Mexa na carga com caravana[nome][\"carga\"]." }],
+      },
+      {
+        id: "8-11", titulo: "O dicionário ao contrário",
+        historia: "O dicionário de tradução vai do idioma do deserto para o comum. Para traduzir de volta, é só inverter: as chaves viram valores e os valores viram chaves.",
+        licao: `<p>Um dicionário por compreensão monta um dicionário numa linha: <code>{chave: valor for ... in ...}</code>. Para inverter: <code>{v: k for k, v in d.items()}</code>.</p>
+<p>Para traduzir sem erro, <code>d.get(palavra, palavra)</code> devolve a própria palavra quando ela não está no dicionário.</p>`,
+        exemplo: `cores = {"red": "vermelho", "blue": "azul"}
+print({v: k for k, v in cores.items()})`,
+        tarefa: `Monte com compreensão o dicionário invertido. Leia uma frase no idioma comum e traduza palavra por palavra para o idioma do deserto (o que não estiver no dicionário fica igual).`,
+        requisitos: ["Inverter com compreensão de dicionário", "Traduzir com .get(p, p)", "o camelo bebe no rio vira o jamal bebe no nahr"],
+        inicial: `deserto_para_comum = {"sahar": "areia", "nahr": "rio", "jamal": "camelo", "shams": "sol"}
+frase = input("Frase: ").split()
+
+`,
+        dica: `comum_para_deserto = {v: k for k, v in deserto_para_comum.items()}; traduzida = [comum_para_deserto.get(p, p) for p in frase]; print(" ".join(traduzida))`,
+        solucao: `deserto_para_comum = {"sahar": "areia", "nahr": "rio", "jamal": "camelo", "shams": "sol"}
+frase = input("Frase: ").split()
+comum_para_deserto = {v: k for k, v in deserto_para_comum.items()}
+traduzida = [comum_para_deserto.get(p, p) for p in frase]
+print(" ".join(traduzida))`,
+        casos: [
+          { entradas: ["o camelo bebe no rio"], saida: ["o jamal bebe no nahr"] },
+          { entradas: ["sol e areia"], saida: ["shams e sahar"] },
+          { entradas: ["oi"], saida: ["oi"] },
+        ],
+        usar: [{ re: /\{[^}\n]*:[^}\n]*\bfor\b[^}\n]*\}/, msg: "Inverta com uma compreensão de dicionário: {v: k for k, v in ...}." }],
+      },
+      {
+        id: "8-12", titulo: "O mapa dos poços",
+        historia: "No mapa do deserto, cada poço fica numa coordenada (x, y). Tuplas podem ser chaves de dicionário, então o mapa vira um dicionário de coordenadas.",
+        licao: `<p>Listas não podem ser chave de dicionário, mas tuplas podem: <code>pocos[(3, 4)] = "Oásis Azul"</code>. Para conferir: <code>(x, y) in pocos</code>.</p>
+<p>No <code>for</code>, dá para abrir a tupla da chave: <code>for (px, py), nome in pocos.items():</code>. A distância de quarteirões é <code>abs(px - x) + abs(py - y)</code>.</p>`,
+        exemplo: `mapa = {(0, 0): "casa"}
+print((0, 0) in mapa, mapa[(0, 0)])
+print(abs(-3) + abs(2))`,
+        tarefa: `Leia coordenadas <b>x y</b> até <b>fim</b>. Se houver poço ali, mostre o nome. Senão, mostre o mais perto pela distância de quarteirões: <b>Nada aqui. Mais perto: Oásis Azul (3 passos)</b>.`,
+        requisitos: ["Conferir com (x, y) in pocos", "Achar a menor distância com abs", "4 6 fica a 3 passos do Oásis Azul"],
+        inicial: `pocos = {(3, 4): "Oásis Azul", (10, 2): "Poço do Sul", (0, 0): "Fonte Velha"}
+while True:
+    linha = input("Coordenada (x y) ou fim: ")
+    if linha == "fim":
+        break
+    x, y = [int(n) for n in linha.split()]
+
+`,
+        dica: `if (x, y) in pocos: print(pocos[(x, y)]). Senão: menor = None; for (px, py), nome in pocos.items(): d = abs(px - x) + abs(py - y); if menor is None or d < menor: menor = d; perto = nome. Depois o print.`,
+        solucao: `pocos = {(3, 4): "Oásis Azul", (10, 2): "Poço do Sul", (0, 0): "Fonte Velha"}
+while True:
+    linha = input("Coordenada (x y) ou fim: ")
+    if linha == "fim":
+        break
+    x, y = [int(n) for n in linha.split()]
+    if (x, y) in pocos:
+        print(pocos[(x, y)])
+    else:
+        menor = None
+        perto = ""
+        for (px, py), nome in pocos.items():
+            distancia = abs(px - x) + abs(py - y)
+            if menor is None or distancia < menor:
+                menor = distancia
+                perto = nome
+        print(f"Nada aqui. Mais perto: {perto} ({menor} passos)")`,
+        casos: [
+          { entradas: ["3 4", "4 6", "9 0", "fim"], saida: ["Oásis Azul", "Nada aqui. Mais perto: Oásis Azul (3 passos)", "Nada aqui. Mais perto: Poço do Sul (3 passos)"] },
+          { entradas: ["0 0", "fim"], saida: ["Fonte Velha"] },
+        ],
+        usar: [{ re: /\(\s*x\s*,\s*y\s*\)\s*in\s+pocos/, msg: "Confira com (x, y) in pocos." }, { re: /abs\s*\(/, msg: "Calcule a distância com abs." }],
       },
       {
         id: "8-8", titulo: "O Escorpião Gigante", chefe: true, inimigo: inimigo("escorpiao", "Escorpião Gigante"),
@@ -3236,6 +4351,168 @@ print(vencedor([["X", "X", "X"], [" ", "O", " "], ["O", " ", " "]]))`,
 assert vencedor([["X", "O", "O"], [" ", "X", " "], ["O", " ", "X"]]) == "X", "Diagonal de X deveria vencer."
 assert vencedor([["X", "O", "X"], ["X", "O", "O"], ["O", "X", "X"]]) == "ninguém", "Esse jogo deu velha: ninguém venceu."
 assert vencedor([[" ", " ", " "], [" ", " ", " "], [" ", " ", " "]]) == "ninguém", "Tabuleiro vazio não tem vencedor."`,
+      },
+      {
+        id: "9-9", titulo: "Somando os dígitos",
+        historia: "A engrenagem mestra só gira com a soma dos dígitos de um número. Tic-Tac resolve com recursão: a soma de 472 é o último dígito (2) mais a soma de 47.",
+        licao: `<p>Toda recursão precisa de um <b>caso base</b>, que para tudo: aqui, um número menor que 10 é a própria soma.</p>
+<p>No resto, use o último dígito <code>n % 10</code> e o número sem ele <code>n // 10</code>: <code>return n % 10 + soma_digitos(n // 10)</code>.</p>`,
+        exemplo: `n = 472
+print(n % 10)
+print(n // 10)`,
+        tarefa: `Complete <code>soma_digitos(n)</code> com recursão, sem transformar o número em texto. O programa mostra <b>Soma dos dígitos: 13</b> e depois repete a soma até sobrar um dígito só: <b>Raiz digital: 4</b>.`,
+        requisitos: ["Caso base: n < 10", "A função chama ela mesma com n // 10", "Sem usar str()"],
+        inicial: `def soma_digitos(n):
+    return 0
+
+numero = int(input("Número: "))
+print(f"Soma dos dígitos: {soma_digitos(numero)}")
+raiz = numero
+while raiz >= 10:
+    raiz = soma_digitos(raiz)
+print(f"Raiz digital: {raiz}")
+`,
+        dica: `if n < 10: return n. Senão: return n % 10 + soma_digitos(n // 10)`,
+        solucao: `def soma_digitos(n):
+    if n < 10:
+        return n
+    return n % 10 + soma_digitos(n // 10)
+
+numero = int(input("Número: "))
+print(f"Soma dos dígitos: {soma_digitos(numero)}")
+raiz = numero
+while raiz >= 10:
+    raiz = soma_digitos(raiz)
+print(f"Raiz digital: {raiz}")`,
+        casos: [
+          { entradas: ["472"], saida: ["Soma dos dígitos: 13", "Raiz digital: 4"] },
+          { entradas: ["7"], saida: ["Soma dos dígitos: 7", "Raiz digital: 7"] },
+          { entradas: ["99999"], saida: ["Soma dos dígitos: 45", "Raiz digital: 9"] },
+          { entradas: ["1000"], saida: ["Soma dos dígitos: 1", "Raiz digital: 1"] },
+        ],
+        teste: `assert soma_digitos(0) == 0 and soma_digitos(123) == 6, "soma_digitos(0) deveria ser 0 e soma_digitos(123) deveria ser 6."`,
+        usar: [{ re: /return[^\n]*soma_digitos\s*\(/, msg: "A função precisa chamar a si mesma: return n % 10 + soma_digitos(n // 10)." }, { re: /\bstr\s*\(/, nao: true, msg: "Resolva com % e //, sem transformar em texto." }],
+      },
+      {
+        id: "9-10", titulo: "Juntando duas filas",
+        historia: "Duas filas de engrenagens chegam já ordenadas por tamanho. Para juntar numa fila só, também ordenada, não precisa ordenar tudo de novo: é só ir comparando a frente das duas.",
+        licao: `<p>Use dois índices, <code>i</code> e <code>j</code>, um em cada lista. Enquanto as duas tiverem itens, pegue o menor da frente e ande só naquela lista.</p>
+<p>No fim, uma delas acabou; junte o que sobrou da outra: <code>resultado + a[i:] + b[j:]</code>.</p>`,
+        exemplo: `a = [1, 5]
+i = 1
+print(a[i:])
+print([0] + a[i:])`,
+        tarefa: `Complete <code>intercalar(a, b)</code> sem usar <code>sort</code> nem <code>sorted</code>. O programa lê as duas filas ordenadas e mostra a fila junta, ordenada.`,
+        requisitos: ["Dois índices andando", "Pegar sempre o menor da frente", "Sem sort nem sorted"],
+        inicial: `def intercalar(a, b):
+    resultado = []
+    i = 0
+    j = 0
+    return resultado
+
+a = [int(n) for n in input("Fila A: ").split()]
+b = [int(n) for n in input("Fila B: ").split()]
+print(intercalar(a, b))
+`,
+        dica: `while i < len(a) and j < len(b): if a[i] <= b[j]: resultado.append(a[i]); i += 1 else: resultado.append(b[j]); j += 1. Depois: return resultado + a[i:] + b[j:]`,
+        solucao: `def intercalar(a, b):
+    resultado = []
+    i = 0
+    j = 0
+    while i < len(a) and j < len(b):
+        if a[i] <= b[j]:
+            resultado.append(a[i])
+            i += 1
+        else:
+            resultado.append(b[j])
+            j += 1
+    return resultado + a[i:] + b[j:]
+
+a = [int(n) for n in input("Fila A: ").split()]
+b = [int(n) for n in input("Fila B: ").split()]
+print(intercalar(a, b))`,
+        casos: [
+          { entradas: ["1 4 9", "2 3 10 12"], saida: ["[1, 2, 3, 4, 9, 10, 12]"] },
+          { entradas: ["5", ""], saida: ["[5]"] },
+          { entradas: ["2 2", "2"], saida: ["[2, 2, 2]"] },
+        ],
+        teste: `assert intercalar([1, 3], [2]) == [1, 2, 3] and intercalar([], []) == [], "Confira intercalar([1, 3], [2]) e intercalar([], [])."`,
+        usar: [{ re: /\bsort(ed)?\s*\(/, nao: true, msg: "Junte comparando a frente das duas, sem sort nem sorted." }],
+      },
+      {
+        id: "9-11", titulo: "O painel de engrenagens",
+        historia: "O painel da torre é uma matriz: linhas e colunas de números. Tic-Tac quer a soma de cada linha, de cada coluna e o painel virado, com linhas no lugar das colunas.",
+        licao: `<p>Uma matriz é uma lista de listas: <code>m[linha][coluna]</code>. A soma de cada linha: <code>[sum(linha) for linha in m]</code>.</p>
+<p><code>zip(*m)</code> junta os itens da mesma posição de todas as linhas, ou seja, entrega as <b>colunas</b>. Assim, <code>[list(c) for c in zip(*m)]</code> é a matriz <b>transposta</b>.</p>`,
+        exemplo: `m = [[1, 2], [3, 4]]
+print([sum(l) for l in m])
+print([list(c) for c in zip(*m)])`,
+        tarefa: `Leia 3 linhas de números. Mostre <b>Linhas: [6, 15, 24]</b>, <b>Colunas: [12, 15, 18]</b>, depois <b>Transposta:</b> e as linhas da transposta, uma por linha.`,
+        requisitos: ["Somar as linhas", "Pegar as colunas com zip(*m)", "Mostrar a transposta linha por linha"],
+        inicial: `m = []
+for _ in range(3):
+    m.append([int(n) for n in input("Linha: ").split()])
+
+`,
+        dica: `linhas = [sum(l) for l in m]; colunas = [list(c) for c in zip(*m)]; somas = [sum(c) for c in colunas]; prints; depois for c in colunas: print(c)`,
+        solucao: `m = []
+for _ in range(3):
+    m.append([int(n) for n in input("Linha: ").split()])
+linhas = [sum(l) for l in m]
+colunas = [list(c) for c in zip(*m)]
+somas = [sum(c) for c in colunas]
+print(f"Linhas: {linhas}")
+print(f"Colunas: {somas}")
+print("Transposta:")
+for c in colunas:
+    print(c)`,
+        casos: [
+          { entradas: ["1 2 3", "4 5 6", "7 8 9"], saida: ["Linhas: [6, 15, 24]", "Colunas: [12, 15, 18]", "Transposta:", "[1, 4, 7]", "[2, 5, 8]", "[3, 6, 9]"] },
+          { entradas: ["1 0", "0 1", "2 2"], saida: ["Linhas: [1, 1, 4]", "Colunas: [3, 3]", "Transposta:", "[1, 0, 2]", "[0, 1, 2]"] },
+        ],
+        usar: [{ re: /zip\s*\(\s*\*/, msg: "Pegue as colunas com zip(*m)." }],
+      },
+      {
+        id: "9-12", titulo: "A Torre de Hanói",
+        historia: "No topo da torre há três pinos e discos de tamanhos diferentes. Levar a pilha toda de A para C, um disco por vez e sem pôr disco grande em cima de pequeno, parece difícil... mas a recursão resolve.",
+        licao: `<p>Para mover <code>n</code> discos de <code>origem</code> para <code>destino</code>:</p>
+<ol><li>mova <code>n - 1</code> discos para o pino de <code>apoio</code>;</li><li>mova o disco <code>n</code> (o maior) para o <code>destino</code>;</li><li>mova os <code>n - 1</code> do apoio para o destino.</li></ol>
+<p>Caso base: com 0 discos, não há nada a fazer.</p>`,
+        exemplo: `def contar_ate(n):
+    if n == 0:
+        return
+    contar_ate(n - 1)
+    print(n)
+
+contar_ate(3)`,
+        tarefa: `Complete <code>hanoi(n, origem, destino, apoio)</code>: ela mostra cada movimento (<b>Disco 1: A -&gt; C</b>) e devolve quantos movimentos fez. O programa mostra no fim <b>Movimentos: 7</b> para 3 discos.`,
+        requisitos: ["Caso base com 0 discos", "Duas chamadas com n - 1", "Devolver o total de movimentos"],
+        inicial: `def hanoi(n, origem, destino, apoio):
+    return 0
+
+n = int(input("Discos: "))
+total = hanoi(n, "A", "C", "B")
+print(f"Movimentos: {total}")
+`,
+        dica: `if n == 0: return 0. movimentos = hanoi(n - 1, origem, apoio, destino); print(f"Disco {n}: {origem} -> {destino}"); movimentos += 1; movimentos += hanoi(n - 1, apoio, destino, origem); return movimentos`,
+        solucao: `def hanoi(n, origem, destino, apoio):
+    if n == 0:
+        return 0
+    movimentos = hanoi(n - 1, origem, apoio, destino)
+    print(f"Disco {n}: {origem} -> {destino}")
+    movimentos += 1
+    movimentos += hanoi(n - 1, apoio, destino, origem)
+    return movimentos
+
+n = int(input("Discos: "))
+total = hanoi(n, "A", "C", "B")
+print(f"Movimentos: {total}")`,
+        casos: [
+          { entradas: ["1"], saida: ["Disco 1: A -> C", "Movimentos: 1"] },
+          { entradas: ["2"], saida: ["Disco 1: A -> B", "Disco 2: A -> C", "Disco 1: B -> C", "Movimentos: 3"] },
+          { entradas: ["3"], saida: ["Disco 1: A -> C", "Disco 2: A -> B", "Disco 1: C -> B", "Disco 3: A -> C", "Disco 1: B -> A", "Disco 2: B -> C", "Disco 1: A -> C", "Movimentos: 7"] },
+        ],
+        usar: [{ re: /hanoi\s*\(\s*n\s*-\s*1/, msg: "Chame hanoi(n - 1, ...) dentro da própria função." }],
       },
       {
         id: "9-8", titulo: "O Relógio do Caos", chefe: true, inimigo: inimigo("relogio", "Relógio do Caos"),
@@ -3631,6 +4908,262 @@ for item in sorted(carga, key=lambda i: i.peso, reverse=True)[:2]:
         usar: [{ re: /\blambda\b/, msg: "Ordene pelo peso com key=lambda i: i.peso." }],
       },
       {
+        id: "11-9", titulo: "O conversor do navio",
+        historia: "A Capitã Self mede tudo em milhas náuticas, mas o mapa da ilha está em quilômetros. A conversão não depende de nenhum navio em especial: é um método estático.",
+        licao: `<p><code>@staticmethod</code> em cima de um método diz que ele não usa <code>self</code>: é uma função guardada dentro da classe porque tem a ver com ela.</p>
+<p>Chame pela própria classe: <code>Navio.km_para_milhas(100)</code>.</p>`,
+        exemplo: `class Bussola:
+    @staticmethod
+    def graus(voltas):
+        return voltas * 360
+
+print(Bussola.graus(2))`,
+        tarefa: `Crie o método estático <code>km_para_milhas(km)</code> no Navio: 1 milha náutica são 1.852 km; arredonde com 1 casa. Com 100 km, o programa mostra <b>Distância: 54.0 milhas</b> e <b>Tempo: 4.5 horas</b>.`,
+        requisitos: ["Usar @staticmethod", "Dividir por 1.852 e arredondar com 1 casa", "Chamar pela classe Navio"],
+        inicial: `class Navio:
+    def __init__(self, nome, velocidade):
+        self.nome = nome
+        self.velocidade = velocidade
+
+    def tempo(self, milhas):
+        return round(milhas / self.velocidade, 1)
+
+perola = Navio("Pérola", 12)
+km = float(input("Distância em km: "))
+milhas = Navio.km_para_milhas(km)
+print(f"Distância: {milhas} milhas")
+print(f"Tempo: {perola.tempo(milhas)} horas")
+`,
+        dica: `Dentro da classe: @staticmethod / def km_para_milhas(km): return round(km / 1.852, 1)`,
+        solucao: `class Navio:
+    def __init__(self, nome, velocidade):
+        self.nome = nome
+        self.velocidade = velocidade
+
+    @staticmethod
+    def km_para_milhas(km):
+        return round(km / 1.852, 1)
+
+    def tempo(self, milhas):
+        return round(milhas / self.velocidade, 1)
+
+perola = Navio("Pérola", 12)
+km = float(input("Distância em km: "))
+milhas = Navio.km_para_milhas(km)
+print(f"Distância: {milhas} milhas")
+print(f"Tempo: {perola.tempo(milhas)} horas")`,
+        casos: [
+          { entradas: ["100"], saida: ["Distância: 54.0 milhas", "Tempo: 4.5 horas"] },
+          { entradas: ["200"], saida: ["Distância: 108.0 milhas", "Tempo: 9.0 horas"] },
+          { entradas: ["22.224"], saida: ["Distância: 12.0 milhas", "Tempo: 1.0 horas"] },
+        ],
+        teste: `assert Navio.km_para_milhas(1.852) == 1.0, "1.852 km deveria dar 1.0 milha."`,
+        usar: [{ re: /@staticmethod/, msg: "Marque o método com @staticmethod." }],
+      },
+      {
+        id: "11-10", titulo: "Quem é quem a bordo",
+        historia: "No convés há cozinheiros, canhoneiros e artilheiros, e todos são Tripulantes. O isinstance diz se alguém é de um tipo, levando a herança em conta.",
+        licao: `<p><code>isinstance(objeto, Classe)</code> é <code>True</code> se o objeto for daquela classe <b>ou de uma filha dela</b>. Um Artilheiro, filho de Canhoneiro, também é Canhoneiro.</p>
+<p>Já <code>type(objeto).__name__</code> dá o nome da classe exata do objeto.</p>`,
+        exemplo: `class Animal:
+    pass
+
+class Gato(Animal):
+    pass
+
+g = Gato()
+print(isinstance(g, Animal), type(g).__name__)`,
+        tarefa: `Mostre <b>Canhoneiros: 2</b> (contando os filhos de Canhoneiro), <b>Tripulantes: 4</b> e depois cada um com a classe exata: <b>Ana: Canhoneiro</b>.`,
+        requisitos: ["Contar com isinstance", "O Artilheiro conta como Canhoneiro", "Classe exata com type(p).__name__"],
+        inicial: `class Tripulante:
+    def __init__(self, nome):
+        self.nome = nome
+
+class Cozinheiro(Tripulante):
+    pass
+
+class Canhoneiro(Tripulante):
+    pass
+
+class Artilheiro(Canhoneiro):
+    pass
+
+bordo = [Canhoneiro("Ana"), Cozinheiro("Tião"), Artilheiro("Rui"), Tripulante("Lia")]
+
+`,
+        dica: `canhoneiros = 0; tripulantes = 0; for p in bordo: if isinstance(p, Canhoneiro): canhoneiros += 1; if isinstance(p, Tripulante): tripulantes += 1. Depois os prints e for p in bordo: print(f"{p.nome}: {type(p).__name__}")`,
+        solucao: `class Tripulante:
+    def __init__(self, nome):
+        self.nome = nome
+
+class Cozinheiro(Tripulante):
+    pass
+
+class Canhoneiro(Tripulante):
+    pass
+
+class Artilheiro(Canhoneiro):
+    pass
+
+bordo = [Canhoneiro("Ana"), Cozinheiro("Tião"), Artilheiro("Rui"), Tripulante("Lia")]
+canhoneiros = 0
+tripulantes = 0
+for p in bordo:
+    if isinstance(p, Canhoneiro):
+        canhoneiros += 1
+    if isinstance(p, Tripulante):
+        tripulantes += 1
+print(f"Canhoneiros: {canhoneiros}")
+print(f"Tripulantes: {tripulantes}")
+for p in bordo:
+    print(f"{p.nome}: {type(p).__name__}")`,
+        casos: [{ saida: ["Canhoneiros: 2", "Tripulantes: 4", "Ana: Canhoneiro", "Tião: Cozinheiro", "Rui: Artilheiro", "Lia: Tripulante"] }],
+        usar: [{ re: /isinstance\s*\(/, msg: "Conte com isinstance." }, { re: /__name__/, msg: "Mostre a classe exata com type(p).__name__." }],
+      },
+      {
+        id: "11-11", titulo: "O caixa do navio",
+        historia: "O caixa do navio guarda o ouro e anota cada movimento num diário. Assim dá para conferir tudo e até desfazer o último movimento.",
+        licao: `<p>Um objeto pode guardar o próprio histórico: uma lista <code>self.diario</code> que recebe cada valor movimentado.</p>
+<p>Desfazer é tirar o último do diário com <code>pop()</code> e fazer a conta ao contrário. Sem nada no diário, não há o que desfazer.</p>`,
+        exemplo: `notas = [5, 8]
+ultimo = notas.pop()
+print(ultimo, notas)`,
+        tarefa: `Complete <code>movimentar(valor)</code> (soma no ouro e anota no diário) e <code>desfazer()</code> (tira o último do diário e desfaz a conta; sem nada para desfazer, não muda nada).`,
+        requisitos: ["Anotar com self.diario.append", "Desfazer com pop", "Desfazer sem diário não quebra"],
+        inicial: `class Caixa:
+    def __init__(self, ouro):
+        self.ouro = ouro
+        self.diario = []
+
+    def movimentar(self, valor):
+        pass
+
+    def desfazer(self):
+        pass
+
+caixa = Caixa(100)
+while True:
+    comando = input("Valor, desfaz ou fim: ")
+    if comando == "fim":
+        break
+    if comando == "desfaz":
+        caixa.desfazer()
+    else:
+        caixa.movimentar(int(comando))
+print(f"Ouro: {caixa.ouro}")
+print(f"Movimentos: {caixa.diario}")
+`,
+        dica: `movimentar: self.ouro += valor; self.diario.append(valor). desfazer: if self.diario: self.ouro -= self.diario.pop()`,
+        solucao: `class Caixa:
+    def __init__(self, ouro):
+        self.ouro = ouro
+        self.diario = []
+
+    def movimentar(self, valor):
+        self.ouro += valor
+        self.diario.append(valor)
+
+    def desfazer(self):
+        if self.diario:
+            self.ouro -= self.diario.pop()
+
+caixa = Caixa(100)
+while True:
+    comando = input("Valor, desfaz ou fim: ")
+    if comando == "fim":
+        break
+    if comando == "desfaz":
+        caixa.desfazer()
+    else:
+        caixa.movimentar(int(comando))
+print(f"Ouro: {caixa.ouro}")
+print(f"Movimentos: {caixa.diario}")`,
+        casos: [
+          { entradas: ["50", "-30", "desfaz", "20", "fim"], saida: ["Ouro: 170", "Movimentos: [50, 20]"] },
+          { entradas: ["desfaz", "fim"], saida: ["Ouro: 100", "Movimentos: []"] },
+          { entradas: ["-100", "fim"], saida: ["Ouro: 0", "Movimentos: [-100]"] },
+        ],
+        teste: `__c = Caixa(10)
+__c.movimentar(5)
+__c.desfazer()
+__c.desfazer()
+assert __c.ouro == 10 and __c.diario == [], "Desfazer duas vezes depois de um movimento deveria voltar a 10 e diário vazio."`,
+        usar: [{ re: /self\.diario\.append\s*\(/, msg: "Anote com self.diario.append(valor)." }, { re: /\.pop\s*\(/, msg: "Desfaça com self.diario.pop()." }],
+      },
+      {
+        id: "11-12", titulo: "O mapa do tesouro",
+        historia: "No mapa do tesouro, cada passo leva a uma posição nova. Em vez de mudar a posição antiga, o método mover devolve uma Posicao nova. E dá para encadear: p.mover(2, 0).mover(0, 3).",
+        licao: `<p>Um método pode devolver um objeto novo da mesma classe: <code>return Posicao(self.x + dx, self.y + dy)</code>. Assim a posição original não muda.</p>
+<p>Como o resultado também é uma Posicao, dá para chamar outro método logo em seguida: isso é <b>encadear</b>.</p>`,
+        exemplo: `class Numero:
+    def __init__(self, n):
+        self.n = n
+
+    def mais(self, k):
+        return Numero(self.n + k)
+
+print(Numero(1).mais(2).mais(3).n)`,
+        tarefa: `Complete <code>mover(dx, dy)</code> devolvendo uma Posicao nova. O programa lê passos como <b>leste 3</b> até <b>fim</b> e mostra <b>Tesouro em (2, -2)</b> e <b>Partida continua em (0, 0)</b>.`,
+        requisitos: ["Devolver uma Posicao nova", "Não mudar a posição original", "A partida continua em (0, 0)"],
+        inicial: `class Posicao:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
+    def mover(self, dx, dy):
+        return self
+
+    def __str__(self):
+        return f"({self.x}, {self.y})"
+
+DIRECOES = {"leste": (1, 0), "oeste": (-1, 0), "norte": (0, 1), "sul": (0, -1)}
+partida = Posicao(0, 0)
+atual = partida
+while True:
+    passo = input("Passo (direção quantidade) ou fim: ")
+    if passo == "fim":
+        break
+    direcao, quantidade = passo.split()
+    dx, dy = DIRECOES[direcao]
+    atual = atual.mover(dx * int(quantidade), dy * int(quantidade))
+print(f"Tesouro em {atual}")
+print(f"Partida continua em {partida}")
+`,
+        dica: `def mover(self, dx, dy): return Posicao(self.x + dx, self.y + dy)`,
+        solucao: `class Posicao:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
+    def mover(self, dx, dy):
+        return Posicao(self.x + dx, self.y + dy)
+
+    def __str__(self):
+        return f"({self.x}, {self.y})"
+
+DIRECOES = {"leste": (1, 0), "oeste": (-1, 0), "norte": (0, 1), "sul": (0, -1)}
+partida = Posicao(0, 0)
+atual = partida
+while True:
+    passo = input("Passo (direção quantidade) ou fim: ")
+    if passo == "fim":
+        break
+    direcao, quantidade = passo.split()
+    dx, dy = DIRECOES[direcao]
+    atual = atual.mover(dx * int(quantidade), dy * int(quantidade))
+print(f"Tesouro em {atual}")
+print(f"Partida continua em {partida}")`,
+        casos: [
+          { entradas: ["leste 3", "norte 2", "oeste 1", "sul 4", "fim"], saida: ["Tesouro em (2, -2)", "Partida continua em (0, 0)"] },
+          { entradas: ["norte 5", "fim"], saida: ["Tesouro em (0, 5)", "Partida continua em (0, 0)"] },
+          { entradas: ["fim"], saida: ["Tesouro em (0, 0)", "Partida continua em (0, 0)"] },
+        ],
+        teste: `__p = Posicao(1, 1)
+__q = __p.mover(1, 0).mover(0, 1)
+assert (__q.x, __q.y) == (2, 2) and (__p.x, __p.y) == (1, 1), "mover deveria devolver uma posição nova e deixar a original igual."`,
+        usar: [{ re: /return\s+Posicao\s*\(/, msg: "Devolva uma Posicao nova com return Posicao(...)." }],
+      },
+      {
         id: "11-8", titulo: "O Kraken", chefe: true, inimigo: inimigo("kraken", "Kraken"),
         historia: "O Kraken subiu das profundezas! Só uma frota inteira vence esse monstro. Monte as classes da frota e calcule quantas rodadas de canhão são necessárias. Este é o chefe da ilha!",
         licao: `<p>Regras da batalha:</p>
@@ -3910,6 +5443,199 @@ print(bola_de_fogo("goblin"))`,
         usar: [{ re: /^\s*@anunciar/m, msg: "Use @anunciar em cima do def bola_de_fogo." }],
       },
       {
+        id: "12-9", titulo: "O ranking dos magos",
+        historia: "No torneio de magia ganha quem tem mais pontos; no empate, quem gastou menos mana; se empatar de novo, a ordem alfabética. Uma lambda que devolve uma tupla resolve tudo de uma vez.",
+        licao: `<p><code>sorted(lista, key=lambda m: (-m[1], m[2], m[0]))</code> ordena pela tupla: primeiro pelo primeiro item; no empate, pelo segundo; e assim por diante.</p>
+<p>O sinal de menos inverte a ordem de um número: o maior vem primeiro.</p>`,
+        exemplo: `pares = [("b", 2), ("a", 2), ("c", 5)]
+print(sorted(pares, key=lambda p: (-p[1], p[0])))`,
+        tarefa: `Leia magos no formato <b>nome pontos mana</b> até <b>fim</b>. Mostre o ranking numerado: <b>1º Bia: 90 pontos (mana 10)</b>. Mais pontos primeiro; empate, menos mana; empate de novo, ordem alfabética.`,
+        requisitos: ["key=lambda devolvendo uma tupla", "Menos para inverter os pontos", "Numerar com enumerate(..., start=1)"],
+        inicial: `magos = []
+while True:
+    linha = input("Mago (nome pontos mana) ou fim: ")
+    if linha == "fim":
+        break
+
+`,
+        dica: `No laço: nome, pontos, mana = linha.split(); magos.append((nome, int(pontos), int(mana))). Depois: ordem = sorted(magos, key=lambda m: (-m[1], m[2], m[0])); for posicao, mago in enumerate(ordem, start=1): print(f"{posicao}º {mago[0]}: {mago[1]} pontos (mana {mago[2]})")`,
+        solucao: `magos = []
+while True:
+    linha = input("Mago (nome pontos mana) ou fim: ")
+    if linha == "fim":
+        break
+    nome, pontos, mana = linha.split()
+    magos.append((nome, int(pontos), int(mana)))
+ordem = sorted(magos, key=lambda m: (-m[1], m[2], m[0]))
+for posicao, mago in enumerate(ordem, start=1):
+    print(f"{posicao}º {mago[0]}: {mago[1]} pontos (mana {mago[2]})")`,
+        casos: [
+          { entradas: ["Rui 80 20", "Lia 90 30", "Bia 90 10", "Ana 80 20", "fim"], saida: ["1º Bia: 90 pontos (mana 10)", "2º Lia: 90 pontos (mana 30)", "3º Ana: 80 pontos (mana 20)", "4º Rui: 80 pontos (mana 20)"] },
+          { entradas: ["Zé 5 5", "fim"], saida: ["1º Zé: 5 pontos (mana 5)"] },
+        ],
+        usar: [{ re: /key\s*=\s*lambda[^\n]*\(/, msg: "Ordene com key=lambda devolvendo uma tupla." }],
+      },
+      {
+        id: "12-10", titulo: "O poço sem fundo",
+        historia: "O poço dos desejos dá moedas para sempre: 1, 2, 4, 8... Um gerador pode ser infinito, porque só calcula o próximo valor quando alguém pede com next().",
+        licao: `<p>Um gerador com <code>while True:</code> e <code>yield</code> nunca acaba, mas não trava: ele pausa a cada <code>yield</code> e espera o próximo pedido.</p>
+<p><code>next(gerador)</code> pede o próximo valor.</p>`,
+        exemplo: `def contador():
+    n = 0
+    while True:
+        yield n
+        n += 1
+
+g = contador()
+print(next(g), next(g), next(g))`,
+        tarefa: `Complete <code>moedas()</code>: ele gera 1, 2, 4, 8... para sempre. O programa pede moedas até alcançar a meta e mostra <b>Pegou 4 (total 7)</b> a cada pedido e <b>Meta batida em 3 pedidos</b>.`,
+        requisitos: ["while True com yield", "Dobrar o valor a cada vez", "Meta 10 precisa de 4 pedidos"],
+        inicial: `def moedas():
+    yield 1
+
+meta = int(input("Meta de moedas: "))
+total = 0
+pedidos = 0
+poco = moedas()
+while total < meta:
+    valor = next(poco)
+    total += valor
+    pedidos += 1
+    print(f"Pegou {valor} (total {total})")
+print(f"Meta batida em {pedidos} pedidos")
+`,
+        dica: `def moedas(): valor = 1; while True: yield valor; valor *= 2`,
+        solucao: `def moedas():
+    valor = 1
+    while True:
+        yield valor
+        valor *= 2
+
+meta = int(input("Meta de moedas: "))
+total = 0
+pedidos = 0
+poco = moedas()
+while total < meta:
+    valor = next(poco)
+    total += valor
+    pedidos += 1
+    print(f"Pegou {valor} (total {total})")
+print(f"Meta batida em {pedidos} pedidos")`,
+        casos: [
+          { entradas: ["7"], saida: ["Pegou 1 (total 1)", "Pegou 2 (total 3)", "Pegou 4 (total 7)", "Meta batida em 3 pedidos"] },
+          { entradas: ["10"], saida: ["Pegou 1 (total 1)", "Pegou 2 (total 3)", "Pegou 4 (total 7)", "Pegou 8 (total 15)", "Meta batida em 4 pedidos"] },
+          { entradas: ["2"], saida: ["Pegou 1 (total 1)", "Pegou 2 (total 3)", "Meta batida em 2 pedidos"] },
+        ],
+        teste: `__g = moedas()
+assert [next(__g) for _ in range(5)] == [1, 2, 4, 8, 16], "Os cinco primeiros deveriam ser 1, 2, 4, 8 e 16."`,
+        usar: [{ re: /\byield\b/, msg: "Gere os valores com yield." }, { re: /while\s+True/, msg: "Use while True para gerar para sempre." }],
+      },
+      {
+        id: "12-11", titulo: "O contador de feitiços",
+        historia: "O arquimago quer saber quantas vezes cada feitiço foi lançado. Um decorador pode guardar um contador na própria função embrulhada.",
+        licao: `<p>Funções também são objetos e podem ter atributos: <code>embrulho.vezes = 0</code>. Dentro do embrulho, some <code>embrulho.vezes += 1</code> a cada chamada e chame a função original.</p>
+<p>O <code>*args</code> deixa o embrulho repassar quaisquer argumentos.</p>`,
+        exemplo: `def f():
+    f.chamadas += 1
+
+f.chamadas = 0
+f()
+f()
+print(f.chamadas)`,
+        tarefa: `Complete o decorador <code>contar</code>: o embrulho soma 1 em <code>embrulho.vezes</code> e devolve o resultado da função original. O programa lança os feitiços e mostra <b>Bola de fogo: 2</b> e <b>Cura: 1</b>.`,
+        requisitos: ["Criar embrulho.vezes = 0", "Somar 1 a cada chamada", "Devolver o resultado da função"],
+        inicial: `def contar(funcao):
+    def embrulho(*args):
+        return funcao(*args)
+    return embrulho
+
+@contar
+def bola_de_fogo(alvo):
+    return f"Bola de fogo em {alvo}!"
+
+@contar
+def cura(alvo):
+    return f"{alvo} foi curado"
+
+print(bola_de_fogo("goblin"))
+print(cura("Ana"))
+print(bola_de_fogo("orc"))
+print(f"Bola de fogo: {bola_de_fogo.vezes}")
+print(f"Cura: {cura.vezes}")
+`,
+        dica: `No embrulho, antes do return: embrulho.vezes += 1. Depois do def embrulho (antes do return embrulho): embrulho.vezes = 0`,
+        solucao: `def contar(funcao):
+    def embrulho(*args):
+        embrulho.vezes += 1
+        return funcao(*args)
+    embrulho.vezes = 0
+    return embrulho
+
+@contar
+def bola_de_fogo(alvo):
+    return f"Bola de fogo em {alvo}!"
+
+@contar
+def cura(alvo):
+    return f"{alvo} foi curado"
+
+print(bola_de_fogo("goblin"))
+print(cura("Ana"))
+print(bola_de_fogo("orc"))
+print(f"Bola de fogo: {bola_de_fogo.vezes}")
+print(f"Cura: {cura.vezes}")`,
+        casos: [{ saida: ["Bola de fogo em goblin!", "Ana foi curado", "Bola de fogo em orc!", "Bola de fogo: 2", "Cura: 1"] }],
+        teste: `@contar
+def __raio():
+    return 1
+
+__raio()
+__raio()
+__raio()
+assert __raio.vezes == 3, "Um feitiço lançado 3 vezes deveria contar 3."`,
+        usar: [{ re: /embrulho\.vezes\s*\+=\s*1/, msg: "Conte com embrulho.vezes += 1." }],
+      },
+      {
+        id: "12-12", titulo: "O conselho dos magos",
+        historia: "O conselho só aprova um feitiço se todos os magos tiverem mana suficiente, e chama o curandeiro se algum estiver ferido. any e all respondem essas perguntas numa linha.",
+        licao: `<ul><li><code>all(condição for x in lista)</code>: <code>True</code> se a condição valer para todos</li><li><code>any(condição for x in lista)</code>: <code>True</code> se valer para pelo menos um</li></ul>
+<p>Os dois param de olhar assim que já sabem a resposta.</p>`,
+        exemplo: `notas = [7, 9, 4]
+print(all(n >= 5 for n in notas))
+print(any(n == 9 for n in notas))`,
+        tarefa: `Leia mana e vida de cada mago (<b>mana vida</b>) até <b>fim</b>. Mostre <b>Feitiço aprovado</b> se todos tiverem mana de 20 ou mais (senão <b>Feitiço negado</b>) e <b>Chamar curandeiro</b> se algum tiver vida abaixo de 30 (senão <b>Todos bem</b>).`,
+        requisitos: ["Usar all para a mana", "Usar any para a vida", "Sem magos: aprovado e todos bem"],
+        inicial: `magos = []
+while True:
+    linha = input("Mago (mana vida) ou fim: ")
+    if linha == "fim":
+        break
+
+`,
+        dica: `No laço: mana, vida = linha.split(); magos.append((int(mana), int(vida))). Depois: if all(m >= 20 for m, v in magos) ... e if any(v < 30 for m, v in magos) ...`,
+        solucao: `magos = []
+while True:
+    linha = input("Mago (mana vida) ou fim: ")
+    if linha == "fim":
+        break
+    mana, vida = linha.split()
+    magos.append((int(mana), int(vida)))
+if all(m >= 20 for m, v in magos):
+    print("Feitiço aprovado")
+else:
+    print("Feitiço negado")
+if any(v < 30 for m, v in magos):
+    print("Chamar curandeiro")
+else:
+    print("Todos bem")`,
+        casos: [
+          { entradas: ["30 50", "25 20", "fim"], saida: ["Feitiço aprovado", "Chamar curandeiro"] },
+          { entradas: ["30 50", "10 90", "fim"], saida: ["Feitiço negado", "Todos bem"] },
+          { entradas: ["fim"], saida: ["Feitiço aprovado", "Todos bem"] },
+        ],
+        usar: [{ re: /\ball\s*\(/, msg: "Confira a mana de todos com all." }, { re: /\bany\s*\(/, msg: "Confira se algum está ferido com any." }],
+      },
+      {
         id: "12-8", titulo: "O Ilusionista", chefe: true, inimigo: inimigo("ilusionista", "Ilusionista"),
         historia: "O Ilusionista encadeia truques um atrás do outro, tão rápido que ninguém acompanha. Para vencê-lo, crie uma função que junta qualquer quantidade de funções numa só! Este é o chefe da cidade!",
         licao: `<p>Junte tudo: <code>*funcoes</code> recebe várias funções; a função de dentro aplica uma de cada vez, passando o resultado adiante, e a de fora a devolve.</p>
@@ -4142,6 +5868,148 @@ print(placas)
 print(len(placas))`,
         casos: [{ saida: ["['ABC1D23', 'XYZ-1234']", "2"] }],
         usar: [{ re: /-\?/, msg: "Deixe o tracinho opcional com -?." }],
+      },
+      {
+        id: "13-9", titulo: "Telefones na rocha",
+        historia: "Os mineiros deixam recados com telefone no meio do texto, como (46) 99988-1234. Parênteses são especiais no molde, então precisam de uma barra antes.",
+        licao: `<ul><li><code>\\(</code> e <code>\\)</code> são parênteses de verdade (sem a barra, eles viram grupo)</li><li><code>\\d{4,5}</code> são de 4 a 5 dígitos seguidos</li></ul>`,
+        exemplo: `import re
+print(re.findall(r"\\d{2,3}", "1 22 333"))
+print(re.findall(r"\\(\\w+\\)", "o (rubi) e a (safira)"))`,
+        tarefa: `Leia um recado e mostre cada telefone encontrado, um por linha, e depois <b>Telefones: N</b>. O formato é <b>(DD)</b>, espaço, 4 ou 5 dígitos, tracinho e 4 dígitos.`,
+        requisitos: ["Parênteses com barra no molde", "Usar \\d{4,5}", "(46)99988-1234 sem espaço não vale"],
+        inicial: `import re
+
+recado = input("Recado: ")
+
+`,
+        dica: `telefones = re.findall(r"\\(\\d{2}\\) \\d{4,5}-\\d{4}", recado); for t in telefones: print(t); print(f"Telefones: {len(telefones)}")`,
+        solucao: `import re
+
+recado = input("Recado: ")
+telefones = re.findall(r"\\(\\d{2}\\) \\d{4,5}-\\d{4}", recado)
+for telefone in telefones:
+    print(telefone)
+print(f"Telefones: {len(telefones)}")`,
+        casos: [
+          { entradas: ["ligue (46) 99988-1234 ou (11) 3333-4444"], saida: ["(46) 99988-1234", "(11) 3333-4444", "Telefones: 2"] },
+          { entradas: ["sem número hoje"], saida: ["Telefones: 0"] },
+          { entradas: ["(46)99988-1234 errado e (21) 98765-4321 certo"], saida: ["(21) 98765-4321", "Telefones: 1"] },
+        ],
+        usar: [{ re: /\\\(/, msg: "Escreva o parêntese de verdade com barra: \\(." }, { re: /\{4,5\}/, msg: "Aceite 4 ou 5 dígitos com {4,5}." }],
+      },
+      {
+        id: "13-10", titulo: "O relógio do turno",
+        historia: "O turno da mina é anotado em horários HH:MM. Mas tem gente que escreve 25:00 ou 7:5. Com a alternativa | no molde, dá para aceitar só as horas de 00 a 23.",
+        licao: `<p>A barra em pé <code>|</code> quer dizer "ou": <code>(gato|rato)</code> aceita gato ou rato.</p>
+<p>Para as horas: <code>([01]\\d|2[0-3])</code> aceita de 00 a 19 ou de 20 a 23. Os minutos vão de 00 a 59: <code>[0-5]\\d</code>.</p>`,
+        exemplo: `import re
+print(bool(re.match(r"^(sim|não)$", "não")))
+print(bool(re.match(r"^(sim|não)$", "talvez")))`,
+        tarefa: `Leia horários até <b>fim</b>. Para cada um, mostre <b>07:30 ok</b> ou <b>25:00 inválido</b>. No fim, <b>Válidos: N</b>.`,
+        requisitos: ["Usar | no molde", "^ e $ para o texto inteiro", "7:5 e 24:00 são inválidos"],
+        inicial: `import re
+
+validos = 0
+while True:
+    hora = input("Horário (ou fim): ")
+    if hora == "fim":
+        break
+
+`,
+        dica: `if re.match(r"^([01]\\d|2[0-3]):[0-5]\\d$", hora): print(f"{hora} ok"); validos += 1 else: print(f"{hora} inválido"). Depois do laço: print(f"Válidos: {validos}")`,
+        solucao: `import re
+
+validos = 0
+while True:
+    hora = input("Horário (ou fim): ")
+    if hora == "fim":
+        break
+    if re.match(r"^([01]\\d|2[0-3]):[0-5]\\d$", hora):
+        print(f"{hora} ok")
+        validos += 1
+    else:
+        print(f"{hora} inválido")
+print(f"Válidos: {validos}")`,
+        casos: [
+          { entradas: ["07:30", "25:00", "23:59", "7:5", "00:00", "fim"], saida: ["07:30 ok", "25:00 inválido", "23:59 ok", "7:5 inválido", "00:00 ok", "Válidos: 3"] },
+          { entradas: ["24:00", "19:60", "fim"], saida: ["24:00 inválido", "19:60 inválido", "Válidos: 0"] },
+        ],
+        usar: [{ re: /\|/, msg: "Use | para aceitar 00 a 19 ou 20 a 23." }],
+      },
+      {
+        id: "13-11", titulo: "O cofre da mina",
+        historia: "Para trancar o cofre, a senha precisa ter pelo menos 8 caracteres, uma letra maiúscula, uma minúscula e um número. Cada regra vira um re.search.",
+        licao: `<p>Faça uma busca por regra: <code>re.search(r"[A-Z]", senha)</code> acha uma maiúscula, <code>[a-z]</code> uma minúscula e <code>\\d</code> um número. Se não achar, devolve <code>None</code>.</p>
+<p>Guarde os problemas numa lista para mostrar todos de uma vez.</p>`,
+        exemplo: `import re
+print(bool(re.search(r"[A-Z]", "abcD")))
+print(bool(re.search(r"\\d", "sem número")))`,
+        tarefa: `Leia a senha. Se estiver tudo certo, mostre <b>Senha forte</b>. Senão, mostre cada problema nesta ordem: <b>Falta: 8 caracteres</b>, <b>Falta: maiúscula</b>, <b>Falta: minúscula</b>, <b>Falta: número</b>.`,
+        requisitos: ["Um re.search para cada tipo", "Juntar os problemas numa lista", "Mina2026x é forte"],
+        inicial: `import re
+
+senha = input("Senha: ")
+problemas = []
+
+`,
+        dica: `if len(senha) < 8: problemas.append("8 caracteres"); if not re.search(r"[A-Z]", senha): problemas.append("maiúscula") ... Depois: if problemas: for p in problemas: print(f"Falta: {p}") else: print("Senha forte")`,
+        solucao: `import re
+
+senha = input("Senha: ")
+problemas = []
+if len(senha) < 8:
+    problemas.append("8 caracteres")
+if not re.search(r"[A-Z]", senha):
+    problemas.append("maiúscula")
+if not re.search(r"[a-z]", senha):
+    problemas.append("minúscula")
+if not re.search(r"\\d", senha):
+    problemas.append("número")
+if problemas:
+    for problema in problemas:
+        print(f"Falta: {problema}")
+else:
+    print("Senha forte")`,
+        casos: [
+          { entradas: ["Mina2026x"], saida: ["Senha forte"] },
+          { entradas: ["abc"], saida: ["Falta: 8 caracteres", "Falta: maiúscula", "Falta: número"] },
+          { entradas: ["SENHASECRETA1"], saida: ["Falta: minúscula"] },
+          { entradas: ["Curtinha"], saida: ["Falta: número"] },
+        ],
+        usar: [{ re: /re\.search\s*\(/, msg: "Confira cada regra com re.search." }],
+      },
+      {
+        id: "13-12", titulo: "As hashtags do mural",
+        historia: "No mural da taverna da mina, os mineiros marcam os assuntos com hashtags, como #ouro. Vamos achar todas e ver quais se repetem.",
+        licao: `<p><code>#\\w+</code> acha um # seguido de letras, números ou _. Com <code>re.findall</code> vem a lista de todas.</p>
+<p>Para não ligar para maiúsculas, passe tudo para minúsculas; um <code>set</code> tira as repetidas.</p>`,
+        exemplo: `import re
+print(re.findall(r"@\\w+", "oi @ana e @bia"))`,
+        tarefa: `Leia o recado do mural. Mostre as hashtags em minúsculas, sem repetir e em ordem alfabética, separadas por espaço, e depois <b>Total: 3, diferentes: 2</b>. Sem hashtags: <b>Nenhuma hashtag</b>.`,
+        requisitos: ["findall com #\\w+", "Minúsculas e set para não repetir", "Nenhuma hashtag quando não houver"],
+        inicial: `import re
+
+recado = input("Mural: ")
+
+`,
+        dica: `tags = [t.lower() for t in re.findall(r"#\\w+", recado)]; unicas = sorted(set(tags)); se não houver tags: "Nenhuma hashtag"; senão print(" ".join(unicas)) e print(f"Total: {len(tags)}, diferentes: {len(unicas)}")`,
+        solucao: `import re
+
+recado = input("Mural: ")
+tags = [t.lower() for t in re.findall(r"#\\w+", recado)]
+unicas = sorted(set(tags))
+if not tags:
+    print("Nenhuma hashtag")
+else:
+    print(" ".join(unicas))
+    print(f"Total: {len(tags)}, diferentes: {len(unicas)}")`,
+        casos: [
+          { entradas: ["Hoje #ouro na #Galeria3 e mais #OURO!"], saida: ["#galeria3 #ouro", "Total: 3, diferentes: 2"] },
+          { entradas: ["nada de novo"], saida: ["Nenhuma hashtag"] },
+          { entradas: ["#a #b #a"], saida: ["#a #b", "Total: 3, diferentes: 2"] },
+        ],
+        usar: [{ re: /re\.findall\s*\(/, msg: "Ache as hashtags com re.findall." }, { re: /set\s*\(/, msg: "Tire as repetidas com set." }],
       },
       {
         id: "13-8", titulo: "O Golem de Cristal", chefe: true, inimigo: inimigo("cristal", "Golem de Cristal"),
@@ -4454,6 +6322,180 @@ assert dias_no_mes(2000, 2) == 29, "2000 é bissexto: fevereiro deveria ter 29 d
         usar: [{ re: /\.days\b/, msg: "Use a diferença entre datas e o .days." }, { re: /31\s*,\s*28|28\s*,\s*31/, nao: true, msg: "Calcule com datas, sem lista pronta de tamanhos." }],
       },
       {
+        id: "15-9", titulo: "O ponto do relojoeiro",
+        historia: "Cada relojoeiro bate o ponto na entrada e na saída. A diferença entre dois horários é uma duração, e o total_seconds() diz quantos segundos ela tem.",
+        licao: `<p><code>(saida - entrada).total_seconds()</code> devolve a duração em segundos. Divida por 60 (com <code>//</code>) para ter os minutos.</p>
+<p><code>divmod(125, 60)</code> devolve <code>(2, 5)</code>: 2 horas e 5 minutos. Para os minutos com 2 números: <code>f"{resto:02d}"</code>.</p>`,
+        exemplo: `import datetime
+a = datetime.datetime(2026, 3, 10, 8, 0)
+b = datetime.datetime(2026, 3, 10, 9, 30)
+print((b - a).total_seconds())
+print(divmod(90, 60))`,
+        tarefa: `Leia a hora de entrada e a de saída (<b>HH:MM</b>, no mesmo dia). Mostre <b>Trabalhou 8h05</b> e, se passar de 8 horas, <b>Hora extra: 5 min</b>.`,
+        requisitos: ["Usar total_seconds()", "Separar horas e minutos com divmod", "Minutos com 2 números"],
+        inicial: `import datetime
+
+def horario(texto):
+    hora, minuto = texto.split(":")
+    return datetime.datetime(2026, 3, 10, int(hora), int(minuto))
+
+entrada = horario(input("Entrada (HH:MM): "))
+saida = horario(input("Saída (HH:MM): "))
+
+`,
+        dica: `minutos = int((saida - entrada).total_seconds() // 60); horas, resto = divmod(minutos, 60); print(f"Trabalhou {horas}h{resto:02d}"); if minutos > 8 * 60: print(f"Hora extra: {minutos - 8 * 60} min")`,
+        solucao: `import datetime
+
+def horario(texto):
+    hora, minuto = texto.split(":")
+    return datetime.datetime(2026, 3, 10, int(hora), int(minuto))
+
+entrada = horario(input("Entrada (HH:MM): "))
+saida = horario(input("Saída (HH:MM): "))
+minutos = int((saida - entrada).total_seconds() // 60)
+horas, resto = divmod(minutos, 60)
+print(f"Trabalhou {horas}h{resto:02d}")
+if minutos > 8 * 60:
+    print(f"Hora extra: {minutos - 8 * 60} min")`,
+        casos: [
+          { entradas: ["08:00", "16:05"], saida: ["Trabalhou 8h05", "Hora extra: 5 min"] },
+          { entradas: ["09:30", "12:00"], saida: ["Trabalhou 2h30"] },
+          { entradas: ["07:00", "15:00"], saida: ["Trabalhou 8h00"] },
+        ],
+        usar: [{ re: /total_seconds\s*\(/, msg: "Pegue a duração com total_seconds()." }, { re: /divmod\s*\(/, msg: "Separe horas e minutos com divmod." }],
+      },
+      {
+        id: "15-10", titulo: "A feira de sexta",
+        historia: "A feira dos relojoeiros acontece toda sexta-feira. A partir de uma data, a Dona Ampulheta anda um dia de cada vez até cair numa sexta.",
+        licao: `<p>Um laço <code>while data.weekday() != 4:</code> soma um dia por vez com <code>data += datetime.timedelta(days=1)</code>. A sexta-feira é o 4 (segunda é 0).</p>`,
+        exemplo: `import datetime
+d = datetime.date(2026, 3, 10)
+d += datetime.timedelta(days=1)
+print(d, d.weekday())`,
+        tarefa: `Leia uma data <b>dd/mm/aaaa</b>. Mostre a próxima sexta-feira a partir dela (se ela já for sexta, é ela mesma): <b>Próxima feira: 13/03/2026</b> e <b>Faltam 3 dias</b>.`,
+        requisitos: ["while com weekday() != 4", "Andar com timedelta(days=1)", "Se já for sexta, faltam 0 dias"],
+        inicial: `import datetime
+
+texto = input("Data (dd/mm/aaaa): ")
+dia, mes, ano = texto.split("/")
+data = datetime.date(int(ano), int(mes), int(dia))
+inicio = data
+
+`,
+        dica: `while data.weekday() != 4: data += datetime.timedelta(days=1). Depois: print("Próxima feira: " + data.strftime("%d/%m/%Y")) e print(f"Faltam {(data - inicio).days} dias")`,
+        solucao: `import datetime
+
+texto = input("Data (dd/mm/aaaa): ")
+dia, mes, ano = texto.split("/")
+data = datetime.date(int(ano), int(mes), int(dia))
+inicio = data
+while data.weekday() != 4:
+    data += datetime.timedelta(days=1)
+print("Próxima feira: " + data.strftime("%d/%m/%Y"))
+print(f"Faltam {(data - inicio).days} dias")`,
+        casos: [
+          { entradas: ["10/03/2026"], saida: ["Próxima feira: 13/03/2026", "Faltam 3 dias"] },
+          { entradas: ["13/03/2026"], saida: ["Próxima feira: 13/03/2026", "Faltam 0 dias"] },
+          { entradas: ["14/03/2026"], saida: ["Próxima feira: 20/03/2026", "Faltam 6 dias"] },
+          { entradas: ["28/12/2026"], saida: ["Próxima feira: 01/01/2027", "Faltam 4 dias"] },
+        ],
+        usar: [{ re: /weekday\s*\(\s*\)\s*!=\s*4/, msg: "Ande enquanto weekday() != 4." }],
+      },
+      {
+        id: "15-11", titulo: "Semanas e dias",
+        historia: "O prazo de entrega dos relógios de torre é longo, e a Dona Ampulheta prefere falar em semanas: 23 dias são 3 semanas e 2 dias.",
+        licao: `<p><code>divmod(dias, 7)</code> devolve as semanas e os dias que sobram de uma vez: <code>divmod(23, 7)</code> é <code>(3, 2)</code>.</p>
+<p>A função <code>contar</code> do código já cuida do singular: 1 semana, 2 semanas.</p>`,
+        exemplo: `print(divmod(23, 7))
+print(divmod(14, 7))`,
+        tarefa: `Hoje é <b>10/03/2026</b>. Leia a data de entrega e mostre <b>Faltam 3 semanas e 2 dias</b>, <b>Faltam 1 semana</b> ou <b>Faltam 3 dias</b> (sem a parte que for zero). Se for hoje ou já passou: <b>Prazo vencido</b>.`,
+        requisitos: ["Separar com divmod(dias, 7)", "Sem a parte que for zero", "Usar a função contar para o singular"],
+        inicial: `import datetime
+
+def contar(n, singular, plural):
+    if n == 1:
+        return f"1 {singular}"
+    return f"{n} {plural}"
+
+hoje = datetime.date(2026, 3, 10)
+texto = input("Entrega (dd/mm/aaaa): ")
+dia, mes, ano = texto.split("/")
+dias = (datetime.date(int(ano), int(mes), int(dia)) - hoje).days
+
+`,
+        dica: `if dias <= 0: Prazo vencido. Senão: semanas, resto = divmod(dias, 7); partes = []; if semanas: partes.append(contar(semanas, "semana", "semanas")); if resto: partes.append(contar(resto, "dia", "dias")); print("Faltam " + " e ".join(partes))`,
+        solucao: `import datetime
+
+def contar(n, singular, plural):
+    if n == 1:
+        return f"1 {singular}"
+    return f"{n} {plural}"
+
+hoje = datetime.date(2026, 3, 10)
+texto = input("Entrega (dd/mm/aaaa): ")
+dia, mes, ano = texto.split("/")
+dias = (datetime.date(int(ano), int(mes), int(dia)) - hoje).days
+if dias <= 0:
+    print("Prazo vencido")
+else:
+    semanas, resto = divmod(dias, 7)
+    partes = []
+    if semanas:
+        partes.append(contar(semanas, "semana", "semanas"))
+    if resto:
+        partes.append(contar(resto, "dia", "dias"))
+    print("Faltam " + " e ".join(partes))`,
+        casos: [
+          { entradas: ["02/04/2026"], saida: ["Faltam 3 semanas e 2 dias"] },
+          { entradas: ["17/03/2026"], saida: ["Faltam 1 semana"] },
+          { entradas: ["18/03/2026"], saida: ["Faltam 1 semana e 1 dia"] },
+          { entradas: ["13/03/2026"], saida: ["Faltam 3 dias"] },
+          { entradas: ["10/03/2026"], saida: ["Prazo vencido"] },
+        ],
+        usar: [{ re: /divmod\s*\(/, msg: "Separe semanas e dias com divmod(dias, 7)." }],
+      },
+      {
+        id: "15-12", titulo: "Só dias úteis",
+        historia: "A relojoaria não abre sábado nem domingo. Para prometer uma entrega, a Dona Ampulheta conta só os dias úteis entre hoje e a data combinada.",
+        licao: `<p>Ande dia por dia com um <code>while</code> e só conte quando <code>data.weekday() &lt; 5</code>, ou seja, de segunda (0) a sexta (4).</p>`,
+        exemplo: `import datetime
+d = datetime.date(2026, 3, 14)
+print(d.weekday(), d.weekday() < 5)`,
+        tarefa: `Hoje é <b>10/03/2026</b> (terça). Leia a data de entrega e mostre <b>Dias úteis até lá: N</b>, contando de amanhã até a entrega (ela inclusive). Hoje ou data passada: <b>Dias úteis até lá: 0</b>.`,
+        requisitos: ["Andar um dia por vez", "Contar só weekday() < 5", "Até 16/03/2026 são 4 dias úteis"],
+        inicial: `import datetime
+
+hoje = datetime.date(2026, 3, 10)
+texto = input("Entrega (dd/mm/aaaa): ")
+dia, mes, ano = texto.split("/")
+entrega = datetime.date(int(ano), int(mes), int(dia))
+uteis = 0
+data = hoje
+
+`,
+        dica: `while data < entrega: data += datetime.timedelta(days=1); if data.weekday() < 5: uteis += 1. Depois: print(f"Dias úteis até lá: {uteis}")`,
+        solucao: `import datetime
+
+hoje = datetime.date(2026, 3, 10)
+texto = input("Entrega (dd/mm/aaaa): ")
+dia, mes, ano = texto.split("/")
+entrega = datetime.date(int(ano), int(mes), int(dia))
+uteis = 0
+data = hoje
+while data < entrega:
+    data += datetime.timedelta(days=1)
+    if data.weekday() < 5:
+        uteis += 1
+print(f"Dias úteis até lá: {uteis}")`,
+        casos: [
+          { entradas: ["13/03/2026"], saida: ["Dias úteis até lá: 3"] },
+          { entradas: ["16/03/2026"], saida: ["Dias úteis até lá: 4"] },
+          { entradas: ["24/03/2026"], saida: ["Dias úteis até lá: 10"] },
+          { entradas: ["10/03/2026"], saida: ["Dias úteis até lá: 0"] },
+        ],
+        usar: [{ re: /weekday\s*\(\s*\)\s*<\s*5/, msg: "Conte só os dias com weekday() < 5." }],
+      },
+      {
         id: "15-8", titulo: "O Cuco Maluco", chefe: true, inimigo: inimigo("cuco", "Cuco Maluco"),
         historia: "O Cuco Maluco embaralhou a agenda da relojoaria! Para passar por ele, ponha as entregas em ordem e diga quais estão atrasadas. Este é o chefe da relojoaria!",
         licao: `<p>Datas vão numa lista e se ordenam com <code>sorted</code>, como números. Guardando tuplas <code>(data, nome)</code>, a ordem é pela data.</p>
@@ -4763,6 +6805,154 @@ print(f"Total: {total} pódios")`,
           { entradas: ["Solo"], saida: ["Total: 0 pódios"] },
         ],
         usar: [{ re: /permutations\s*\(/, msg: "Gere as ordens com permutations." }],
+      },
+      {
+        id: "16-9", titulo: "O painel das últimas vendas",
+        historia: "O painel do mercado mostra só as 3 últimas vendas. Uma deque com maxlen joga fora a mais antiga sozinha quando chega uma nova.",
+        licao: `<p><code>deque(maxlen=3)</code> guarda no máximo 3 itens: com ela cheia, um <code>append</code> faz o mais antigo sair do outro lado.</p>`,
+        exemplo: `from collections import deque
+d = deque(maxlen=2)
+for x in [1, 2, 3]:
+    d.append(x)
+print(list(d))`,
+        tarefa: `A cada venda lida (até <b>fim</b>), o programa mostra o painel. Faça o painel guardar só as 3 últimas: <b>Painel: mapa, corda, espada</b>.`,
+        requisitos: ["Criar a deque com maxlen=3", "Da mais antiga para a mais nova", "Com 4 vendas, a primeira some"],
+        inicial: `from collections import deque
+
+painel = deque()
+while True:
+    venda = input("Venda (ou fim): ")
+    if venda == "fim":
+        break
+    painel.append(venda)
+    print("Painel: " + ", ".join(painel))
+`,
+        dica: `Troque a criação por painel = deque(maxlen=3)`,
+        solucao: `from collections import deque
+
+painel = deque(maxlen=3)
+while True:
+    venda = input("Venda (ou fim): ")
+    if venda == "fim":
+        break
+    painel.append(venda)
+    print("Painel: " + ", ".join(painel))`,
+        casos: [
+          { entradas: ["poção", "mapa", "corda", "espada", "fim"], saida: ["Painel: poção", "Painel: poção, mapa", "Painel: poção, mapa, corda", "Painel: mapa, corda, espada"] },
+          { entradas: ["a", "b", "c", "d", "e", "fim"], saida: ["Painel: a", "Painel: a, b", "Painel: a, b, c", "Painel: b, c, d", "Painel: c, d, e"] },
+        ],
+        usar: [{ re: /maxlen\s*=\s*3/, msg: "Limite o painel com deque(maxlen=3)." }],
+      },
+      {
+        id: "16-10", titulo: "Vendas por categoria",
+        historia: "Seu Ábaco quer saber quanto vendeu em cada categoria: armas, poções e mapas. Com defaultdict(int), toda categoria nova começa em 0, pronta para somar.",
+        licao: `<p><code>defaultdict(int)</code> cria 0 para qualquer chave nova, então <code>totais[categoria] += valor</code> nunca dá erro.</p>
+<p>O <code>categoria.get(item, "outros")</code> põe em "outros" o que não estiver no catálogo.</p>`,
+        exemplo: `from collections import defaultdict
+pontos = defaultdict(int)
+pontos["Ana"] += 5
+pontos["Ana"] += 2
+print(dict(pontos))`,
+        tarefa: `Leia vendas no formato <b>item preço</b> até <b>fim</b> e some por categoria. Mostre as categorias em ordem alfabética: <b>armas: 45 moedas</b>. Item fora do catálogo vai para <b>outros</b>. Sem vendas: <b>Nenhuma venda</b>.`,
+        requisitos: ["Somar com defaultdict(int)", "Categoria com .get(item, \"outros\")", "Nenhuma venda quando vazio"],
+        inicial: `from collections import defaultdict
+
+categoria = {"espada": "armas", "escudo": "armas", "poção": "poções", "mapa": "mapas"}
+totais = defaultdict(int)
+while True:
+    linha = input("Venda (item preço) ou fim: ")
+    if linha == "fim":
+        break
+
+`,
+        dica: `item, preco = linha.split(); totais[categoria.get(item, "outros")] += int(preco). Depois: if not totais: "Nenhuma venda"; for c in sorted(totais): print(f"{c}: {totais[c]} moedas")`,
+        solucao: `from collections import defaultdict
+
+categoria = {"espada": "armas", "escudo": "armas", "poção": "poções", "mapa": "mapas"}
+totais = defaultdict(int)
+while True:
+    linha = input("Venda (item preço) ou fim: ")
+    if linha == "fim":
+        break
+    item, preco = linha.split()
+    totais[categoria.get(item, "outros")] += int(preco)
+if not totais:
+    print("Nenhuma venda")
+for nome in sorted(totais):
+    print(f"{nome}: {totais[nome]} moedas")`,
+        casos: [
+          { entradas: ["espada 30", "poção 5", "escudo 15", "poção 5", "pena 2", "fim"], saida: ["armas: 45 moedas", "outros: 2 moedas", "poções: 10 moedas"] },
+          { entradas: ["fim"], saida: ["Nenhuma venda"] },
+          { entradas: ["mapa 12", "fim"], saida: ["mapas: 12 moedas"] },
+        ],
+        usar: [{ re: /defaultdict\s*\(\s*int\s*\)/, msg: "Some com defaultdict(int)." }],
+      },
+      {
+        id: "16-11", titulo: "O cadeado do cofre",
+        historia: "O cadeado do cofre tem rodinhas, cada uma com as mesmas letras. O product, do itertools, gera todas as combinações possíveis, como quem gira as rodinhas uma por uma.",
+        licao: `<p><code>product("ABC", repeat=3)</code> gera todas as sequências de 3 letras usando A, B e C, com repetição: AAA, AAB, AAC, ABA...</p>
+<p><code>"".join(t)</code> transforma a tupla <code>("A", "B", "A")</code> no texto <code>"ABA"</code>. E <code>len(set(c)) == len(c)</code> diz se não há letra repetida.</p>`,
+        exemplo: `from itertools import product
+print(["".join(t) for t in product("01", repeat=2)])`,
+        tarefa: `Leia as letras e o número de rodinhas. Mostre <b>Combinações: 27</b>, <b>Sem letra repetida: 6</b> e depois as combinações sem letra repetida, uma por linha, na ordem do product.`,
+        requisitos: ["Usar product(letras, repeat=rodinhas)", "Juntar com \"\".join", "Filtrar as sem repetição"],
+        inicial: `from itertools import product
+
+letras = input("Letras: ")
+rodinhas = int(input("Rodinhas: "))
+
+`,
+        dica: `todas = ["".join(t) for t in product(letras, repeat=rodinhas)]; sem = [c for c in todas if len(set(c)) == len(c)]; os dois prints e for c in sem: print(c)`,
+        solucao: `from itertools import product
+
+letras = input("Letras: ")
+rodinhas = int(input("Rodinhas: "))
+todas = ["".join(t) for t in product(letras, repeat=rodinhas)]
+sem_repetir = [c for c in todas if len(set(c)) == len(c)]
+print(f"Combinações: {len(todas)}")
+print(f"Sem letra repetida: {len(sem_repetir)}")
+for combinacao in sem_repetir:
+    print(combinacao)`,
+        casos: [
+          { entradas: ["ABC", "3"], saida: ["Combinações: 27", "Sem letra repetida: 6", "ABC", "ACB", "BAC", "BCA", "CAB", "CBA"] },
+          { entradas: ["01", "2"], saida: ["Combinações: 4", "Sem letra repetida: 2", "01", "10"] },
+          { entradas: ["XY", "3"], saida: ["Combinações: 8", "Sem letra repetida: 0"] },
+        ],
+        usar: [{ re: /product\s*\(/, msg: "Gere as combinações com product." }],
+      },
+      {
+        id: "16-12", titulo: "Dá para montar?",
+        historia: "Na banca de letras de madeira, o cliente quer montar uma palavra com as letras que estão à venda. Com Counter, é só tirar as letras da banca das letras da palavra: se não sobrar nada, dá!",
+        licao: `<p><code>Counter(palavra) - Counter(banca)</code> mostra o que a palavra pede e a banca não tem. Se o resultado ficar vazio, dá para montar.</p>
+<p>Percorra <code>sorted(faltam.items())</code> para mostrar cada letra que falta e quantas.</p>`,
+        exemplo: `from collections import Counter
+print(Counter("bola") - Counter("bolo"))
+print(not (Counter("ola") - Counter("bola")))`,
+        tarefa: `Leia as letras da banca (podem vir com espaços) e a palavra. Mostre <b>Dá para montar!</b> ou o que falta, em ordem alfabética: <b>Falta: a x2, n x2</b>.`,
+        requisitos: ["Subtrair dois Counter", "Vazio quer dizer que dá", "Faltas em ordem alfabética"],
+        inicial: `from collections import Counter
+
+banca = input("Letras da banca: ").replace(" ", "")
+palavra = input("Palavra: ")
+
+`,
+        dica: `faltam = Counter(palavra) - Counter(banca); if not faltam: "Dá para montar!" else: print("Falta: " + ", ".join([f"{letra} x{qtd}" for letra, qtd in sorted(faltam.items())]))`,
+        solucao: `from collections import Counter
+
+banca = input("Letras da banca: ").replace(" ", "")
+palavra = input("Palavra: ")
+faltam = Counter(palavra) - Counter(banca)
+if not faltam:
+    print("Dá para montar!")
+else:
+    print("Falta: " + ", ".join([f"{letra} x{qtd}" for letra, qtd in sorted(faltam.items())]))`,
+        casos: [
+          { entradas: ["a b c d e r a", "cabra"], saida: ["Dá para montar!"] },
+          { entradas: ["abc", "banana"], saida: ["Falta: a x2, n x2"] },
+          { entradas: ["xyz", "xyz"], saida: ["Dá para montar!"] },
+          { entradas: ["ooo", "rio"], saida: ["Falta: i x1, r x1"] },
+        ],
+        usar: [{ re: /Counter\s*\([^)]*\)\s*-\s*Counter/, msg: "Subtraia: Counter(palavra) - Counter(banca)." }],
       },
       {
         id: "16-8", titulo: "O Mímico do Balcão", chefe: true, inimigo: inimigo("mimico", "Mímico do Balcão"),
@@ -5161,6 +7351,235 @@ print(armadura.vida)`,
 __a.vida = 42
 assert __a.vida == 42, "Valores entre 0 e 100 deveriam ficar como estão."`,
         usar: [{ re: /@vida\.setter/, msg: "Crie o setter com @vida.setter." }],
+      },
+      {
+        id: "17-9", titulo: "O saco de carvão",
+        historia: "Na forja, um saco de carvão vazio não serve para nada. Com __bool__, o próprio objeto responde se vale verdadeiro ou falso num if.",
+        licao: `<p><code>def __bool__(self):</code> devolve <code>True</code> ou <code>False</code>. Ele é usado em <code>if objeto:</code>, <code>while objeto:</code>, <code>not objeto</code> e <code>bool(objeto)</code>.</p>
+<p>Sem ele, todo objeto vale <code>True</code>.</p>`,
+        exemplo: `class Lampiao:
+    def __init__(self, oleo):
+        self.oleo = oleo
+
+    def __bool__(self):
+        return self.oleo > 0
+
+print(bool(Lampiao(0)), bool(Lampiao(3)))`,
+        tarefa: `Escreva o <code>__bool__</code> do Saco: verdadeiro quando ainda tem carvão. O forno usa o saco (até 10 fornadas) enquanto ele valer verdadeiro.`,
+        requisitos: ["Criar def __bool__(self)", "Verdadeiro quando carvão > 0", "Com 3 de carvão: 3 fornadas e saco vazio"],
+        inicial: `class Saco:
+    def __init__(self, carvao):
+        self.carvao = carvao
+
+    def usar(self):
+        self.carvao -= 1
+
+saco = Saco(int(input("Carvão no saco: ")))
+fornadas = 0
+for _ in range(10):
+    if not saco:
+        break
+    saco.usar()
+    fornadas += 1
+print(f"Fornadas: {fornadas}")
+if saco:
+    print("Ainda tem carvão")
+else:
+    print("Saco vazio")
+`,
+        dica: `def __bool__(self): return self.carvao > 0`,
+        solucao: `class Saco:
+    def __init__(self, carvao):
+        self.carvao = carvao
+
+    def usar(self):
+        self.carvao -= 1
+
+    def __bool__(self):
+        return self.carvao > 0
+
+saco = Saco(int(input("Carvão no saco: ")))
+fornadas = 0
+for _ in range(10):
+    if not saco:
+        break
+    saco.usar()
+    fornadas += 1
+print(f"Fornadas: {fornadas}")
+if saco:
+    print("Ainda tem carvão")
+else:
+    print("Saco vazio")`,
+        casos: [
+          { entradas: ["3"], saida: ["Fornadas: 3", "Saco vazio"] },
+          { entradas: ["0"], saida: ["Fornadas: 0", "Saco vazio"] },
+          { entradas: ["12"], saida: ["Fornadas: 10", "Ainda tem carvão"] },
+        ],
+        teste: `assert not Saco(0) and Saco(1), "Saco(0) deveria valer False e Saco(1) deveria valer True."`,
+        usar: [{ re: /def\s+__bool__\s*\(/, msg: "Crie o método __bool__." }],
+      },
+      {
+        id: "17-10", titulo: "Encantos que se chamam",
+        historia: "Os encantos da forja são objetos que lembram a própria força, mas funcionam como funções: com __call__, dá para chamar o objeto com parênteses, como fogo(10).",
+        licao: `<p><code>def __call__(self, valor):</code> deixa o objeto ser chamado: <code>fogo(10)</code> roda o <code>__call__</code> com valor 10.</p>
+<p>É útil quando a função precisa lembrar de alguma coisa, como o multiplicador de cada encanto.</p>`,
+        exemplo: `class Saudacao:
+    def __init__(self, nome):
+        self.nome = nome
+
+    def __call__(self, outro):
+        return f"{self.nome} saúda {outro}"
+
+oi = Saudacao("Ana")
+print(oi("Bia"))`,
+        tarefa: `Escreva o <code>__call__</code> do Encanto: ele recebe o dano e devolve o dano vezes o multiplicador. Com dano 10: <b>Com fogo: 20</b> e <b>Com gelo: 30</b>.`,
+        requisitos: ["Criar def __call__(self, dano)", "Usar self.multiplicador", "Chamar o objeto como função"],
+        inicial: `class Encanto:
+    def __init__(self, nome, multiplicador):
+        self.nome = nome
+        self.multiplicador = multiplicador
+
+fogo = Encanto("fogo", 2)
+gelo = Encanto("gelo", 3)
+dano = int(input("Dano da espada: "))
+for encanto in [fogo, gelo]:
+    print(f"Com {encanto.nome}: {encanto(dano)}")
+`,
+        dica: `def __call__(self, dano): return dano * self.multiplicador`,
+        solucao: `class Encanto:
+    def __init__(self, nome, multiplicador):
+        self.nome = nome
+        self.multiplicador = multiplicador
+
+    def __call__(self, dano):
+        return dano * self.multiplicador
+
+fogo = Encanto("fogo", 2)
+gelo = Encanto("gelo", 3)
+dano = int(input("Dano da espada: "))
+for encanto in [fogo, gelo]:
+    print(f"Com {encanto.nome}: {encanto(dano)}")`,
+        casos: [
+          { entradas: ["10"], saida: ["Com fogo: 20", "Com gelo: 30"] },
+          { entradas: ["7"], saida: ["Com fogo: 14", "Com gelo: 21"] },
+          { entradas: ["0"], saida: ["Com fogo: 0", "Com gelo: 0"] },
+        ],
+        teste: `assert Encanto("raio", 5)(2) == 10, "Encanto('raio', 5)(2) deveria dar 10."`,
+        usar: [{ re: /def\s+__call__\s*\(/, msg: "Crie o método __call__." }],
+      },
+      {
+        id: "17-11", titulo: "Receita em dobro",
+        historia: "Para forjar várias flechas iguais, a Mestra Dunder multiplica a receita: receita * 3 dá o triplo de cada material. E 3 * receita também tem que funcionar!",
+        licao: `<p><code>__mul__(self, n)</code> roda em <code>receita * 3</code>. Para <code>3 * receita</code> (número na frente), o Python procura o <code>__rmul__</code> da receita. Os dois podem fazer a mesma conta.</p>
+<p>Devolva uma Receita <b>nova</b>, sem mudar a original.</p>`,
+        exemplo: `class Dobra:
+    def __init__(self, v):
+        self.v = v
+
+    def __mul__(self, n):
+        return Dobra(self.v * n)
+
+print((Dobra(4) * 2).v)`,
+        tarefa: `Escreva <code>__mul__</code> e <code>__rmul__</code> da Receita, devolvendo uma Receita nova com o ferro e a madeira multiplicados. Com 3 flechas: <b>3 ferro e 6 madeira</b> duas vezes e a receita original igual.`,
+        requisitos: ["Criar __mul__ e __rmul__", "Devolver uma Receita nova", "A receita original não muda"],
+        inicial: `class Receita:
+    def __init__(self, ferro, madeira):
+        self.ferro = ferro
+        self.madeira = madeira
+
+    def __str__(self):
+        return f"{self.ferro} ferro e {self.madeira} madeira"
+
+flecha = Receita(1, 2)
+n = int(input("Quantas flechas: "))
+print(flecha * n)
+print(n * flecha)
+print(flecha)
+`,
+        dica: `def __mul__(self, n): return Receita(self.ferro * n, self.madeira * n). def __rmul__(self, n): return self * n`,
+        solucao: `class Receita:
+    def __init__(self, ferro, madeira):
+        self.ferro = ferro
+        self.madeira = madeira
+
+    def __str__(self):
+        return f"{self.ferro} ferro e {self.madeira} madeira"
+
+    def __mul__(self, n):
+        return Receita(self.ferro * n, self.madeira * n)
+
+    def __rmul__(self, n):
+        return self * n
+
+flecha = Receita(1, 2)
+n = int(input("Quantas flechas: "))
+print(flecha * n)
+print(n * flecha)
+print(flecha)`,
+        casos: [
+          { entradas: ["3"], saida: ["3 ferro e 6 madeira", "3 ferro e 6 madeira", "1 ferro e 2 madeira"] },
+          { entradas: ["10"], saida: ["10 ferro e 20 madeira", "10 ferro e 20 madeira", "1 ferro e 2 madeira"] },
+          { entradas: ["1"], saida: ["1 ferro e 2 madeira", "1 ferro e 2 madeira", "1 ferro e 2 madeira"] },
+        ],
+        teste: `__r = Receita(2, 1) * 2
+assert isinstance(__r, Receita) and __r.ferro == 4 and __r.madeira == 2, "Receita(2, 1) * 2 deveria ser uma Receita com 4 ferro e 2 madeira."`,
+        usar: [{ re: /def\s+__mul__\s*\(/, msg: "Crie o __mul__." }, { re: /def\s+__rmul__\s*\(/, msg: "Crie o __rmul__ para o número na frente." }],
+      },
+      {
+        id: "17-12", titulo: "O armário de gavetas",
+        historia: "O armário de ferramentas da forja tem gavetas com nome. Com __getitem__ e __setitem__ ele funciona com colchetes, igual a um dicionário, mas com regras próprias.",
+        licao: `<ul><li><code>__setitem__(self, chave, valor)</code> roda em <code>armario["martelo"] = 2</code></li><li><code>__getitem__(self, chave)</code> roda em <code>armario["martelo"]</code></li></ul>
+<p>Por dentro, guarde num dicionário. As regras do armário: gaveta que não existe vale 0, e nenhuma gaveta aceita número negativo (vira 0).</p>`,
+        exemplo: `class Placar:
+    def __init__(self):
+        self.pontos = {}
+
+    def __setitem__(self, nome, valor):
+        self.pontos[nome] = valor
+
+    def __getitem__(self, nome):
+        return self.pontos[nome]
+
+p = Placar()
+p["Ana"] = 3
+print(p["Ana"])`,
+        tarefa: `Escreva <code>__setitem__</code> (guarda em <code>self.gavetas</code>, trocando negativo por 0) e <code>__getitem__</code> (devolve o valor, ou 0 se a gaveta não existir). Deve mostrar <b>5</b>, <b>0</b> e <b>0</b>.`,
+        requisitos: ["Criar __setitem__ e __getitem__", "Negativo vira 0", "Gaveta que não existe vale 0"],
+        inicial: `class Armario:
+    def __init__(self):
+        self.gavetas = {}
+
+armario = Armario()
+armario["martelo"] = 2
+armario["tenaz"] = -5
+armario["martelo"] += 3
+print(armario["martelo"])
+print(armario["tenaz"])
+print(armario["lima"])
+`,
+        dica: `def __setitem__(self, chave, valor): self.gavetas[chave] = max(0, valor). def __getitem__(self, chave): return self.gavetas.get(chave, 0)`,
+        solucao: `class Armario:
+    def __init__(self):
+        self.gavetas = {}
+
+    def __setitem__(self, chave, valor):
+        self.gavetas[chave] = max(0, valor)
+
+    def __getitem__(self, chave):
+        return self.gavetas.get(chave, 0)
+
+armario = Armario()
+armario["martelo"] = 2
+armario["tenaz"] = -5
+armario["martelo"] += 3
+print(armario["martelo"])
+print(armario["tenaz"])
+print(armario["lima"])`,
+        casos: [{ saida: ["5", "0", "0"] }],
+        teste: `__a = Armario()
+__a["serra"] = 7
+assert __a["serra"] == 7 and __a.gavetas == {"serra": 7}, "Guardar 7 na serra deveria deixar gavetas == {'serra': 7}."`,
+        usar: [{ re: /def\s+__setitem__\s*\(/, msg: "Crie o __setitem__." }, { re: /def\s+__getitem__\s*\(/, msg: "Crie o __getitem__." }],
       },
       {
         id: "17-8", titulo: "O Autômato Enferrujado", chefe: true, inimigo: inimigo("automato", "Autômato Enferrujado"),
@@ -5659,6 +8078,271 @@ print(f"{len(salas)} salas")`,
         usar: [{ re: /set\s*\(\s*\)/, msg: "Guarde as visitadas num set()." }],
       },
       {
+        id: "18-9", titulo: "O fio ao contrário",
+        historia: "Para voltar pelo mesmo caminho, Ariadne precisa do fio ao contrário: a última sala vira a primeira. Dá para inverter a lista ligada só mudando para onde cada nó aponta.",
+        licao: `<p>Ande pelo fio com duas variáveis: <code>anterior = None</code> e <code>atual = inicio</code>. A cada passo: guarde o próximo (<code>seguinte = atual.proximo</code>), aponte <code>atual.proximo = anterior</code> e avance as duas.</p>
+<p>No fim, <code>anterior</code> é o novo começo do fio.</p>`,
+        exemplo: `class No:
+    def __init__(self, sala, proximo=None):
+        self.sala = sala
+        self.proximo = proximo
+
+a = No("a")
+b = No("b", a)
+print(b.sala, b.proximo.sala)`,
+        tarefa: `Complete <code>inverter(inicio)</code>, que devolve o começo do fio invertido. Deve mostrar <b>saída -&gt; fonte -&gt; corredor -&gt; entrada</b>.`,
+        requisitos: ["Apontar atual.proximo para o anterior", "Devolver o novo começo", "Fio vazio devolve None"],
+        inicial: `class No:
+    def __init__(self, sala, proximo=None):
+        self.sala = sala
+        self.proximo = proximo
+
+def salas(inicio):
+    lista = []
+    while inicio is not None:
+        lista.append(inicio.sala)
+        inicio = inicio.proximo
+    return lista
+
+def inverter(inicio):
+    return inicio
+
+fio = No("entrada", No("corredor", No("fonte", No("saída"))))
+print(" -> ".join(salas(inverter(fio))))
+`,
+        dica: `anterior = None; atual = inicio; while atual is not None: seguinte = atual.proximo; atual.proximo = anterior; anterior = atual; atual = seguinte. No fim: return anterior`,
+        solucao: `class No:
+    def __init__(self, sala, proximo=None):
+        self.sala = sala
+        self.proximo = proximo
+
+def salas(inicio):
+    lista = []
+    while inicio is not None:
+        lista.append(inicio.sala)
+        inicio = inicio.proximo
+    return lista
+
+def inverter(inicio):
+    anterior = None
+    atual = inicio
+    while atual is not None:
+        seguinte = atual.proximo
+        atual.proximo = anterior
+        anterior = atual
+        atual = seguinte
+    return anterior
+
+fio = No("entrada", No("corredor", No("fonte", No("saída"))))
+print(" -> ".join(salas(inverter(fio))))`,
+        casos: [{ saida: ["saída -> fonte -> corredor -> entrada"] }],
+        teste: `assert inverter(None) is None, "Inverter um fio vazio deveria devolver None."
+assert salas(inverter(No("a", No("b")))) == ["b", "a"], "a -> b invertido deveria ser b -> a."`,
+        usar: [{ re: /\.proximo\s*=\s*anterior/, msg: "Aponte para trás com atual.proximo = anterior." }],
+      },
+      {
+        id: "18-10", titulo: "A menor e a maior tocha",
+        historia: "Ariadne quer a tocha de menor e a de maior número sem olhar a árvore inteira. Na árvore de busca, a menor fica no fim do caminho para a esquerda, e a maior no fim do caminho para a direita.",
+        licao: `<p>Comece na raiz e ande para a esquerda enquanto der: <code>while no.esq is not None: no = no.esq</code>. O último é o menor. Para o maior, o mesmo pela direita.</p>
+<p>Isso olha só um caminho, não a árvore toda.</p>`,
+        exemplo: `class No:
+    def __init__(self, valor):
+        self.valor = valor
+        self.esq = None
+        self.dir = None
+
+raiz = No(5)
+raiz.esq = No(2)
+print(raiz.esq.valor)`,
+        tarefa: `Complete <code>menor(raiz)</code> e <code>maior(raiz)</code> andando pelos caminhos (sem min, max nem percorrer tudo). O programa lê os números, monta a árvore e mostra <b>Menor: 1</b> e <b>Maior: 80</b>.`,
+        requisitos: ["Andar pela esquerda até o fim", "Andar pela direita até o fim", "Sem min nem max"],
+        inicial: `class No:
+    def __init__(self, valor):
+        self.valor = valor
+        self.esq = None
+        self.dir = None
+
+def inserir(raiz, valor):
+    if raiz is None:
+        return No(valor)
+    if valor < raiz.valor:
+        raiz.esq = inserir(raiz.esq, valor)
+    else:
+        raiz.dir = inserir(raiz.dir, valor)
+    return raiz
+
+def menor(raiz):
+    return 0
+
+def maior(raiz):
+    return 0
+
+raiz = None
+for numero in input("Tochas: ").split():
+    raiz = inserir(raiz, int(numero))
+print(f"Menor: {menor(raiz)}")
+print(f"Maior: {maior(raiz)}")
+`,
+        dica: `menor: no = raiz; while no.esq is not None: no = no.esq; return no.valor. maior: igual, com .dir`,
+        solucao: `class No:
+    def __init__(self, valor):
+        self.valor = valor
+        self.esq = None
+        self.dir = None
+
+def inserir(raiz, valor):
+    if raiz is None:
+        return No(valor)
+    if valor < raiz.valor:
+        raiz.esq = inserir(raiz.esq, valor)
+    else:
+        raiz.dir = inserir(raiz.dir, valor)
+    return raiz
+
+def menor(raiz):
+    no = raiz
+    while no.esq is not None:
+        no = no.esq
+    return no.valor
+
+def maior(raiz):
+    no = raiz
+    while no.dir is not None:
+        no = no.dir
+    return no.valor
+
+raiz = None
+for numero in input("Tochas: ").split():
+    raiz = inserir(raiz, int(numero))
+print(f"Menor: {menor(raiz)}")
+print(f"Maior: {maior(raiz)}")`,
+        casos: [
+          { entradas: ["50 30 70 20 80 1"], saida: ["Menor: 1", "Maior: 80"] },
+          { entradas: ["5"], saida: ["Menor: 5", "Maior: 5"] },
+          { entradas: ["3 9 1 4"], saida: ["Menor: 1", "Maior: 9"] },
+        ],
+        usar: [{ re: /\.esq\s+is\s+not\s+None|\.esq\s*!=\s*None|\.esq:/, msg: "Ande pela esquerda enquanto no.esq is not None." }, { re: /\b(min|max)\s*\(/, nao: true, msg: "Ande pelos caminhos da árvore, sem min nem max." }],
+      },
+      {
+        id: "18-11", titulo: "Quantos passos até cada sala",
+        historia: "Quantos passos há da partida até cada sala? A busca em largura responde: visita primeiro as salas a 1 passo, depois as a 2 passos... e anota a distância de cada uma.",
+        licao: `<p>Guarde as distâncias num dicionário: <code>dist = {inicio: 0}</code>. Tire salas da fila com <code>popleft()</code>; para cada vizinha que ainda não está em <code>dist</code>, anote <code>dist[vizinha] = dist[sala] + 1</code> e ponha na fila.</p>`,
+        exemplo: `from collections import deque
+fila = deque(["a"])
+dist = {"a": 0}
+print(fila.popleft(), dist)`,
+        tarefa: `Complete <code>distancias(mapa, inicio)</code>. O programa lê a partida e mostra cada sala alcançável em ordem alfabética com a distância: <b>fonte: 2</b>.`,
+        requisitos: ["Fila com deque e popleft", "dist[vizinha] = dist[sala] + 1", "Salas sem caminho não aparecem"],
+        inicial: `from collections import deque
+
+mapa = {
+    "entrada": ["corredor", "poço"],
+    "corredor": ["entrada", "fonte"],
+    "poço": ["entrada"],
+    "fonte": ["corredor", "tesouro"],
+    "tesouro": ["fonte"],
+    "cela": ["torre"],
+    "torre": ["cela"],
+}
+
+def distancias(mapa, inicio):
+    return {inicio: 0}
+
+partida = input("Partida: ")
+dist = distancias(mapa, partida)
+for sala in sorted(dist):
+    print(f"{sala}: {dist[sala]}")
+`,
+        dica: `dist = {inicio: 0}; fila = deque([inicio]); while fila: sala = fila.popleft(); for vizinha in mapa[sala]: if vizinha not in dist: dist[vizinha] = dist[sala] + 1; fila.append(vizinha). return dist`,
+        solucao: `from collections import deque
+
+mapa = {
+    "entrada": ["corredor", "poço"],
+    "corredor": ["entrada", "fonte"],
+    "poço": ["entrada"],
+    "fonte": ["corredor", "tesouro"],
+    "tesouro": ["fonte"],
+    "cela": ["torre"],
+    "torre": ["cela"],
+}
+
+def distancias(mapa, inicio):
+    dist = {inicio: 0}
+    fila = deque([inicio])
+    while fila:
+        sala = fila.popleft()
+        for vizinha in mapa[sala]:
+            if vizinha not in dist:
+                dist[vizinha] = dist[sala] + 1
+                fila.append(vizinha)
+    return dist
+
+partida = input("Partida: ")
+dist = distancias(mapa, partida)
+for sala in sorted(dist):
+    print(f"{sala}: {dist[sala]}")`,
+        casos: [
+          { entradas: ["entrada"], saida: ["corredor: 1", "entrada: 0", "fonte: 2", "poço: 1", "tesouro: 3"] },
+          { entradas: ["tesouro"], saida: ["corredor: 2", "entrada: 3", "fonte: 1", "poço: 4", "tesouro: 0"] },
+          { entradas: ["cela"], saida: ["cela: 0", "torre: 1"] },
+        ],
+        usar: [{ re: /popleft\s*\(/, msg: "Tire da fila com popleft()." }],
+      },
+      {
+        id: "18-12", titulo: "Ilhas no mapa",
+        historia: "No mapa visto de cima, # é terra e . é água. Ariadne quer saber quantas ilhas há: terras grudadas (em cima, embaixo, à esquerda ou à direita) formam uma ilha só.",
+        licao: `<p>Percorra cada posição. Achou terra que ainda não visitou? É uma ilha nova: conte 1 e "visite" a ilha inteira com uma função recursiva que marca a terra e chama a si mesma nas 4 direções.</p>
+<p>A função para quando sai do mapa, cai na água ou acha terra já visitada.</p>`,
+        exemplo: `mapa = ["#.", ".#"]
+print(mapa[0][0], mapa[1][0])
+print(len(mapa), len(mapa[0]))`,
+        tarefa: `Leia as linhas do mapa até <b>fim</b> e mostre <b>Ilhas: N</b>. Diagonal não conta como grudado.`,
+        requisitos: ["Marcar as visitadas num set", "Visitar as 4 direções", "Diagonal não junta ilhas"],
+        inicial: `mapa = []
+while True:
+    linha = input("Linha do mapa (ou fim): ")
+    if linha == "fim":
+        break
+    mapa.append(linha)
+visitados = set()
+
+`,
+        dica: `def visitar(l, c): se fora do mapa, água ou (l, c) in visitados: return; visitados.add((l, c)); visitar(l + 1, c); visitar(l - 1, c); visitar(l, c + 1); visitar(l, c - 1). Depois: para cada (l, c) com # ainda não visitado: ilhas += 1 e visitar(l, c).`,
+        solucao: `mapa = []
+while True:
+    linha = input("Linha do mapa (ou fim): ")
+    if linha == "fim":
+        break
+    mapa.append(linha)
+visitados = set()
+
+def visitar(l, c):
+    if l < 0 or l >= len(mapa) or c < 0 or c >= len(mapa[l]):
+        return
+    if mapa[l][c] != "#" or (l, c) in visitados:
+        return
+    visitados.add((l, c))
+    visitar(l + 1, c)
+    visitar(l - 1, c)
+    visitar(l, c + 1)
+    visitar(l, c - 1)
+
+ilhas = 0
+for l in range(len(mapa)):
+    for c in range(len(mapa[l])):
+        if mapa[l][c] == "#" and (l, c) not in visitados:
+            ilhas += 1
+            visitar(l, c)
+print(f"Ilhas: {ilhas}")`,
+        casos: [
+          { entradas: ["##..", "#..#", "...#", "fim"], saida: ["Ilhas: 2"] },
+          { entradas: ["....", "fim"], saida: ["Ilhas: 0"] },
+          { entradas: ["#.#", ".#.", "#.#", "fim"], saida: ["Ilhas: 5"] },
+          { entradas: ["###", "#.#", "###", "fim"], saida: ["Ilhas: 1"] },
+        ],
+        usar: [{ re: /visitados/, msg: "Marque a terra visitada no set visitados." }],
+      },
+      {
         id: "18-8", titulo: "O Minotauro", chefe: true, inimigo: inimigo("minotauro", "Minotauro"),
         historia: "O Minotauro guarda a saída e só deixa passar quem sabe o caminho mais curto! A busca em largura, com uma fila, explora o labirinto em ondas: primeiro tudo a 1 passo, depois a 2... Este é o chefe do labirinto!",
         licao: `<p>Na <b>busca em largura</b>, a fila guarda <code>(linha, coluna, passos)</code>. Tire o primeiro com <code>popleft()</code>; se for a saída <code>S</code>, achou.</p>
@@ -5938,6 +8622,149 @@ print(para_romano(2026))`,
 assert para_romano(9) == "IX", "9 deveria ser IX."
 assert para_romano(14) == "XIV", "14 deveria ser XIV."
 assert para_romano(1994) == "MCMXCIV", "1994 deveria ser MCMXCIV."`,
+      },
+      {
+        id: "14-9", titulo: "Números perfeitos",
+        historia: "Round extra: números perfeitos! Um número é perfeito quando a soma dos seus divisores (sem contar ele mesmo) dá o próprio número. O 6 é: 1 + 2 + 3 = 6.",
+        licao: `<p>Os divisores de <code>n</code> são os números <code>d</code> de 1 até <code>n - 1</code> com <code>n % d == 0</code>. Uma lista por compreensão junta todos: <code>[d for d in range(1, n) if n % d == 0]</code>.</p>`,
+        exemplo: `n = 10
+print([d for d in range(1, n) if n % d == 0])`,
+        tarefa: `Leia N. Mostre <b>Divisores: 1, 2, 4, 7, 14</b> (ou <b>Divisores: nenhum</b>) e <b>28 é perfeito</b> ou <b>12 não é perfeito</b>.`,
+        requisitos: ["Achar os divisores com %", "Somar com sum", "O 1 não tem divisores e não é perfeito"],
+        inicial: `n = int(input("Número: "))
+
+`,
+        dica: `divisores = [d for d in range(1, n) if n % d == 0]; se houver: print("Divisores: " + ", ".join([str(d) for d in divisores])) senão "Divisores: nenhum"; depois if sum(divisores) == n: ...`,
+        solucao: `n = int(input("Número: "))
+divisores = [d for d in range(1, n) if n % d == 0]
+if divisores:
+    print("Divisores: " + ", ".join([str(d) for d in divisores]))
+else:
+    print("Divisores: nenhum")
+if sum(divisores) == n:
+    print(f"{n} é perfeito")
+else:
+    print(f"{n} não é perfeito")`,
+        casos: [
+          { entradas: ["28"], saida: ["Divisores: 1, 2, 4, 7, 14", "28 é perfeito"] },
+          { entradas: ["12"], saida: ["Divisores: 1, 2, 3, 4, 6", "12 não é perfeito"] },
+          { entradas: ["6"], saida: ["Divisores: 1, 2, 3", "6 é perfeito"] },
+          { entradas: ["1"], saida: ["Divisores: nenhum", "1 não é perfeito"] },
+        ],
+        usar: [{ re: /%\s*\w+\s*==\s*0/, msg: "Ache os divisores com n % d == 0." }],
+      },
+      {
+        id: "14-10", titulo: "O desafio de Collatz",
+        historia: "Pegue um número: se for par, divida por 2; se for ímpar, multiplique por 3 e some 1. Repita... Até hoje ninguém achou um número que não chegue ao 1!",
+        licao: `<p>Um <code>while n != 1:</code> repete a regra. Guarde os números numa lista para mostrar o caminho, e os passos são o tamanho da lista menos 1.</p>`,
+        exemplo: `n = 10
+if n % 2 == 0:
+    n = n // 2
+else:
+    n = 3 * n + 1
+print(n)`,
+        tarefa: `Leia N (1 ou mais). Mostre o caminho até o 1, como <b>6 -&gt; 3 -&gt; 10 -&gt; 5 -&gt; 16 -&gt; 8 -&gt; 4 -&gt; 2 -&gt; 1</b>, e <b>Passos: 8</b>.`,
+        requisitos: ["while n != 1", "Par divide por 2, ímpar 3n + 1", "Para o 1: caminho 1 e 0 passos"],
+        inicial: `n = int(input("Número: "))
+caminho = [n]
+
+`,
+        dica: `while n != 1: if n % 2 == 0: n = n // 2 else: n = 3 * n + 1; caminho.append(n). Depois: print(" -> ".join([str(x) for x in caminho])) e print(f"Passos: {len(caminho) - 1}")`,
+        solucao: `n = int(input("Número: "))
+caminho = [n]
+while n != 1:
+    if n % 2 == 0:
+        n = n // 2
+    else:
+        n = 3 * n + 1
+    caminho.append(n)
+print(" -> ".join([str(x) for x in caminho]))
+print(f"Passos: {len(caminho) - 1}")`,
+        casos: [
+          { entradas: ["6"], saida: ["6 -> 3 -> 10 -> 5 -> 16 -> 8 -> 4 -> 2 -> 1", "Passos: 8"] },
+          { entradas: ["1"], saida: ["1", "Passos: 0"] },
+          { entradas: ["7"], saida: ["7 -> 22 -> 11 -> 34 -> 17 -> 52 -> 26 -> 13 -> 40 -> 20 -> 10 -> 5 -> 16 -> 8 -> 4 -> 2 -> 1", "Passos: 16"] },
+        ],
+        usar: [{ re: /while\s+n\s*!=\s*1/, msg: "Repita com while n != 1." }],
+      },
+      {
+        id: "14-11", titulo: "Os sinos da arena",
+        historia: "Os sinos da arena tocam a cada 4 e a cada 6 minutos. Quando vão tocar juntos de novo? É o MMC, o menor múltiplo comum, e ele sai do MDC de Euclides.",
+        licao: `<p>Com o <code>mdc</code> de Euclides, <code>mmc(a, b) = a * b // mdc(a, b)</code>.</p>
+<p>Para mais de dois números, vá juntando: o MMC de 4, 6 e 10 é <code>mmc(mmc(4, 6), 10)</code>.</p>`,
+        exemplo: `def mdc(a, b):
+    while b:
+        a, b = b, a % b
+    return a
+
+print(mdc(12, 18))`,
+        tarefa: `Complete <code>mmc(a, b)</code> usando o <code>mdc</code>. O programa lê os tempos dos sinos numa linha e mostra <b>Tocam juntos a cada 60 minutos</b>.`,
+        requisitos: ["mmc usa mdc", "a * b // mdc(a, b)", "4 6 10 dá 60"],
+        inicial: `def mdc(a, b):
+    while b:
+        a, b = b, a % b
+    return a
+
+def mmc(a, b):
+    return 0
+
+tempos = [int(t) for t in input("Tempos dos sinos: ").split()]
+resultado = tempos[0]
+for tempo in tempos[1:]:
+    resultado = mmc(resultado, tempo)
+print(f"Tocam juntos a cada {resultado} minutos")
+`,
+        dica: `def mmc(a, b): return a * b // mdc(a, b)`,
+        solucao: `def mdc(a, b):
+    while b:
+        a, b = b, a % b
+    return a
+
+def mmc(a, b):
+    return a * b // mdc(a, b)
+
+tempos = [int(t) for t in input("Tempos dos sinos: ").split()]
+resultado = tempos[0]
+for tempo in tempos[1:]:
+    resultado = mmc(resultado, tempo)
+print(f"Tocam juntos a cada {resultado} minutos")`,
+        casos: [
+          { entradas: ["4 6"], saida: ["Tocam juntos a cada 12 minutos"] },
+          { entradas: ["4 6 10"], saida: ["Tocam juntos a cada 60 minutos"] },
+          { entradas: ["7"], saida: ["Tocam juntos a cada 7 minutos"] },
+          { entradas: ["3 5 7"], saida: ["Tocam juntos a cada 105 minutos"] },
+        ],
+        teste: `assert mmc(21, 6) == 42, "mmc(21, 6) deveria ser 42."`,
+        usar: [{ re: /def\s+mmc[\s\S]*mdc\s*\(/, msg: "Dentro do mmc, use o mdc." }],
+      },
+      {
+        id: "14-12", titulo: "Números de Armstrong",
+        historia: "Último round extra: números de Armstrong! O 153 é um deles: tem 3 dígitos, e 1³ + 5³ + 3³ = 153. Cada dígito elevado à quantidade de dígitos, tudo somado, dá o próprio número.",
+        licao: `<p>Transforme o número em texto para pegar os dígitos: <code>str(n)</code>. A quantidade de dígitos é <code>len(str(n))</code>, e a soma é <code>sum([int(d) ** k for d in str(n)])</code>.</p>`,
+        exemplo: `n = 153
+k = len(str(n))
+print([int(d) ** k for d in str(n)])`,
+        tarefa: `Leia um limite e mostre os números de Armstrong de 1 até ele, separados por vírgula, e depois <b>Total: N</b>.`,
+        requisitos: ["Elevar com **", "Expoente = quantidade de dígitos", "Até 500 são 13 números"],
+        inicial: `limite = int(input("Limite: "))
+achados = []
+
+`,
+        dica: `for n in range(1, limite + 1): k = len(str(n)); if sum([int(d) ** k for d in str(n)]) == n: achados.append(n). Depois: print(", ".join([str(n) for n in achados])) e print(f"Total: {len(achados)}")`,
+        solucao: `limite = int(input("Limite: "))
+achados = []
+for n in range(1, limite + 1):
+    k = len(str(n))
+    if sum([int(d) ** k for d in str(n)]) == n:
+        achados.append(n)
+print(", ".join([str(n) for n in achados]))
+print(f"Total: {len(achados)}")`,
+        casos: [
+          { entradas: ["500"], saida: ["1, 2, 3, 4, 5, 6, 7, 8, 9, 153, 370, 371, 407", "Total: 13"] },
+          { entradas: ["100"], saida: ["1, 2, 3, 4, 5, 6, 7, 8, 9", "Total: 9"] },
+          { entradas: ["160"], saida: ["1, 2, 3, 4, 5, 6, 7, 8, 9, 153", "Total: 10"] },
+        ],
+        usar: [{ re: /\*\*/, msg: "Eleve cada dígito com **." }],
       },
       {
         id: "14-8", titulo: "O Campeão da Arena", chefe: true, inimigo: inimigo("campeao", "Campeão da Arena"),
@@ -6296,6 +9123,229 @@ if opcao == "1":
           { entradas: ["sair"], saida: ["Até a próxima!"] },
         ],
         usar: [{ re: /while\s+True/, msg: "Use while True para o menu repetir." }],
+      },
+      {
+        id: "10-9", titulo: "Subindo de nível",
+        historia: "Todo RPG que se preze tem níveis. A cada 100 de XP, o personagem sobe um nível e ganha mais vida máxima. Um while dá conta de subir mais de um nível de uma vez.",
+        licao: `<p>Depois de somar o XP, use <code>while self.xp &gt;= 100:</code> para subir quantos níveis couberem: tire 100 do XP, some 1 no nível e aumente a vida máxima.</p>
+<p>Com <code>if</code>, quem ganhasse 250 de XP só subiria um nível.</p>`,
+        exemplo: `pontos = 250
+niveis = 0
+while pontos >= 100:
+    pontos -= 100
+    niveis += 1
+print(niveis, pontos)`,
+        tarefa: `Complete <code>ganhar_xp(quantia)</code>: some o XP e, enquanto houver 100 ou mais, suba de nível (vida máxima +20) mostrando <b>Ana subiu para o nível 2!</b>. No fim, o programa mostra <b>Nível 3, XP 50/100, vida máxima 140</b>.`,
+        requisitos: ["while self.xp >= 100", "Cada nível: +20 de vida máxima", "250 de uma vez sobe dois níveis"],
+        inicial: `class Personagem:
+    def __init__(self, nome):
+        self.nome = nome
+        self.nivel = 1
+        self.xp = 0
+        self.vida_max = 100
+
+    def ganhar_xp(self, quantia):
+        self.xp += quantia
+
+heroi = Personagem("Ana")
+while True:
+    texto = input("XP ganho (ou fim): ")
+    if texto == "fim":
+        break
+    heroi.ganhar_xp(int(texto))
+print(f"Nível {heroi.nivel}, XP {heroi.xp}/100, vida máxima {heroi.vida_max}")
+`,
+        dica: `Depois do self.xp += quantia: while self.xp >= 100: self.xp -= 100; self.nivel += 1; self.vida_max += 20; print(f"{self.nome} subiu para o nível {self.nivel}!")`,
+        solucao: `class Personagem:
+    def __init__(self, nome):
+        self.nome = nome
+        self.nivel = 1
+        self.xp = 0
+        self.vida_max = 100
+
+    def ganhar_xp(self, quantia):
+        self.xp += quantia
+        while self.xp >= 100:
+            self.xp -= 100
+            self.nivel += 1
+            self.vida_max += 20
+            print(f"{self.nome} subiu para o nível {self.nivel}!")
+
+heroi = Personagem("Ana")
+while True:
+    texto = input("XP ganho (ou fim): ")
+    if texto == "fim":
+        break
+    heroi.ganhar_xp(int(texto))
+print(f"Nível {heroi.nivel}, XP {heroi.xp}/100, vida máxima {heroi.vida_max}")`,
+        casos: [
+          { entradas: ["60", "70", "120", "fim"], saida: ["Ana subiu para o nível 2!", "Ana subiu para o nível 3!", "Nível 3, XP 50/100, vida máxima 140"] },
+          { entradas: ["250", "fim"], saida: ["Ana subiu para o nível 2!", "Ana subiu para o nível 3!", "Nível 3, XP 50/100, vida máxima 140"] },
+          { entradas: ["fim"], saida: ["Nível 1, XP 0/100, vida máxima 100"] },
+        ],
+        usar: [{ re: /while\s+self\.xp\s*>=\s*100/, msg: "Suba quantos níveis couberem com while self.xp >= 100." }],
+      },
+      {
+        id: "10-10", titulo: "A poção de cura",
+        historia: "No meio da batalha, uma poção salva a pele! Usar um item tira ele da mochila e faz efeito, mas a vida nunca passa do máximo.",
+        licao: `<p>Antes de usar, confira se tem: <code>self.mochila.get(item, 0) == 0</code> quer dizer que não tem. Usou? Tire 1 da mochila.</p>
+<p>Para não passar do máximo: <code>self.vida = min(self.vida_max, self.vida + cura)</code>.</p>`,
+        exemplo: `vida = 90
+vida = min(100, vida + 30)
+print(vida)`,
+        tarefa: `Complete <code>usar(item)</code>: sem o item, devolve <b>Não tem poção</b>; com ele, tira 1 da mochila, cura pelo valor de <code>CURAS</code> (0 se não curar) e devolve <b>Usou poção: vida 70</b>. A vida começa em 40.`,
+        requisitos: ["Conferir a mochila antes de usar", "Tirar 1 da mochila", "Vida limitada com min"],
+        inicial: `CURAS = {"poção": 30, "elixir": 100}
+
+class Heroi:
+    def __init__(self):
+        self.vida = 40
+        self.vida_max = 100
+        self.mochila = {"poção": 2, "elixir": 1, "pedra": 1}
+
+    def usar(self, item):
+        return "Nada aconteceu"
+
+heroi = Heroi()
+while True:
+    item = input("Usar (ou fim): ")
+    if item == "fim":
+        break
+    print(heroi.usar(item))
+print(f"Vida final: {heroi.vida}/{heroi.vida_max}")
+`,
+        dica: `if self.mochila.get(item, 0) == 0: return f"Não tem {item}". self.mochila[item] -= 1; self.vida = min(self.vida_max, self.vida + CURAS.get(item, 0)); return f"Usou {item}: vida {self.vida}"`,
+        solucao: `CURAS = {"poção": 30, "elixir": 100}
+
+class Heroi:
+    def __init__(self):
+        self.vida = 40
+        self.vida_max = 100
+        self.mochila = {"poção": 2, "elixir": 1, "pedra": 1}
+
+    def usar(self, item):
+        if self.mochila.get(item, 0) == 0:
+            return f"Não tem {item}"
+        self.mochila[item] -= 1
+        self.vida = min(self.vida_max, self.vida + CURAS.get(item, 0))
+        return f"Usou {item}: vida {self.vida}"
+
+heroi = Heroi()
+while True:
+    item = input("Usar (ou fim): ")
+    if item == "fim":
+        break
+    print(heroi.usar(item))
+print(f"Vida final: {heroi.vida}/{heroi.vida_max}")`,
+        casos: [
+          { entradas: ["poção", "poção", "poção", "elixir", "fim"], saida: ["Usou poção: vida 70", "Usou poção: vida 100", "Não tem poção", "Usou elixir: vida 100", "Vida final: 100/100"] },
+          { entradas: ["pedra", "pedra", "espada", "fim"], saida: ["Usou pedra: vida 40", "Não tem pedra", "Não tem espada", "Vida final: 40/100"] },
+        ],
+        usar: [{ re: /min\s*\(\s*self\.vida_max/, msg: "Limite a vida com min(self.vida_max, ...)." }],
+      },
+      {
+        id: "10-11", titulo: "Salvando o jogo",
+        historia: "Antes de enfrentar o Lorde, é bom salvar o jogo. Sem arquivo, dá para salvar tudo num texto só, assim: Ana;80;35;corda=1,poção=2. E para carregar, é só cortar o texto de volta.",
+        licao: `<p>Para <b>salvar</b>, junte as partes com <code>;</code> e os itens com <code>,</code>: <code>",".join([f"{k}={v}" for k, v in sorted(itens.items())])</code>.</p>
+<p>Para <b>carregar</b>, faça o caminho de volta com <code>split(";")</code>, <code>split(",")</code> e <code>split("=")</code>. Cuidado: mochila vazia vira texto vazio, e não deve virar item.</p>`,
+        exemplo: `itens = {"poção": 2, "corda": 1}
+texto = ",".join([f"{k}={v}" for k, v in sorted(itens.items())])
+print(texto)
+print(texto.split(","))`,
+        tarefa: `Complete <code>salvar(heroi)</code> e <code>carregar(texto)</code>. O programa salva a Ana, confere se carregar o texto dá o mesmo herói e carrega o código lido: <b>Bia tem 50 de vida, 10 de ouro e 4 itens</b>.`,
+        requisitos: ["salvar: partes com ; e itens em ordem alfabética", "carregar: o caminho de volta com split", "Mochila vazia funciona"],
+        inicial: `def salvar(heroi):
+    return ""
+
+def carregar(texto):
+    return {}
+
+ana = {"nome": "Ana", "vida": 80, "ouro": 35, "itens": {"poção": 2, "corda": 1}}
+codigo = salvar(ana)
+print(codigo)
+print(carregar(codigo) == ana)
+outro = carregar(input("Código salvo: "))
+print(f"{outro['nome']} tem {outro['vida']} de vida, {outro['ouro']} de ouro e {sum(outro['itens'].values())} itens")
+`,
+        dica: `salvar: itens = ",".join([f"{k}={v}" for k, v in sorted(heroi["itens"].items())]); return f"{heroi['nome']};{heroi['vida']};{heroi['ouro']};{itens}". carregar: nome, vida, ouro, itens = texto.split(";"); mochila = {}; if itens: for par in itens.split(","): k, v = par.split("="); mochila[k] = int(v)`,
+        solucao: `def salvar(heroi):
+    itens = ",".join([f"{k}={v}" for k, v in sorted(heroi["itens"].items())])
+    return f"{heroi['nome']};{heroi['vida']};{heroi['ouro']};{itens}"
+
+def carregar(texto):
+    nome, vida, ouro, itens = texto.split(";")
+    mochila = {}
+    if itens:
+        for par in itens.split(","):
+            k, v = par.split("=")
+            mochila[k] = int(v)
+    return {"nome": nome, "vida": int(vida), "ouro": int(ouro), "itens": mochila}
+
+ana = {"nome": "Ana", "vida": 80, "ouro": 35, "itens": {"poção": 2, "corda": 1}}
+codigo = salvar(ana)
+print(codigo)
+print(carregar(codigo) == ana)
+outro = carregar(input("Código salvo: "))
+print(f"{outro['nome']} tem {outro['vida']} de vida, {outro['ouro']} de ouro e {sum(outro['itens'].values())} itens")`,
+        casos: [
+          { entradas: ["Bia;50;10;corda=1,tocha=3"], saida: ["Ana;80;35;corda=1,poção=2", "True", "Bia tem 50 de vida, 10 de ouro e 4 itens"] },
+          { entradas: ["Zé;100;0;"], saida: ["Ana;80;35;corda=1,poção=2", "True", "Zé tem 100 de vida, 0 de ouro e 0 itens"] },
+        ],
+        teste: `__h = {"nome": "X", "vida": 1, "ouro": 2, "itens": {}}
+assert carregar(salvar(__h)) == __h, "Salvar e carregar um herói sem itens deveria dar o mesmo herói."`,
+        usar: [{ re: /\.split\s*\(\s*["'];["']\s*\)/, msg: "Carregue cortando com split(\";\")." }],
+      },
+      {
+        id: "10-12", titulo: "O mapa do vulcão",
+        historia: "O vulcão tem salas ligadas por passagens. Um dicionário de dicionários vira o mapa: em cada sala, cada direção leva a outra sala. É o começo de qualquer jogo de aventura em texto!",
+        licao: `<p>Em <code>SALAS["ponte"]["saidas"]</code> fica um dicionário como <code>{"sul": "entrada", "norte": "trono"}</code>. Se a direção digitada estiver nele, mude a sala atual: <code>sala = saidas[comando]</code>.</p>`,
+        exemplo: `saidas = {"norte": "ponte"}
+comando = "norte"
+if comando in saidas:
+    print("vai para", saidas[comando])`,
+        tarefa: `Leia direções até <b>fim</b>. Se a direção existir, vá e mostre a descrição da nova sala; senão, <b>Não dá para ir para oeste</b>. Ao chegar no trono, mostre <b>Você encontrou o trono do Lorde!</b> e pare.`,
+        requisitos: ["Usar SALAS[sala][\"saidas\"]", "Avisar a direção que não existe", "Parar ao chegar no trono"],
+        inicial: `SALAS = {
+    "entrada": {"descricao": "Entrada do vulcão, cheia de fumaça.", "saidas": {"norte": "ponte"}},
+    "ponte": {"descricao": "Uma ponte de pedra sobre a lava.", "saidas": {"sul": "entrada", "leste": "forja", "norte": "trono"}},
+    "forja": {"descricao": "Uma forja antiga, ainda quente.", "saidas": {"oeste": "ponte"}},
+    "trono": {"descricao": "O salão do trono.", "saidas": {"sul": "ponte"}},
+}
+sala = "entrada"
+print(SALAS[sala]["descricao"])
+while True:
+    comando = input("Direção (ou fim): ")
+    if comando == "fim":
+        break
+
+`,
+        dica: `saidas = SALAS[sala]["saidas"]; if comando in saidas: sala = saidas[comando]; print(SALAS[sala]["descricao"]); if sala == "trono": print("Você encontrou o trono do Lorde!"); break. else: print(f"Não dá para ir para {comando}")`,
+        solucao: `SALAS = {
+    "entrada": {"descricao": "Entrada do vulcão, cheia de fumaça.", "saidas": {"norte": "ponte"}},
+    "ponte": {"descricao": "Uma ponte de pedra sobre a lava.", "saidas": {"sul": "entrada", "leste": "forja", "norte": "trono"}},
+    "forja": {"descricao": "Uma forja antiga, ainda quente.", "saidas": {"oeste": "ponte"}},
+    "trono": {"descricao": "O salão do trono.", "saidas": {"sul": "ponte"}},
+}
+sala = "entrada"
+print(SALAS[sala]["descricao"])
+while True:
+    comando = input("Direção (ou fim): ")
+    if comando == "fim":
+        break
+    saidas = SALAS[sala]["saidas"]
+    if comando in saidas:
+        sala = saidas[comando]
+        print(SALAS[sala]["descricao"])
+        if sala == "trono":
+            print("Você encontrou o trono do Lorde!")
+            break
+    else:
+        print(f"Não dá para ir para {comando}")`,
+        casos: [
+          { entradas: ["oeste", "norte", "leste", "oeste", "norte"], saida: ["Entrada do vulcão, cheia de fumaça.", "Não dá para ir para oeste", "Uma ponte de pedra sobre a lava.", "Uma forja antiga, ainda quente.", "Uma ponte de pedra sobre a lava.", "O salão do trono.", "Você encontrou o trono do Lorde!"] },
+          { entradas: ["sul", "fim"], saida: ["Entrada do vulcão, cheia de fumaça.", "Não dá para ir para sul"] },
+        ],
+        usar: [{ re: /\[\s*["']saidas["']\s*\]/, msg: "Veja as passagens em SALAS[sala][\"saidas\"]." }],
       },
       {
         id: "10-8", titulo: "O Lorde do Código Espaguete", chefe: true, inimigo: inimigo("lorde", "Lorde do Código Espaguete"),
