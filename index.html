@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Reino de Pythonia</title>
-<meta name="description" content="Curso de Python em forma de RPG: 112 missões, chefes animados, desafios diários e festa no final. Funciona no celular, mesmo sem internet.">
+<meta name="description" content="Curso de Python em forma de RPG: 144 missões, chefes animados, desafios diários e festa no final. Funciona no celular, mesmo sem internet.">
 <meta name="theme-color" content="#231e47">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -724,7 +724,7 @@ details[open] .seta::before { content: "▾"; }
         <p class="lema">Aprenda Python jogando. Cada missão ensina um feitiço novo, cada região termina num <b>chefe</b>. O código roda aqui mesmo, sem instalar nada, e a missão confere se você acertou.</p>
         <div class="topo-acoes">
           <a class="btn btn-ouro" id="btn-continuar" href="#mapa">▶ Começar jornada</a>
-          <span class="topo-meta" id="topo-meta">112 missões · 14 regiões</span>
+          <span class="topo-meta" id="topo-meta">144 missões · 18 regiões</span>
         </div>
       </div>
       <div class="tela-jogo">
@@ -4179,6 +4179,1550 @@ for nome in sorted(totais):
     ],
   },
   {
+    nome: "Relojoaria do Tempo", nivel: "Relojoeiro", arte: "arte/regiao-relojoaria.png", cena: "relojoaria", provisoria: true, cores: ["#2a1f3d", "#d9a441"],
+    descricao: "Datas e horas com datetime: dias que faltam, dia da semana, idade, horários e a agenda do Cuco Maluco.",
+    mentor: { nome: "Dona Ampulheta", titulo: "Mentora: Dona Ampulheta", arte: "arte/mentor-ampulheta.png", anim: "arte/anim-mentor-ampulheta.png" },
+    insignia: { nome: "Ampulheta Dourada", arte: "arte/etapa-relojoeiro.png" },
+    missoes: [
+      {
+        id: "15-1", titulo: "O dia do festival",
+        historia: "Bem-vindo à Relojoaria, {heroi}! Aqui o tempo fica guardado em gavetas. O módulo datetime cria datas de verdade, que sabem o dia, o mês e o ano.",
+        licao: `<p>Com <code>import datetime</code> você cria uma data com <code>datetime.date(ano, mes, dia)</code>.</p>
+<ul><li><code>print(data)</code> mostra <code>2026-12-25</code> (ano-mês-dia)</li><li><code>data.day</code>, <code>data.month</code> e <code>data.year</code> são o dia, o mês e o ano</li></ul>`,
+        exemplo: `import datetime
+natal = datetime.date(2026, 12, 25)
+print(natal)
+print(natal.month)`,
+        tarefa: `Leia o dia, o mês e o ano do festival (um por linha) e crie a data. Mostre a data com <code>print(festa)</code> e, na linha de baixo, no jeito brasileiro: <b>7/9/2026</b>.`,
+        requisitos: ["Criar com datetime.date(ano, mes, dia)", "Usar .day, .month e .year", "7, 9 e 2026 mostram 2026-09-07 e 7/9/2026"],
+        inicial: `import datetime
+
+dia = int(input("Dia: "))
+mes = int(input("Mês: "))
+ano = int(input("Ano: "))
+
+`,
+        dica: `festa = datetime.date(ano, mes, dia); print(festa); print(f"{festa.day}/{festa.month}/{festa.year}")`,
+        solucao: `import datetime
+
+dia = int(input("Dia: "))
+mes = int(input("Mês: "))
+ano = int(input("Ano: "))
+festa = datetime.date(ano, mes, dia)
+print(festa)
+print(f"{festa.day}/{festa.month}/{festa.year}")`,
+        casos: [
+          { entradas: ["7", "9", "2026"], saida: ["2026-09-07", "7/9/2026"] },
+          { entradas: ["25", "12", "2030"], saida: ["2030-12-25", "25/12/2030"] },
+          { entradas: ["29", "2", "2028"], saida: ["2028-02-29", "29/2/2028"] },
+        ],
+        usar: [{ re: /datetime\.date\s*\(/, msg: "Crie a data com datetime.date(ano, mes, dia)." }, { re: /\.day\b/, msg: "Mostre o dia com .day." }],
+      },
+      {
+        id: "15-2", titulo: "Quantos dias faltam?",
+        historia: "A Dona Ampulheta conta os dias até cada encomenda. Subtrair uma data da outra dá a distância entre elas.",
+        licao: `<p>Uma data menos outra dá um <code>timedelta</code>, que é uma duração. O número de dias fica em <code>.days</code>: <code>(fim - inicio).days</code>.</p>
+<p>Para ler <b>25/12/2026</b>, corte o texto: <code>dia, mes, ano = texto.split("/")</code> e transforme cada pedaço com <code>int()</code>.</p>`,
+        exemplo: `import datetime
+inicio = datetime.date(2026, 1, 1)
+fim = datetime.date(2026, 1, 31)
+print((fim - inicio).days)`,
+        tarefa: `No relógio mágico, hoje é sempre <b>10/03/2026</b>. Leia uma data <b>dd/mm/aaaa</b>. Se ela ainda vai chegar, mostre <b>Faltam N dias</b>. Se for hoje, <b>É hoje!</b>. Se já passou, <b>Já passou há N dias</b>.`,
+        requisitos: ["Montar a data com os pedaços do split", "Usar (data - hoje).days", "25/12/2026 dá Faltam 290 dias"],
+        inicial: `import datetime
+
+hoje = datetime.date(2026, 3, 10)
+texto = input("Data (dd/mm/aaaa): ")
+dia, mes, ano = texto.split("/")
+
+`,
+        dica: `data = datetime.date(int(ano), int(mes), int(dia)); diferenca = (data - hoje).days; depois if diferenca > 0 / elif diferenca == 0 / else (use -diferenca para o atraso).`,
+        solucao: `import datetime
+
+hoje = datetime.date(2026, 3, 10)
+texto = input("Data (dd/mm/aaaa): ")
+dia, mes, ano = texto.split("/")
+data = datetime.date(int(ano), int(mes), int(dia))
+diferenca = (data - hoje).days
+if diferenca > 0:
+    print(f"Faltam {diferenca} dias")
+elif diferenca == 0:
+    print("É hoje!")
+else:
+    print(f"Já passou há {-diferenca} dias")`,
+        casos: [
+          { entradas: ["25/12/2026"], saida: ["Faltam 290 dias"] },
+          { entradas: ["10/03/2026"], saida: ["É hoje!"] },
+          { entradas: ["01/03/2026"], saida: ["Já passou há 9 dias"] },
+          { entradas: ["10/03/2027"], saida: ["Faltam 365 dias"] },
+        ],
+        usar: [{ re: /\.days\b/, msg: "Pegue o número de dias com .days." }],
+      },
+      {
+        id: "15-3", titulo: "A poção de 100 dias",
+        historia: "Cada poção leva um tempo para ficar pronta. Somando uma duração a uma data, a relojoaria acha o dia exato, mesmo virando o mês e o ano.",
+        licao: `<p><code>datetime.timedelta(days=30)</code> é uma duração de 30 dias. Data mais duração dá outra data.</p>
+<p>Para mostrar no jeito brasileiro, use <code>data.strftime("%d/%m/%Y")</code>: <code>%d</code> é o dia, <code>%m</code> o mês e <code>%Y</code> o ano com 4 números (sempre com zero na frente: 05/04/2026).</p>`,
+        exemplo: `import datetime
+inicio = datetime.date(2026, 1, 30)
+fim = inicio + datetime.timedelta(days=3)
+print(fim.strftime("%d/%m/%Y"))`,
+        tarefa: `Hoje é <b>10/03/2026</b>. Leia quantos dias a poção leva e mostre <b>Pronta em dd/mm/aaaa</b>.`,
+        requisitos: ["Somar datetime.timedelta(days=...)", "Mostrar com strftime", "30 dias dá Pronta em 09/04/2026"],
+        inicial: `import datetime
+
+hoje = datetime.date(2026, 3, 10)
+dias = int(input("Dias de preparo: "))
+
+`,
+        dica: `pronta = hoje + datetime.timedelta(days=dias); print("Pronta em " + pronta.strftime("%d/%m/%Y"))`,
+        solucao: `import datetime
+
+hoje = datetime.date(2026, 3, 10)
+dias = int(input("Dias de preparo: "))
+pronta = hoje + datetime.timedelta(days=dias)
+print("Pronta em " + pronta.strftime("%d/%m/%Y"))`,
+        casos: [
+          { entradas: ["30"], saida: ["Pronta em 09/04/2026"] },
+          { entradas: ["1"], saida: ["Pronta em 11/03/2026"] },
+          { entradas: ["300"], saida: ["Pronta em 04/01/2027"] },
+          { entradas: ["0"], saida: ["Pronta em 10/03/2026"] },
+        ],
+        usar: [{ re: /timedelta\s*\(/, msg: "Some uma duração com datetime.timedelta(days=...)." }, { re: /strftime\s*\(/, msg: "Mostre a data com strftime(\"%d/%m/%Y\")." }],
+      },
+      {
+        id: "15-4", titulo: "Que dia da semana?",
+        historia: "O relógio grande sabe o dia da semana de qualquer data. O weekday() devolve um número, e uma lista transforma o número em nome.",
+        licao: `<p><code>data.weekday()</code> devolve 0 para segunda, 1 para terça... e 6 para domingo.</p>
+<p>Com uma lista de nomes na mesma ordem, <code>nomes[data.weekday()]</code> vira o nome do dia.</p>`,
+        exemplo: `import datetime
+print(datetime.date(2026, 3, 10).weekday())`,
+        tarefa: `Leia uma data <b>dd/mm/aaaa</b> e mostre o dia da semana, como <b>terça-feira</b>. Se for sábado ou domingo, mostre na linha de baixo <b>Fim de semana!</b>.`,
+        requisitos: ["Usar .weekday()", "Usar a lista nomes", "15/11/2026 é domingo e mostra Fim de semana!"],
+        inicial: `import datetime
+
+nomes = ["segunda-feira", "terça-feira", "quarta-feira", "quinta-feira", "sexta-feira", "sábado", "domingo"]
+texto = input("Data (dd/mm/aaaa): ")
+
+`,
+        dica: `dia, mes, ano = texto.split("/"); numero = datetime.date(int(ano), int(mes), int(dia)).weekday(); print(nomes[numero]); if numero >= 5: print("Fim de semana!")`,
+        solucao: `import datetime
+
+nomes = ["segunda-feira", "terça-feira", "quarta-feira", "quinta-feira", "sexta-feira", "sábado", "domingo"]
+texto = input("Data (dd/mm/aaaa): ")
+dia, mes, ano = texto.split("/")
+numero = datetime.date(int(ano), int(mes), int(dia)).weekday()
+print(nomes[numero])
+if numero >= 5:
+    print("Fim de semana!")`,
+        casos: [
+          { entradas: ["10/03/2026"], saida: ["terça-feira"] },
+          { entradas: ["15/11/2026"], saida: ["domingo", "Fim de semana!"] },
+          { entradas: ["25/12/2026"], saida: ["sexta-feira"] },
+          { entradas: ["01/01/2028"], saida: ["sábado", "Fim de semana!"] },
+        ],
+        usar: [{ re: /\.weekday\s*\(/, msg: "Descubra o dia com .weekday()." }],
+      },
+      {
+        id: "15-5", titulo: "A idade certinha",
+        historia: "Para entrar na guilda dos relojoeiros, é preciso ter 16 anos completos. Não basta subtrair os anos: quem ainda não fez aniversário este ano tem um a menos.",
+        licao: `<p>Tuplas se comparam em ordem: primeiro o mês, depois o dia. <code>(3, 10) &lt; (7, 2)</code> é <code>True</code>.</p>
+<p>Então <code>(hoje.month, hoje.day) &lt; (nascimento.month, nascimento.day)</code> diz se o aniversário deste ano ainda não chegou. Se não chegou, tire 1 da conta dos anos.</p>`,
+        exemplo: `print((3, 10) < (3, 11))
+print((12, 1) < (3, 10))`,
+        tarefa: `Hoje é <b>10/03/2026</b>. Conserte a função <code>idade(nascimento, hoje)</code> para devolver os anos completos. O resto do programa já mostra a idade e se pode entrar na guilda.`,
+        requisitos: ["Comparar (mês, dia) de hoje e do nascimento", "Quem faz aniversário amanhã ainda não completou", "11/03/2010 tem 15 anos"],
+        inicial: `import datetime
+
+hoje = datetime.date(2026, 3, 10)
+
+def idade(nascimento, hoje):
+    return hoje.year - nascimento.year
+
+texto = input("Nascimento (dd/mm/aaaa): ")
+dia, mes, ano = texto.split("/")
+anos = idade(datetime.date(int(ano), int(mes), int(dia)), hoje)
+print(f"Idade: {anos} anos")
+if anos >= 16:
+    print("Pode entrar na guilda")
+else:
+    print("Ainda não pode entrar")
+`,
+        dica: `anos = hoje.year - nascimento.year; if (hoje.month, hoje.day) < (nascimento.month, nascimento.day): anos -= 1; return anos`,
+        solucao: `import datetime
+
+hoje = datetime.date(2026, 3, 10)
+
+def idade(nascimento, hoje):
+    anos = hoje.year - nascimento.year
+    if (hoje.month, hoje.day) < (nascimento.month, nascimento.day):
+        anos -= 1
+    return anos
+
+texto = input("Nascimento (dd/mm/aaaa): ")
+dia, mes, ano = texto.split("/")
+anos = idade(datetime.date(int(ano), int(mes), int(dia)), hoje)
+print(f"Idade: {anos} anos")
+if anos >= 16:
+    print("Pode entrar na guilda")
+else:
+    print("Ainda não pode entrar")`,
+        casos: [
+          { entradas: ["10/03/2010"], saida: ["Idade: 16 anos", "Pode entrar na guilda"] },
+          { entradas: ["11/03/2010"], saida: ["Idade: 15 anos", "Ainda não pode entrar"] },
+          { entradas: ["31/12/2009"], saida: ["Idade: 16 anos", "Pode entrar na guilda"] },
+          { entradas: ["01/01/2011"], saida: ["Idade: 15 anos", "Ainda não pode entrar"] },
+        ],
+        teste: `assert idade(datetime.date(2000, 12, 31), datetime.date(2026, 12, 30)) == 25, "Um dia antes do aniversário, ainda não completou: deveria dar 25."
+assert idade(datetime.date(2000, 12, 31), datetime.date(2026, 12, 31)) == 26, "No dia do aniversário já completou: deveria dar 26."`,
+        usar: [],
+      },
+      {
+        id: "15-6", titulo: "O bolo no forno",
+        historia: "Os bolos da festa ficam um tempo no forno. Com datetime.datetime, a relojoaria guarda também as horas e os minutos, e passa da meia-noite certinho.",
+        licao: `<p><code>datetime.datetime(2026, 3, 10, 22, 30)</code> é 10/03/2026 às 22:30.</p>
+<p>Some <code>datetime.timedelta(minutes=95)</code> e mostre a hora com <code>.strftime("%H:%M")</code>. Se o dia (<code>.day</code>) mudou, passou da meia-noite.</p>`,
+        exemplo: `import datetime
+t = datetime.datetime(2026, 3, 10, 8, 15)
+print((t + datetime.timedelta(minutes=50)).strftime("%H:%M"))`,
+        tarefa: `Leia a hora em que o bolo entrou no forno (<b>HH:MM</b>) e quantos minutos ele leva. Mostre <b>Sai às HH:MM</b> e, se passar da meia-noite, embaixo <b>Já é outro dia!</b>.`,
+        requisitos: ["Usar datetime.datetime com hora e minuto", "Somar timedelta(minutes=...)", "23:30 com 95 minutos sai às 01:05 de outro dia"],
+        inicial: `import datetime
+
+texto = input("Entrou às (HH:MM): ")
+minutos = int(input("Minutos de forno: "))
+hora, minuto = texto.split(":")
+
+`,
+        dica: `entrada = datetime.datetime(2026, 3, 10, int(hora), int(minuto)); saida = entrada + datetime.timedelta(minutes=minutos); print("Sai às " + saida.strftime("%H:%M")); if saida.day != entrada.day: ...`,
+        solucao: `import datetime
+
+texto = input("Entrou às (HH:MM): ")
+minutos = int(input("Minutos de forno: "))
+hora, minuto = texto.split(":")
+entrada = datetime.datetime(2026, 3, 10, int(hora), int(minuto))
+saida = entrada + datetime.timedelta(minutes=minutos)
+print("Sai às " + saida.strftime("%H:%M"))
+if saida.day != entrada.day:
+    print("Já é outro dia!")`,
+        casos: [
+          { entradas: ["14:20", "45"], saida: ["Sai às 15:05"] },
+          { entradas: ["23:30", "95"], saida: ["Sai às 01:05", "Já é outro dia!"] },
+          { entradas: ["08:00", "600"], saida: ["Sai às 18:00"] },
+          { entradas: ["23:59", "1"], saida: ["Sai às 00:00", "Já é outro dia!"] },
+        ],
+        usar: [{ re: /datetime\.datetime\s*\(/, msg: "Guarde a hora com datetime.datetime(ano, mes, dia, hora, minuto)." }, { re: /minutes\s*=/, msg: "Some os minutos com timedelta(minutes=...)." }],
+      },
+      {
+        id: "15-7", titulo: "O calendário sem folhas",
+        historia: "O calendário da parede perdeu as folhas. Truque de relojoeiro: o primeiro dia do mês seguinte menos o primeiro dia deste mês dá o tamanho do mês, e o datetime já sabe dos anos bissextos.",
+        licao: `<p>O mês seguinte de dezembro é janeiro do ano seguinte. Para os outros, é <code>mes + 1</code> no mesmo ano.</p>
+<p><code>(primeiro_do_proximo - primeiro_deste).days</code> é quantos dias o mês tem.</p>`,
+        exemplo: `import datetime
+a = datetime.date(2026, 1, 1)
+b = datetime.date(2026, 2, 1)
+print((b - a).days)`,
+        tarefa: `Complete <code>dias_no_mes(ano, mes)</code> usando datas (não vale lista pronta com os tamanhos!).`,
+        requisitos: ["Usar a diferença entre o dia 1 de dois meses", "Cuidar de dezembro", "Fevereiro de 2028 tem 29 dias"],
+        inicial: `import datetime
+
+def dias_no_mes(ano, mes):
+    return 30
+
+print(dias_no_mes(2026, 2))
+print(dias_no_mes(2028, 2))
+print(dias_no_mes(2026, 12))
+`,
+        dica: `inicio = datetime.date(ano, mes, 1); se mes == 12: proximo = datetime.date(ano + 1, 1, 1); senão: proximo = datetime.date(ano, mes + 1, 1); return (proximo - inicio).days`,
+        solucao: `import datetime
+
+def dias_no_mes(ano, mes):
+    inicio = datetime.date(ano, mes, 1)
+    if mes == 12:
+        proximo = datetime.date(ano + 1, 1, 1)
+    else:
+        proximo = datetime.date(ano, mes + 1, 1)
+    return (proximo - inicio).days
+
+print(dias_no_mes(2026, 2))
+print(dias_no_mes(2028, 2))
+print(dias_no_mes(2026, 12))`,
+        casos: [{ saida: ["28", "29", "31"] }],
+        teste: `assert dias_no_mes(2026, 4) == 30, "Abril deveria ter 30 dias."
+assert dias_no_mes(2100, 2) == 28, "2100 não é bissexto: fevereiro deveria ter 28 dias."
+assert dias_no_mes(2000, 2) == 29, "2000 é bissexto: fevereiro deveria ter 29 dias."`,
+        usar: [{ re: /\.days\b/, msg: "Use a diferença entre datas e o .days." }, { re: /31\s*,\s*28|28\s*,\s*31/, nao: true, msg: "Calcule com datas, sem lista pronta de tamanhos." }],
+      },
+      {
+        id: "15-8", titulo: "O Cuco Maluco", chefe: true, inimigo: inimigo("cuco", "Cuco Maluco"),
+        historia: "O Cuco Maluco embaralhou a agenda da relojoaria! Para passar por ele, ponha as entregas em ordem e diga quais estão atrasadas. Este é o chefe da relojoaria!",
+        licao: `<p>Datas vão numa lista e se ordenam com <code>sorted</code>, como números. Guardando tuplas <code>(data, nome)</code>, a ordem é pela data.</p>
+<p>Para separar a data do nome na linha, use <code>linha.split(" ", 1)</code>: corta só no primeiro espaço.</p>`,
+        exemplo: `import datetime
+lista = [(datetime.date(2026, 5, 1), "b"), (datetime.date(2026, 1, 9), "a")]
+for data, nome in sorted(lista):
+    print(data, nome)`,
+        tarefa: `Hoje é <b>10/03/2026</b>. Leia entregas no formato <b>dd/mm/aaaa nome</b> até digitar <b>fim</b>. Mostre em ordem de data, uma por linha: <b>08/03/2026 relógio: atrasada 2 dias</b>, <b>10/03/2026 corda: hoje</b> ou <b>15/03/2026 bolo: em 5 dias</b>. Sem entregas, <b>Agenda vazia</b>.`,
+        requisitos: ["Guardar (data, nome) numa lista", "Ordenar com sorted", "Atrasada, hoje ou em N dias", "Agenda vazia sem entregas"],
+        inicial: `import datetime
+
+hoje = datetime.date(2026, 3, 10)
+entregas = []
+
+`,
+        dica: `No laço: texto, nome = linha.split(" ", 1); dia, mes, ano = texto.split("/"); entregas.append((datetime.date(int(ano), int(mes), int(dia)), nome)). Depois: for data, nome in sorted(entregas): dias = (data - hoje).days ...`,
+        solucao: `import datetime
+
+hoje = datetime.date(2026, 3, 10)
+entregas = []
+while True:
+    linha = input("Entrega (ou fim): ")
+    if linha == "fim":
+        break
+    texto, nome = linha.split(" ", 1)
+    dia, mes, ano = texto.split("/")
+    entregas.append((datetime.date(int(ano), int(mes), int(dia)), nome))
+if not entregas:
+    print("Agenda vazia")
+for data, nome in sorted(entregas):
+    dias = (data - hoje).days
+    if dias < 0:
+        situacao = f"atrasada {-dias} dias"
+    elif dias == 0:
+        situacao = "hoje"
+    else:
+        situacao = f"em {dias} dias"
+    print(data.strftime("%d/%m/%Y") + f" {nome}: {situacao}")`,
+        casos: [
+          { entradas: ["15/03/2026 bolo", "08/03/2026 relógio de cuco", "10/03/2026 corda", "fim"], saida: ["08/03/2026 relógio de cuco: atrasada 2 dias", "10/03/2026 corda: hoje", "15/03/2026 bolo: em 5 dias"] },
+          { entradas: ["fim"], saida: ["Agenda vazia"] },
+          { entradas: ["01/01/2027 festa", "28/02/2026 ponteiro", "fim"], saida: ["28/02/2026 ponteiro: atrasada 10 dias", "01/01/2027 festa: em 297 dias"] },
+        ],
+        usar: [{ re: /sorted\s*\(/, msg: "Ponha as entregas em ordem com sorted." }],
+      },
+    ],
+  },
+  {
+    nome: "Mercado Mágico", nivel: "Mercador", arte: "arte/regiao-mercado.png", cena: "mercado", provisoria: true, cores: ["#3b1f12", "#e0a030"],
+    descricao: "Feira de coleções prontas: Counter, defaultdict, deque, namedtuple e as combinações do itertools.",
+    mentor: { nome: "Seu Ábaco", titulo: "Mentor: Seu Ábaco, o mercador", arte: "arte/mentor-abaco.png", anim: "arte/anim-mentor-abaco.png" },
+    insignia: { nome: "Balança de Ouro", arte: "arte/etapa-mercador.png" },
+    missoes: [
+      {
+        id: "16-1", titulo: "Quem vende mais?",
+        historia: "Bem-vindo ao Mercado Mágico, {heroi}! Aqui ninguém conta nos dedos. O Counter, do módulo collections, conta tudo de uma vez.",
+        licao: `<p><code>from collections import Counter</code>. <code>Counter(lista)</code> conta quantas vezes cada coisa aparece.</p>
+<ul><li><code>contagem["maçã"]</code> é quantas maçãs (dá 0 se não tiver nenhuma)</li><li><code>contagem.most_common(1)</code> devolve <code>[("maçã", 3)]</code>: o mais comum e quantas vezes</li></ul>`,
+        exemplo: `from collections import Counter
+c = Counter(["pão", "leite", "pão"])
+print(c["pão"])
+print(c.most_common(1))`,
+        tarefa: `Leia as vendas do dia numa linha só (separadas por espaço). Mostre <b>Mais vendido: item (N)</b> e, na linha de baixo, quantas poções saíram: <b>Poções: N</b>.`,
+        requisitos: ["Contar com Counter", "Usar most_common(1)", "poção espada poção mapa poção dá poção (3) e Poções: 3"],
+        inicial: `from collections import Counter
+
+vendas = input("Vendas do dia: ").split()
+
+`,
+        dica: `contagem = Counter(vendas); item, qtd = contagem.most_common(1)[0]; print(f"Mais vendido: {item} ({qtd})"); print(f"Poções: {contagem['poção']}")`,
+        solucao: `from collections import Counter
+
+vendas = input("Vendas do dia: ").split()
+contagem = Counter(vendas)
+item, qtd = contagem.most_common(1)[0]
+print(f"Mais vendido: {item} ({qtd})")
+print(f"Poções: {contagem['poção']}")`,
+        casos: [
+          { entradas: ["poção espada poção mapa poção"], saida: ["Mais vendido: poção (3)", "Poções: 3"] },
+          { entradas: ["mapa mapa escudo"], saida: ["Mais vendido: mapa (2)", "Poções: 0"] },
+          { entradas: ["corda"], saida: ["Mais vendido: corda (1)", "Poções: 0"] },
+        ],
+        usar: [{ re: /Counter\s*\(/, msg: "Conte as vendas com Counter." }, { re: /most_common\s*\(/, msg: "Ache o mais vendido com most_common(1)." }],
+      },
+      {
+        id: "16-2", titulo: "Chega e sai mercadoria",
+        historia: "Todo dia chega mercadoria e sai venda. Counters se somam e se subtraem como mágica: o que chega a zero some da conta.",
+        licao: `<ul><li><code>estoque + chegou</code> junta as quantidades</li><li><code>estoque - vendido</code> tira (o que fica zero ou negativo some)</li><li><code>sorted(contagem.items())</code> lista os pares (item, quantidade) em ordem alfabética</li></ul>`,
+        exemplo: `from collections import Counter
+a = Counter({"pão": 5})
+b = Counter({"pão": 2, "bolo": 1})
+print(sorted((a + b).items()))
+print(sorted((a - b).items()))`,
+        tarefa: `O estoque começa como está no código. Leia o que chegou e o que foi vendido (uma linha cada, itens separados por espaço). Mostre o estoque final em ordem alfabética, um por linha: <b>item: N</b>. Se não sobrar nada: <b>Estoque vazio</b>.`,
+        requisitos: ["Somar o que chegou com +", "Tirar o vendido com -", "Ordem alfabética", "Estoque vazio quando não sobra nada"],
+        inicial: `from collections import Counter
+
+estoque = Counter({"poção": 3, "mapa": 1})
+chegou = Counter(input("Chegou: ").split())
+vendido = Counter(input("Vendido: ").split())
+
+`,
+        dica: `final = estoque + chegou - vendido; if not final: print("Estoque vazio"); for item, qtd in sorted(final.items()): print(f"{item}: {qtd}")`,
+        solucao: `from collections import Counter
+
+estoque = Counter({"poção": 3, "mapa": 1})
+chegou = Counter(input("Chegou: ").split())
+vendido = Counter(input("Vendido: ").split())
+final = estoque + chegou - vendido
+if not final:
+    print("Estoque vazio")
+for item, qtd in sorted(final.items()):
+    print(f"{item}: {qtd}")`,
+        casos: [
+          { entradas: ["mapa espada", "poção poção"], saida: ["espada: 1", "mapa: 2", "poção: 1"] },
+          { entradas: ["", "poção poção poção mapa"], saida: ["Estoque vazio"] },
+          { entradas: ["corda", "corda corda"], saida: ["mapa: 1", "poção: 3"] },
+        ],
+        usar: [{ re: /\+\s*chegou|chegou\s*\+/, msg: "Some o que chegou com +." }, { re: /-\s*vendido/, msg: "Tire o vendido com -." }],
+      },
+      {
+        id: "16-3", titulo: "As bancas por letra",
+        historia: "As bancas do mercado se arrumam pela primeira letra do produto. O defaultdict cria a lista sozinho na primeira vez que uma letra aparece.",
+        licao: `<p><code>from collections import defaultdict</code>. Em <code>grupos = defaultdict(list)</code>, pedir uma chave nova já cria uma lista vazia, então <code>grupos[letra].append(item)</code> nunca dá erro.</p>
+<p>Sem ele, você teria que conferir <code>if letra not in grupos</code> toda vez.</p>`,
+        exemplo: `from collections import defaultdict
+d = defaultdict(list)
+d["a"].append("abacaxi")
+d["a"].append("alface")
+print(dict(d))`,
+        tarefa: `Leia produtos numa linha (separados por espaço). Agrupe pela primeira letra e mostre cada grupo, com as letras em ordem alfabética: <b>a: alho, abacaxi</b>. Dentro do grupo, os produtos ficam na ordem em que chegaram.`,
+        requisitos: ["Usar defaultdict(list)", "Letras em ordem alfabética", "Produtos separados por vírgula e espaço"],
+        inicial: `from collections import defaultdict
+
+produtos = input("Produtos: ").split()
+grupos = defaultdict(list)
+
+`,
+        dica: `for produto in produtos: grupos[produto[0]].append(produto); for letra in sorted(grupos): print(letra + ": " + ", ".join(grupos[letra]))`,
+        solucao: `from collections import defaultdict
+
+produtos = input("Produtos: ").split()
+grupos = defaultdict(list)
+for produto in produtos:
+    grupos[produto[0]].append(produto)
+for letra in sorted(grupos):
+    print(letra + ": " + ", ".join(grupos[letra]))`,
+        casos: [
+          { entradas: ["uva alho abacaxi banana arroz"], saida: ["a: alho, abacaxi, arroz", "b: banana", "u: uva"] },
+          { entradas: ["pera"], saida: ["p: pera"] },
+          { entradas: ["mel milho kiwi manga"], saida: ["k: kiwi", "m: mel, milho, manga"] },
+        ],
+        usar: [{ re: /defaultdict\s*\(\s*list\s*\)/, msg: "Agrupe com defaultdict(list)." }],
+      },
+      {
+        id: "16-4", titulo: "A fila do caixa",
+        historia: "Na fila do caixa, quem chega primeiro é atendido primeiro. A deque é uma fila de verdade: tirar do começo é rápido, ao contrário da lista comum.",
+        licao: `<ul><li><code>fila = deque()</code> cria a fila (vem de <code>collections</code>)</li><li><code>fila.append(x)</code> põe no fim</li><li><code>fila.popleft()</code> tira e devolve o primeiro</li><li>Fila vazia vale <code>False</code> num <code>if</code></li></ul>`,
+        exemplo: `from collections import deque
+fila = deque(["Ana"])
+fila.append("Bia")
+print(fila.popleft())
+print(len(fila))`,
+        tarefa: `Leia comandos até <b>fim</b>: <b>chega NOME</b> põe a pessoa na fila; <b>atende</b> mostra <b>Atendendo NOME</b> (ou <b>Ninguém na fila</b>). No fim, mostre <b>Ficaram N na fila</b>.`,
+        requisitos: ["Usar deque", "Atender com popleft()", "Ninguém na fila quando vazia"],
+        inicial: `from collections import deque
+
+fila = deque()
+while True:
+    comando = input("Comando: ")
+    if comando == "fim":
+        break
+
+`,
+        dica: `if comando.startswith("chega "): fila.append(comando[6:]); elif comando == "atende": se fila: print(f"Atendendo {fila.popleft()}") senão: print("Ninguém na fila"). Depois do laço: print(f"Ficaram {len(fila)} na fila")`,
+        solucao: `from collections import deque
+
+fila = deque()
+while True:
+    comando = input("Comando: ")
+    if comando == "fim":
+        break
+    if comando.startswith("chega "):
+        fila.append(comando[6:])
+    elif comando == "atende":
+        if fila:
+            print(f"Atendendo {fila.popleft()}")
+        else:
+            print("Ninguém na fila")
+print(f"Ficaram {len(fila)} na fila")`,
+        casos: [
+          { entradas: ["chega Ana", "chega Bia", "atende", "chega Caio", "atende", "fim"], saida: ["Atendendo Ana", "Atendendo Bia", "Ficaram 1 na fila"] },
+          { entradas: ["atende", "fim"], saida: ["Ninguém na fila", "Ficaram 0 na fila"] },
+          { entradas: ["chega Zé", "chega Lia", "fim"], saida: ["Ficaram 2 na fila"] },
+        ],
+        usar: [{ re: /popleft\s*\(/, msg: "Atenda o primeiro da fila com popleft()." }],
+      },
+      {
+        id: "16-5", titulo: "Etiquetas de preço",
+        historia: "Cada produto tem nome e preço. Uma namedtuple é uma tupla com nome nos campos: produto.preco é bem mais claro que produto[1].",
+        licao: `<p><code>Produto = namedtuple("Produto", ["nome", "preco"])</code> cria o molde (vem de <code>collections</code>).</p>
+<ul><li><code>p = Produto("espada", 30)</code></li><li><code>p.nome</code> e <code>p.preco</code></li><li>Funciona com <code>min</code>, <code>max</code> e <code>sorted</code> usando <code>key=lambda p: p.preco</code></li></ul>`,
+        exemplo: `from collections import namedtuple
+Ponto = namedtuple("Ponto", ["x", "y"])
+p = Ponto(3, 4)
+print(p.x + p.y)
+print(p)`,
+        tarefa: `Leia produtos no formato <b>nome:preço</b> até <b>fim</b>. Mostre <b>Mais barato: nome (R$ N)</b>, <b>Mais caro: nome (R$ N)</b> e <b>Total: R$ N</b>. Sem produtos: <b>Nenhum produto</b>.`,
+        requisitos: ["Guardar cada um como Produto(nome, preco)", "min e max com key=lambda", "Nenhum produto quando vazio"],
+        inicial: `from collections import namedtuple
+
+Produto = namedtuple("Produto", ["nome", "preco"])
+produtos = []
+while True:
+    linha = input("Produto (nome:preço) ou fim: ")
+    if linha == "fim":
+        break
+
+`,
+        dica: `nome, preco = linha.split(":"); produtos.append(Produto(nome, int(preco))). Depois: barato = min(produtos, key=lambda p: p.preco) e caro = max(...); total = sum(p.preco for p in produtos)`,
+        solucao: `from collections import namedtuple
+
+Produto = namedtuple("Produto", ["nome", "preco"])
+produtos = []
+while True:
+    linha = input("Produto (nome:preço) ou fim: ")
+    if linha == "fim":
+        break
+    nome, preco = linha.split(":")
+    produtos.append(Produto(nome, int(preco)))
+if not produtos:
+    print("Nenhum produto")
+else:
+    barato = min(produtos, key=lambda p: p.preco)
+    caro = max(produtos, key=lambda p: p.preco)
+    print(f"Mais barato: {barato.nome} (R$ {barato.preco})")
+    print(f"Mais caro: {caro.nome} (R$ {caro.preco})")
+    print(f"Total: R$ {sum(p.preco for p in produtos)}")`,
+        casos: [
+          { entradas: ["espada:30", "poção:5", "mapa:12", "fim"], saida: ["Mais barato: poção (R$ 5)", "Mais caro: espada (R$ 30)", "Total: R$ 47"] },
+          { entradas: ["fim"], saida: ["Nenhum produto"] },
+          { entradas: ["anel:99", "fim"], saida: ["Mais barato: anel (R$ 99)", "Mais caro: anel (R$ 99)", "Total: R$ 99"] },
+        ],
+        usar: [{ re: /Produto\s*\(\s*nome/, msg: "Guarde cada produto como Produto(nome, preco)." }, { re: /\.preco\b/, msg: "Use o campo .preco." }],
+      },
+      {
+        id: "16-6", titulo: "Combos da promoção",
+        historia: "Promoção do dia: leve dois itens diferentes! O combinations, do módulo itertools, monta todos os pares possíveis, sem repetir e sem ligar para a ordem.",
+        licao: `<p><code>from itertools import combinations</code>. <code>combinations(lista, 2)</code> gera todos os pares: de <code>["a", "b", "c"]</code> saem <code>("a", "b")</code>, <code>("a", "c")</code> e <code>("b", "c")</code>.</p>
+<p>Num dicionário, ele combina as chaves.</p>`,
+        exemplo: `from itertools import combinations
+for par in combinations(["pão", "bolo", "suco"], 2):
+    print(par)`,
+        tarefa: `Os preços estão no dicionário. Leia quantas moedas o herói tem e mostre cada par que cabe no bolso, na ordem do combinations: <b>escudo + poção = 20</b>. No fim, <b>N combos possíveis</b>.`,
+        requisitos: ["Usar combinations(precos, 2)", "Só os pares com soma até as moedas", "Contar os combos"],
+        inicial: `from itertools import combinations
+
+precos = {"espada": 30, "escudo": 15, "poção": 5, "mapa": 12}
+moedas = int(input("Moedas: "))
+
+`,
+        dica: `total = 0; for a, b in combinations(precos, 2): soma = precos[a] + precos[b]; if soma <= moedas: print(f"{a} + {b} = {soma}"); total += 1. No fim: print(f"{total} combos possíveis")`,
+        solucao: `from itertools import combinations
+
+precos = {"espada": 30, "escudo": 15, "poção": 5, "mapa": 12}
+moedas = int(input("Moedas: "))
+total = 0
+for a, b in combinations(precos, 2):
+    soma = precos[a] + precos[b]
+    if soma <= moedas:
+        print(f"{a} + {b} = {soma}")
+        total += 1
+print(f"{total} combos possíveis")`,
+        casos: [
+          { entradas: ["20"], saida: ["escudo + poção = 20", "poção + mapa = 17", "2 combos possíveis"] },
+          { entradas: ["4"], saida: ["0 combos possíveis"] },
+          { entradas: ["50"], saida: ["espada + escudo = 45", "espada + poção = 35", "espada + mapa = 42", "escudo + poção = 20", "escudo + mapa = 27", "poção + mapa = 17", "6 combos possíveis"] },
+        ],
+        usar: [{ re: /combinations\s*\(/, msg: "Monte os pares com combinations." }],
+      },
+      {
+        id: "16-7", titulo: "O pódio da corrida",
+        historia: "Na corrida de carrinhos do mercado, a ordem importa: Ana em 1º e Bia em 2º é diferente de Bia em 1º e Ana em 2º. Isso é permutação.",
+        licao: `<p><code>permutations(lista, 2)</code> (também do <code>itertools</code>) gera todas as ordens possíveis de 2 elementos. Diferente do <code>combinations</code>, aqui ("Ana", "Bia") e ("Bia", "Ana") contam separado.</p>`,
+        exemplo: `from itertools import permutations
+print(list(permutations("AB", 2)))`,
+        tarefa: `Leia os corredores numa linha (separados por espaço). Mostre todos os pódios possíveis de 1º e 2º lugar, como <b>1º Ana, 2º Bia</b>, na ordem do permutations. No fim, <b>Total: N pódios</b>.`,
+        requisitos: ["Usar permutations(corredores, 2)", "Um pódio por linha", "Com 3 corredores, 6 pódios"],
+        inicial: `from itertools import permutations
+
+corredores = input("Corredores: ").split()
+
+`,
+        dica: `total = 0; for primeiro, segundo in permutations(corredores, 2): print(f"1º {primeiro}, 2º {segundo}"); total += 1. No fim: print(f"Total: {total} pódios")`,
+        solucao: `from itertools import permutations
+
+corredores = input("Corredores: ").split()
+total = 0
+for primeiro, segundo in permutations(corredores, 2):
+    print(f"1º {primeiro}, 2º {segundo}")
+    total += 1
+print(f"Total: {total} pódios")`,
+        casos: [
+          { entradas: ["Ana Bia Caio"], saida: ["1º Ana, 2º Bia", "1º Ana, 2º Caio", "1º Bia, 2º Ana", "1º Bia, 2º Caio", "1º Caio, 2º Ana", "1º Caio, 2º Bia", "Total: 6 pódios"] },
+          { entradas: ["Zé Lia"], saida: ["1º Zé, 2º Lia", "1º Lia, 2º Zé", "Total: 2 pódios"] },
+          { entradas: ["Solo"], saida: ["Total: 0 pódios"] },
+        ],
+        usar: [{ re: /permutations\s*\(/, msg: "Gere as ordens com permutations." }],
+      },
+      {
+        id: "16-8", titulo: "O Mímico do Balcão", chefe: true, inimigo: inimigo("mimico", "Mímico do Balcão"),
+        historia: "O Mímico do Balcão é um baú que morde quem não sabe fechar as contas do mercado! Faça o fechamento do dia: o que mais vendeu e o que encalhou. Este é o chefe do mercado!",
+        licao: `<p>Some as vendas num <code>Counter</code> com <code>vendas[item] += quantidade</code>.</p>
+<p>Para o ranking, ordene os pares com <code>key=lambda par: (-par[1], par[0])</code>: primeiro quem vendeu mais (o menos inverte a ordem) e, no empate, a ordem alfabética.</p>
+<p>No Counter, um item que não vendeu vale 0: <code>vendas["corda"] == 0</code>.</p>`,
+        exemplo: `from collections import Counter
+c = Counter({"b": 2, "a": 2, "c": 5})
+print(sorted(c.items(), key=lambda par: (-par[1], par[0])))`,
+        tarefa: `O catálogo está no código. Leia vendas no formato <b>item quantidade</b> até <b>fim</b>. Mostre o ranking (<b>item: total</b>), do maior para o menor, empate em ordem alfabética. Depois <b>Encalhados: corda, escudo</b> com os itens do catálogo que não venderam (em ordem alfabética), ou <b>Encalhados: nenhum</b>.`,
+        requisitos: ["Somar num Counter", "Ranking com empate em ordem alfabética", "Encalhados do catálogo, ou nenhum"],
+        inicial: `from collections import Counter
+
+catalogo = ["espada", "escudo", "poção", "mapa", "corda"]
+vendas = Counter()
+
+`,
+        dica: `Laço até fim: item, quantidade = linha.split(); vendas[item] += int(quantidade). Ranking: for item, total in sorted(vendas.items(), key=lambda par: (-par[1], par[0])). Encalhados: sorted(item for item in catalogo if vendas[item] == 0).`,
+        solucao: `from collections import Counter
+
+catalogo = ["espada", "escudo", "poção", "mapa", "corda"]
+vendas = Counter()
+while True:
+    linha = input("Venda (item quantidade) ou fim: ")
+    if linha == "fim":
+        break
+    item, quantidade = linha.split()
+    vendas[item] += int(quantidade)
+for item, total in sorted(vendas.items(), key=lambda par: (-par[1], par[0])):
+    print(f"{item}: {total}")
+encalhados = sorted(item for item in catalogo if vendas[item] == 0)
+if encalhados:
+    print("Encalhados: " + ", ".join(encalhados))
+else:
+    print("Encalhados: nenhum")`,
+        casos: [
+          { entradas: ["poção 3", "espada 1", "poção 2", "mapa 1", "fim"], saida: ["poção: 5", "espada: 1", "mapa: 1", "Encalhados: corda, escudo"] },
+          { entradas: ["fim"], saida: ["Encalhados: corda, escudo, espada, mapa, poção"] },
+          { entradas: ["espada 2", "escudo 2", "poção 1", "mapa 4", "corda 1", "fim"], saida: ["mapa: 4", "escudo: 2", "espada: 2", "corda: 1", "poção: 1", "Encalhados: nenhum"] },
+        ],
+        usar: [{ re: /Counter\s*\(/, msg: "Some as vendas num Counter." }],
+      },
+    ],
+  },
+  {
+    nome: "Forja dos Métodos Especiais", nivel: "Ferreiro", arte: "arte/regiao-forja.png", cena: "forja", provisoria: true, cores: ["#2b1410", "#e8622a"],
+    descricao: "Onde os objetos ganham poderes do Python: __repr__, __eq__, __add__, __len__, iteradores, with, @property e @classmethod.",
+    mentor: { nome: "Mestra Dunder", titulo: "Mentora: Mestra Dunder, a ferreira", arte: "arte/mentor-dunder.png", anim: "arte/anim-mentor-dunder.png" },
+    insignia: { nome: "Martelo Duplo", arte: "arte/etapa-ferreiro.png" },
+    missoes: [
+      {
+        id: "17-1", titulo: "O nome na lista",
+        historia: "Bem-vindo à Forja, {heroi}! Métodos com dois tracinhos de cada lado (os dunder) ensinam o Python a lidar com os seus objetos. Começo pelo __repr__, que diz como o objeto aparece numa lista.",
+        licao: `<p>Sem ajuda, um objeto aparece como <code>&lt;__main__.Espada object at 0x...&gt;</code>. O método <code>__repr__</code> devolve o texto que o Python mostra dentro de listas.</p>
+<p>Se a classe não tiver <code>__str__</code>, o <code>print</code> do objeto sozinho também usa o <code>__repr__</code>.</p>`,
+        exemplo: `class Gema:
+    def __init__(self, cor):
+        self.cor = cor
+
+    def __repr__(self):
+        return f"Gema({self.cor})"
+
+print([Gema("rubi"), Gema("safira")])`,
+        tarefa: `Escreva o <code>__repr__</code> da Espada para que a lista apareça como <b>[Espada(fogo, 7), Espada(gelo, 5)]</b>.`,
+        requisitos: ["Criar def __repr__(self)", "Devolver o texto com return", "Saída: [Espada(fogo, 7), Espada(gelo, 5)]"],
+        inicial: `class Espada:
+    def __init__(self, elemento, forca):
+        self.elemento = elemento
+        self.forca = forca
+
+forja = [Espada("fogo", 7), Espada("gelo", 5)]
+print(forja)
+`,
+        dica: `Dentro da classe: def __repr__(self): return f"Espada({self.elemento}, {self.forca})"`,
+        solucao: `class Espada:
+    def __init__(self, elemento, forca):
+        self.elemento = elemento
+        self.forca = forca
+
+    def __repr__(self):
+        return f"Espada({self.elemento}, {self.forca})"
+
+forja = [Espada("fogo", 7), Espada("gelo", 5)]
+print(forja)`,
+        casos: [{ saida: ["[Espada(fogo, 7), Espada(gelo, 5)]"] }],
+        teste: `assert repr(Espada("raio", 9)) == "Espada(raio, 9)", "repr(Espada('raio', 9)) deveria ser Espada(raio, 9)."`,
+        usar: [{ re: /def\s+__repr__\s*\(/, msg: "Crie o método __repr__." }],
+      },
+      {
+        id: "17-2", titulo: "Moedas iguais",
+        historia: "Duas moedas de 10 de ouro valem o mesmo para o mercador, mas o Python acha que dois objetos só são iguais se forem o mesmíssimo objeto. O __eq__ ensina o que é ser igual.",
+        licao: `<p><code>def __eq__(self, outra):</code> devolve <code>True</code> quando os dois são iguais para você. Ele faz funcionar o <code>==</code>, o <code>!=</code> e até o <code>in</code> de listas.</p>
+<p>Confira se a outra também é Moeda com <code>isinstance(outra, Moeda)</code>: assim comparar com um texto dá <code>False</code> em vez de erro.</p>`,
+        exemplo: `class Nota:
+    def __init__(self, valor):
+        self.valor = valor
+
+    def __eq__(self, outra):
+        return isinstance(outra, Nota) and self.valor == outra.valor
+
+print(Nota(5) == Nota(5))
+print(Nota(5) in [Nota(1), Nota(5)])`,
+        tarefa: `Escreva o <code>__eq__</code> da Moeda: duas moedas são iguais quando o valor e o metal são iguais.`,
+        requisitos: ["Criar def __eq__(self, outra)", "Comparar valor e metal", "Saída: True, False e True"],
+        inicial: `class Moeda:
+    def __init__(self, valor, metal):
+        self.valor = valor
+        self.metal = metal
+
+print(Moeda(10, "ouro") == Moeda(10, "ouro"))
+print(Moeda(10, "ouro") == Moeda(10, "prata"))
+print(Moeda(5, "prata") in [Moeda(1, "ouro"), Moeda(5, "prata")])
+`,
+        dica: `def __eq__(self, outra): return isinstance(outra, Moeda) and self.valor == outra.valor and self.metal == outra.metal`,
+        solucao: `class Moeda:
+    def __init__(self, valor, metal):
+        self.valor = valor
+        self.metal = metal
+
+    def __eq__(self, outra):
+        return isinstance(outra, Moeda) and self.valor == outra.valor and self.metal == outra.metal
+
+print(Moeda(10, "ouro") == Moeda(10, "ouro"))
+print(Moeda(10, "ouro") == Moeda(10, "prata"))
+print(Moeda(5, "prata") in [Moeda(1, "ouro"), Moeda(5, "prata")])`,
+        casos: [{ saida: ["True", "False", "True"] }],
+        teste: `assert Moeda(1, "ouro") != Moeda(2, "ouro"), "Moedas de valores diferentes deveriam ser diferentes."
+assert not (Moeda(1, "ouro") == "ouro"), "Comparar uma Moeda com um texto deveria dar False."`,
+        usar: [{ re: /def\s+__eq__\s*\(/, msg: "Crie o método __eq__." }],
+      },
+      {
+        id: "17-3", titulo: "Somando ouro",
+        historia: "Na forja, os sacos de ouro se juntam num saco maior. Com o __add__, o sinal de mais funciona entre os seus objetos.",
+        licao: `<p><code>def __add__(self, outro):</code> roda quando você escreve <code>a + b</code>. Ele deve devolver um objeto <b>novo</b>, sem mexer em <code>a</code> nem em <code>b</code>.</p>`,
+        exemplo: `class Ponto:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
+    def __add__(self, outro):
+        return Ponto(self.x + outro.x, self.y + outro.y)
+
+p = Ponto(1, 2) + Ponto(10, 20)
+print(p.x, p.y)`,
+        tarefa: `Escreva o <code>__add__</code> do Saco: ele devolve um Saco novo com a soma do ouro dos dois.`,
+        requisitos: ["Criar def __add__(self, outro)", "Devolver um Saco novo", "Saída: 20"],
+        inicial: `class Saco:
+    def __init__(self, ouro):
+        self.ouro = ouro
+
+total = Saco(5) + Saco(12) + Saco(3)
+print(total.ouro)
+`,
+        dica: `def __add__(self, outro): return Saco(self.ouro + outro.ouro)`,
+        solucao: `class Saco:
+    def __init__(self, ouro):
+        self.ouro = ouro
+
+    def __add__(self, outro):
+        return Saco(self.ouro + outro.ouro)
+
+total = Saco(5) + Saco(12) + Saco(3)
+print(total.ouro)`,
+        casos: [{ saida: ["20"] }],
+        teste: `__a = Saco(1)
+__b = Saco(2)
+__c = __a + __b
+assert isinstance(__c, Saco), "O __add__ deveria devolver um Saco."
+assert __c.ouro == 3 and __a.ouro == 1 and __b.ouro == 2, "O + deveria criar um Saco novo, sem mudar os dois de antes."`,
+        usar: [{ re: /def\s+__add__\s*\(/, msg: "Crie o método __add__." }],
+      },
+      {
+        id: "17-4", titulo: "A mochila que se conhece",
+        historia: "A mochila forjada sabe quantos itens tem, entrega o item da posição que você pedir e responde se algo está dentro. Três dunder de uma vez!",
+        licao: `<ul><li><code>__len__(self)</code> faz o <code>len(mochila)</code> funcionar</li><li><code>__getitem__(self, posicao)</code> faz o <code>mochila[0]</code> funcionar</li><li><code>__contains__(self, item)</code> faz o <code>"corda" in mochila</code> funcionar</li></ul>
+<p>Os três podem simplesmente usar a lista guardada em <code>self.itens</code>.</p>`,
+        exemplo: `class Fila:
+    def __init__(self):
+        self.gente = ["Ana", "Bia"]
+
+    def __len__(self):
+        return len(self.gente)
+
+print(len(Fila()))`,
+        tarefa: `Complete a Mochila com <code>__len__</code>, <code>__getitem__</code> e <code>__contains__</code>, usando a lista <code>self.itens</code>.`,
+        requisitos: ["Criar __len__, __getitem__ e __contains__", "Usar self.itens", "Saída: 3, tocha, True e False"],
+        inicial: `class Mochila:
+    def __init__(self, itens):
+        self.itens = itens
+
+mochila = Mochila(["corda", "tocha", "mapa"])
+print(len(mochila))
+print(mochila[1])
+print("mapa" in mochila)
+print("espada" in mochila)
+`,
+        dica: `def __len__(self): return len(self.itens) / def __getitem__(self, posicao): return self.itens[posicao] / def __contains__(self, item): return item in self.itens`,
+        solucao: `class Mochila:
+    def __init__(self, itens):
+        self.itens = itens
+
+    def __len__(self):
+        return len(self.itens)
+
+    def __getitem__(self, posicao):
+        return self.itens[posicao]
+
+    def __contains__(self, item):
+        return item in self.itens
+
+mochila = Mochila(["corda", "tocha", "mapa"])
+print(len(mochila))
+print(mochila[1])
+print("mapa" in mochila)
+print("espada" in mochila)`,
+        casos: [{ saida: ["3", "tocha", "True", "False"] }],
+        teste: `__m = Mochila(["arco"])
+assert len(__m) == 1 and __m[0] == "arco" and "arco" in __m and "flecha" not in __m, "A mochila deveria funcionar com qualquer lista."`,
+        usar: [{ re: /def\s+__len__\s*\(/, msg: "Crie o __len__." }, { re: /def\s+__getitem__\s*\(/, msg: "Crie o __getitem__." }, { re: /def\s+__contains__\s*\(/, msg: "Crie o __contains__." }],
+      },
+      {
+        id: "17-5", titulo: "A porta da forja",
+        historia: "A porta da forja é pesada: tem que abrir antes e fechar depois, mesmo se der problema lá dentro. O with faz isso sozinho, com __enter__ e __exit__.",
+        licao: `<p>Num <code>with Porta():</code> o Python chama <code>__enter__</code> na entrada e <code>__exit__</code> na saída, <b>sempre</b>, até quando dá erro no meio.</p>
+<p>O <code>__exit__</code> recebe três informações sobre o erro: <code>def __exit__(self, tipo, valor, rastro):</code>. Se não houve erro, <code>tipo</code> é <code>None</code>. Devolver <code>False</code> deixa o erro seguir adiante.</p>`,
+        exemplo: `class Lampada:
+    def __enter__(self):
+        print("acende")
+        return self
+
+    def __exit__(self, tipo, valor, rastro):
+        print("apaga")
+        return False
+
+with Lampada():
+    print("lendo o pergaminho")`,
+        tarefa: `Faça o <code>__enter__</code> mostrar <b>Porta aberta</b> e o <code>__exit__</code> mostrar <b>Porta fechada</b>. Se houve erro lá dentro, o <code>__exit__</code> mostra antes <b>Algo deu errado na forja</b>.`,
+        requisitos: ["__enter__ mostra Porta aberta", "__exit__ mostra Porta fechada", "Com erro, avisar antes de fechar"],
+        inicial: `class Porta:
+    def __enter__(self):
+        return self
+
+    def __exit__(self, tipo, valor, rastro):
+        return False
+
+with Porta():
+    print("Martelando a espada")
+
+try:
+    with Porta():
+        raise ValueError("faísca")
+except ValueError:
+    print("O ferreiro apagou a faísca")
+`,
+        dica: `No __enter__: print("Porta aberta") antes do return. No __exit__: if tipo is not None: print("Algo deu errado na forja"); depois print("Porta fechada").`,
+        solucao: `class Porta:
+    def __enter__(self):
+        print("Porta aberta")
+        return self
+
+    def __exit__(self, tipo, valor, rastro):
+        if tipo is not None:
+            print("Algo deu errado na forja")
+        print("Porta fechada")
+        return False
+
+with Porta():
+    print("Martelando a espada")
+
+try:
+    with Porta():
+        raise ValueError("faísca")
+except ValueError:
+    print("O ferreiro apagou a faísca")`,
+        casos: [{ saida: ["Porta aberta", "Martelando a espada", "Porta fechada", "Porta aberta", "Algo deu errado na forja", "Porta fechada", "O ferreiro apagou a faísca"] }],
+        usar: [{ re: /tipo\s+is\s+not\s+None|tipo\s+is\s+None|if\s+tipo\b/, msg: "No __exit__, confira se tipo é None para saber se deu erro." }],
+      },
+      {
+        id: "17-6", titulo: "A contagem do forno",
+        historia: "Antes de tirar a espada do forno, a forja conta para trás. Um iterador é um objeto que o for sabe percorrer: ele pede o próximo com __next__ até ouvir StopIteration.",
+        licao: `<ul><li><code>__iter__(self)</code> devolve quem será percorrido; aqui, o próprio objeto: <code>return self</code></li><li><code>__next__(self)</code> devolve o próximo valor ou, quando acabou, faz <code>raise StopIteration</code></li></ul>`,
+        exemplo: `class Dois:
+    def __init__(self):
+        self.n = 0
+
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        if self.n == 2:
+            raise StopIteration
+        self.n += 1
+        return self.n
+
+for x in Dois():
+    print(x)`,
+        tarefa: `Complete a Contagem: <code>Contagem(3)</code> deve dar 3, 2 e 1. O programa lê de quanto começar, mostra cada número e depois <b>Pronta!</b>.`,
+        requisitos: ["Criar __iter__ e __next__", "Parar com raise StopIteration", "Contagem(0) não mostra número nenhum"],
+        inicial: `class Contagem:
+    def __init__(self, inicio):
+        self.atual = inicio
+
+inicio = int(input("Contar a partir de: "))
+for numero in Contagem(inicio):
+    print(numero)
+print("Pronta!")
+`,
+        dica: `def __iter__(self): return self. def __next__(self): if self.atual <= 0: raise StopIteration; valor = self.atual; self.atual -= 1; return valor`,
+        solucao: `class Contagem:
+    def __init__(self, inicio):
+        self.atual = inicio
+
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        if self.atual <= 0:
+            raise StopIteration
+        valor = self.atual
+        self.atual -= 1
+        return valor
+
+inicio = int(input("Contar a partir de: "))
+for numero in Contagem(inicio):
+    print(numero)
+print("Pronta!")`,
+        casos: [
+          { entradas: ["3"], saida: ["3", "2", "1", "Pronta!"] },
+          { entradas: ["1"], saida: ["1", "Pronta!"] },
+          { entradas: ["0"], saida: ["Pronta!"] },
+        ],
+        teste: `assert list(Contagem(2)) == [2, 1], "list(Contagem(2)) deveria ser [2, 1]."`,
+        usar: [{ re: /def\s+__next__\s*\(/, msg: "Crie o método __next__." }, { re: /StopIteration/, msg: "Termine com raise StopIteration." }],
+      },
+      {
+        id: "17-7", titulo: "A vida protegida",
+        historia: "A armadura mágica nunca deixa a vida passar de 100 nem ficar abaixo de 0. Com @property, quem usa escreve armadura.vida = 150 e a própria classe corrige.",
+        licao: `<p><code>@property</code> em cima de <code>def vida(self)</code> faz <code>armadura.vida</code> chamar o método, sem parênteses.</p>
+<p>Para aceitar <code>armadura.vida = 150</code>, crie o <b>setter</b>: <code>@vida.setter</code> em cima de <code>def vida(self, valor)</code>. O valor de verdade fica guardado em <code>self._vida</code>.</p>`,
+        exemplo: `class Termometro:
+    def __init__(self):
+        self._graus = 0
+
+    @property
+    def graus(self):
+        return self._graus
+
+    @graus.setter
+    def graus(self, valor):
+        self._graus = max(-50, valor)
+
+t = Termometro()
+t.graus = -80
+print(t.graus)`,
+        tarefa: `Crie o setter da vida da Armadura: ele guarda o valor sempre entre 0 e 100.`,
+        requisitos: ["Usar @vida.setter", "Guardar em self._vida", "Saída: 100, 70 e 0"],
+        inicial: `class Armadura:
+    def __init__(self):
+        self._vida = 100
+
+    @property
+    def vida(self):
+        return self._vida
+
+armadura = Armadura()
+armadura.vida = 150
+print(armadura.vida)
+armadura.vida -= 30
+print(armadura.vida)
+armadura.vida -= 100
+print(armadura.vida)
+`,
+        dica: `Embaixo do @property: @vida.setter, def vida(self, valor): self._vida = max(0, min(100, valor))`,
+        solucao: `class Armadura:
+    def __init__(self):
+        self._vida = 100
+
+    @property
+    def vida(self):
+        return self._vida
+
+    @vida.setter
+    def vida(self, valor):
+        self._vida = max(0, min(100, valor))
+
+armadura = Armadura()
+armadura.vida = 150
+print(armadura.vida)
+armadura.vida -= 30
+print(armadura.vida)
+armadura.vida -= 100
+print(armadura.vida)`,
+        casos: [{ saida: ["100", "70", "0"] }],
+        teste: `__a = Armadura()
+__a.vida = 42
+assert __a.vida == 42, "Valores entre 0 e 100 deveriam ficar como estão."`,
+        usar: [{ re: /@vida\.setter/, msg: "Crie o setter com @vida.setter." }],
+      },
+      {
+        id: "17-8", titulo: "O Autômato Enferrujado", chefe: true, inimigo: inimigo("automato", "Autômato Enferrujado"),
+        historia: "O Autômato Enferrujado só entende tempos de forja escritos assim: 1h30, 2h ou 45min. Para vencê-lo, crie a classe Tempo que lê esses textos, soma e compara. Este é o chefe da forja!",
+        licao: `<p>Um <code>@classmethod</code> recebe a própria classe (<code>cls</code>) e serve para criar objetos de outro jeito: <code>Tempo.de_texto("1h30")</code> devolve <code>cls(90)</code>.</p>
+<p>Junte com o que você forjou: <code>__str__</code> é o texto que o <code>print</code> mostra, <code>__add__</code> soma e <code>__lt__</code> (menor que) deixa o <code>max</code> e o <code>sorted</code> funcionarem.</p>
+<p>Dica de texto: <code>"1h30".partition("h")</code> dá <code>("1", "h", "30")</code>.</p>`,
+        exemplo: `class Peso:
+    def __init__(self, gramas):
+        self.gramas = gramas
+
+    @classmethod
+    def de_quilos(cls, quilos):
+        return cls(quilos * 1000)
+
+print(Peso.de_quilos(2).gramas)`,
+        tarefa: `Complete a classe Tempo (em minutos): <code>de_texto</code> aceita <b>1h30</b>, <b>2h</b> e <b>45min</b>; o <code>__str__</code> mostra <b>1h30</b>, <b>2h00</b> ou <b>0h45</b> (minutos sempre com 2 números); <code>__add__</code> soma; <code>__lt__</code> compara. Leia tempos até <b>fim</b> e mostre <b>Total: 4h15</b> e <b>Maior: 2h00</b>. Sem tempos: <b>Nada para forjar</b>.`,
+        requisitos: ["de_texto com @classmethod", "__str__ com minutos em 2 números", "__add__ e __lt__", "Nada para forjar sem tempos"],
+        inicial: `class Tempo:
+    def __init__(self, minutos):
+        self.minutos = minutos
+
+    @classmethod
+    def de_texto(cls, texto):
+        return cls(0)
+
+tempos = []
+while True:
+    texto = input("Tempo (ou fim): ")
+    if texto == "fim":
+        break
+    tempos.append(Tempo.de_texto(texto))
+`,
+        dica: `de_texto: se texto.endswith("min"): return cls(int(texto[:-3])); senão horas, _, minutos = texto.partition("h"); return cls(int(horas) * 60 + int(minutos or 0)). __str__: return f"{self.minutos // 60}h{self.minutos % 60:02d}".`,
+        solucao: `class Tempo:
+    def __init__(self, minutos):
+        self.minutos = minutos
+
+    @classmethod
+    def de_texto(cls, texto):
+        if texto.endswith("min"):
+            return cls(int(texto[:-3]))
+        horas, _, minutos = texto.partition("h")
+        return cls(int(horas) * 60 + int(minutos or 0))
+
+    def __str__(self):
+        return f"{self.minutos // 60}h{self.minutos % 60:02d}"
+
+    def __add__(self, outro):
+        return Tempo(self.minutos + outro.minutos)
+
+    def __lt__(self, outro):
+        return self.minutos < outro.minutos
+
+tempos = []
+while True:
+    texto = input("Tempo (ou fim): ")
+    if texto == "fim":
+        break
+    tempos.append(Tempo.de_texto(texto))
+if not tempos:
+    print("Nada para forjar")
+else:
+    total = Tempo(0)
+    for tempo in tempos:
+        total = total + tempo
+    print(f"Total: {total}")
+    print(f"Maior: {max(tempos)}")`,
+        casos: [
+          { entradas: ["1h30", "45min", "2h", "fim"], saida: ["Total: 4h15", "Maior: 2h00"] },
+          { entradas: ["fim"], saida: ["Nada para forjar"] },
+          { entradas: ["0h05", "10min", "fim"], saida: ["Total: 0h15", "Maior: 0h10"] },
+        ],
+        teste: `assert str(Tempo.de_texto("1h05")) == "1h05", "1h05 deveria voltar como 1h05."
+assert str(Tempo.de_texto("2h")) == "2h00", "2h deveria aparecer como 2h00."
+assert Tempo.de_texto("45min").minutos == 45, "45min deveria virar 45 minutos."
+assert Tempo(10) < Tempo(20), "Tempo(10) deveria ser menor que Tempo(20)."
+assert (Tempo(50) + Tempo(20)).minutos == 70, "Tempo(50) + Tempo(20) deveria dar 70 minutos."`,
+        usar: [{ re: /def\s+__add__\s*\(/, msg: "Crie o __add__ para somar tempos." }, { re: /def\s+__lt__\s*\(/, msg: "Crie o __lt__ para comparar tempos." }, { re: /def\s+__str__\s*\(/, msg: "Crie o __str__ para mostrar o tempo." }],
+      },
+    ],
+  },
+  {
+    nome: "Labirinto das Estruturas", nivel: "Explorador", arte: "arte/regiao-labirinto.png", cena: "labirinto", provisoria: true, cores: ["#14261f", "#7fd68a"],
+    descricao: "Estruturas de dados para não se perder: pilha, roda, lista ligada, árvore de busca, grafos e a saída do labirinto.",
+    mentor: { nome: "Ariadne", titulo: "Mentora: Ariadne, a exploradora", arte: "arte/mentor-ariadne.png", anim: "arte/anim-mentor-ariadne.png" },
+    insignia: { nome: "Novelo de Ouro", arte: "arte/etapa-explorador.png" },
+    missoes: [
+      {
+        id: "18-1", titulo: "O caminho de volta",
+        historia: "Bem-vindo ao Labirinto, {heroi}! Para não me perder, marco cada passo numa pilha: o último que entrou é o primeiro que sai. Para voltar, é só desempilhar.",
+        licao: `<p>Uma <b>pilha</b> é uma lista em que você só mexe no topo (o fim):</p>
+<ul><li><code>pilha.append(x)</code> empilha</li><li><code>pilha.pop()</code> desempilha e devolve o último</li><li><code>pilha[-1]</code> espia o topo sem tirar</li></ul>`,
+        exemplo: `pilha = []
+pilha.append("norte")
+pilha.append("leste")
+print(pilha.pop())
+print(pilha)`,
+        tarefa: `Leia comandos até <b>fim</b>: uma direção (norte, sul, leste ou oeste) é um passo; <b>volta</b> desfaz o último passo (sem passo para desfazer, mostre <b>Já estou na entrada</b>). No fim, mostre <b>Caminho: norte &gt; sul</b>, ou <b>Caminho: entrada</b> se não sobrar passo.`,
+        requisitos: ["Empilhar com append", "Desfazer com pop", "Caminho separado por >"],
+        inicial: `pilha = []
+while True:
+    comando = input("Comando: ")
+    if comando == "fim":
+        break
+
+`,
+        dica: `if comando == "volta": se pilha: pilha.pop() senão: print("Já estou na entrada"); else: pilha.append(comando). No fim: print("Caminho: " + " > ".join(pilha)) ou "Caminho: entrada".`,
+        solucao: `pilha = []
+while True:
+    comando = input("Comando: ")
+    if comando == "fim":
+        break
+    if comando == "volta":
+        if pilha:
+            pilha.pop()
+        else:
+            print("Já estou na entrada")
+    else:
+        pilha.append(comando)
+if pilha:
+    print("Caminho: " + " > ".join(pilha))
+else:
+    print("Caminho: entrada")`,
+        casos: [
+          { entradas: ["norte", "leste", "volta", "sul", "fim"], saida: ["Caminho: norte > sul"] },
+          { entradas: ["volta", "fim"], saida: ["Já estou na entrada", "Caminho: entrada"] },
+          { entradas: ["norte", "volta", "volta", "fim"], saida: ["Já estou na entrada", "Caminho: entrada"] },
+        ],
+        usar: [{ re: /\.pop\s*\(/, msg: "Desfaça o passo com pilha.pop()." }],
+      },
+      {
+        id: "18-2", titulo: "Portas e chaves",
+        historia: "Cada porta aberta no labirinto tem que ser fechada pela chave certa, na ordem certa: a última aberta é a primeira a fechar. Igualzinho a parênteses!",
+        licao: `<p>Para conferir algo como <code>([{}])</code>: percorra o texto. Quando abrir (<code>( [ {</code>), empilhe. Quando fechar, o topo da pilha tem que ser o par certo; se não for, ou se a pilha estiver vazia, está errado. No fim, a pilha precisa estar vazia.</p>
+<p>O dicionário <code>pares</code> diz quem abre cada fechamento: <code>pares[")"]</code> é <code>"("</code>.</p>`,
+        exemplo: `pilha = []
+for c in "(()":
+    if c == "(":
+        pilha.append(c)
+    else:
+        pilha.pop()
+print(len(pilha))`,
+        tarefa: `Complete <code>balanceado(texto)</code>: devolve <code>True</code> se todas as portas fecham na ordem certa (outros caracteres são ignorados).`,
+        requisitos: ["Empilhar o que abre", "Conferir o par ao fechar", "A pilha termina vazia"],
+        inicial: `pares = {")": "(", "]": "[", "}": "{"}
+
+def balanceado(texto):
+    pilha = []
+    return True
+
+texto = input("Portas: ")
+if balanceado(texto):
+    print("Portas certas")
+else:
+    print("Portas erradas")
+`,
+        dica: `for c in texto: if c in "([{": pilha.append(c); elif c in ")]}": if not pilha or pilha.pop() != pares[c]: return False. No fim: return not pilha`,
+        solucao: `pares = {")": "(", "]": "[", "}": "{"}
+
+def balanceado(texto):
+    pilha = []
+    for c in texto:
+        if c in "([{":
+            pilha.append(c)
+        elif c in ")]}":
+            if not pilha or pilha.pop() != pares[c]:
+                return False
+    return not pilha
+
+texto = input("Portas: ")
+if balanceado(texto):
+    print("Portas certas")
+else:
+    print("Portas erradas")`,
+        casos: [
+          { entradas: ["([]{})"], saida: ["Portas certas"] },
+          { entradas: ["([)]"], saida: ["Portas erradas"] },
+          { entradas: ["(("], saida: ["Portas erradas"] },
+          { entradas: [")("], saida: ["Portas erradas"] },
+          { entradas: ["a(b)c"], saida: ["Portas certas"] },
+        ],
+        teste: `assert balanceado("") and balanceado("{[()]}") and not balanceado("]"), "Confira: texto vazio e {[()]} estão certos; ] sozinho está errado."`,
+        usar: [{ re: /\.append\s*\(/, msg: "Empilhe o que abre com append." }, { re: /\.pop\s*\(/, msg: "Desempilhe com pop ao fechar." }],
+      },
+      {
+        id: "18-3", titulo: "A roda do novelo",
+        historia: "Na saída de cada sala, os exploradores fazem uma roda e passam o novelo: a cada K passos, quem está com ele sai da roda. Quem sobrar lidera o grupo. A deque gira a roda com rotate.",
+        licao: `<p><code>roda.rotate(-1)</code> passa o primeiro para o fim: a roda gira um passo. Girando <code>k - 1</code> passos e fazendo <code>popleft()</code>, sai o k-ésimo.</p>
+<p>Repita enquanto <code>len(roda) &gt; 1</code>. Quem sobra está em <code>roda[0]</code>.</p>`,
+        exemplo: `from collections import deque
+roda = deque(["Ana", "Bia", "Caio"])
+roda.rotate(-1)
+print(list(roda))`,
+        tarefa: `Leia os nomes (numa linha) e o número K. Mostre quem sai, na ordem (<b>Sai Bia</b>), e no fim <b>Líder: NOME</b>.`,
+        requisitos: ["Girar com rotate", "Tirar com popleft", "Ana Bia Caio Davi com K=2: a líder é Ana"],
+        inicial: `from collections import deque
+
+roda = deque(input("Nomes: ").split())
+k = int(input("K: "))
+
+`,
+        dica: `while len(roda) > 1: roda.rotate(-(k - 1)); print(f"Sai {roda.popleft()}"). No fim: print(f"Líder: {roda[0]}")`,
+        solucao: `from collections import deque
+
+roda = deque(input("Nomes: ").split())
+k = int(input("K: "))
+while len(roda) > 1:
+    roda.rotate(-(k - 1))
+    print(f"Sai {roda.popleft()}")
+print(f"Líder: {roda[0]}")`,
+        casos: [
+          { entradas: ["Ana Bia Caio Davi", "2"], saida: ["Sai Bia", "Sai Davi", "Sai Caio", "Líder: Ana"] },
+          { entradas: ["Zé Lia Mel", "1"], saida: ["Sai Zé", "Sai Lia", "Líder: Mel"] },
+          { entradas: ["A B C D E", "3"], saida: ["Sai C", "Sai A", "Sai E", "Sai B", "Líder: D"] },
+          { entradas: ["Solo", "3"], saida: ["Líder: Solo"] },
+        ],
+        usar: [{ re: /\.rotate\s*\(/, msg: "Gire a roda com rotate." }],
+      },
+      {
+        id: "18-4", titulo: "O fio de Ariadne",
+        historia: "Meu fio liga uma sala à próxima: cada nó guarda a sala e aponta para o nó seguinte. Isso é uma lista ligada! Para percorrer, siga o fio até ele acabar.",
+        licao: `<p>Cada <code>No</code> tem <code>self.sala</code> e <code>self.proximo</code>, que é outro nó ou <code>None</code> no fim do fio.</p>
+<p>Para percorrer: comece com <code>atual = inicio</code> e, enquanto <code>atual is not None</code>, use <code>atual.sala</code> e ande com <code>atual = atual.proximo</code>.</p>`,
+        exemplo: `class No:
+    def __init__(self, sala, proximo=None):
+        self.sala = sala
+        self.proximo = proximo
+
+fio = No("a", No("b"))
+print(fio.sala, fio.proximo.sala, fio.proximo.proximo)`,
+        tarefa: `Complete <code>salas(inicio)</code>, que devolve a lista com o nome das salas na ordem do fio, e <code>contar(inicio)</code>, que devolve quantas salas há.`,
+        requisitos: ["Andar com atual = atual.proximo", "Parar no None", "Saída: entrada -> corredor -> fonte -> saída e 4"],
+        inicial: `class No:
+    def __init__(self, sala, proximo=None):
+        self.sala = sala
+        self.proximo = proximo
+
+def salas(inicio):
+    return []
+
+def contar(inicio):
+    return 0
+
+fio = No("entrada", No("corredor", No("fonte", No("saída"))))
+print(" -> ".join(salas(fio)))
+print(contar(fio))
+`,
+        dica: `salas: lista = []; atual = inicio; while atual is not None: lista.append(atual.sala); atual = atual.proximo; return lista. contar pode usar o mesmo laço somando 1.`,
+        solucao: `class No:
+    def __init__(self, sala, proximo=None):
+        self.sala = sala
+        self.proximo = proximo
+
+def salas(inicio):
+    lista = []
+    atual = inicio
+    while atual is not None:
+        lista.append(atual.sala)
+        atual = atual.proximo
+    return lista
+
+def contar(inicio):
+    total = 0
+    atual = inicio
+    while atual is not None:
+        total += 1
+        atual = atual.proximo
+    return total
+
+fio = No("entrada", No("corredor", No("fonte", No("saída"))))
+print(" -> ".join(salas(fio)))
+print(contar(fio))`,
+        casos: [{ saida: ["entrada -> corredor -> fonte -> saída", "4"] }],
+        teste: `assert salas(None) == [] and contar(None) == 0, "Sem fio (None), deveria dar lista vazia e 0."
+assert salas(No("x")) == ["x"] and contar(No("x")) == 1, "Um fio de uma sala só deveria dar ['x'] e 1."`,
+        usar: [{ re: /\.proximo\b/, msg: "Ande pelo fio com atual.proximo." }],
+      },
+      {
+        id: "18-5", titulo: "A árvore das tochas",
+        historia: "As tochas do labirinto são numeradas e guardadas numa árvore de busca: as menores à esquerda, as maiores à direita. Assim, achar qualquer uma fica rápido.",
+        licao: `<p>Cada nó tem <code>valor</code>, <code>esq</code> e <code>dir</code>. Para <b>inserir</b>: se a árvore está vazia (<code>None</code>), o nó novo vira a raiz; se o valor é menor, insira na esquerda; senão, na direita. A função chama ela mesma: isso é <b>recursão</b>.</p>
+<p>Percorrer <b>em ordem</b> (esquerda, o nó, direita) devolve os valores ordenados.</p>`,
+        exemplo: `def em_ordem(raiz):
+    if raiz is None:
+        return []
+    return em_ordem(raiz.esq) + [raiz.valor] + em_ordem(raiz.dir)`,
+        tarefa: `Complete <code>inserir(raiz, valor)</code> (devolve a raiz) e <code>em_ordem(raiz)</code> (devolve a lista ordenada). O programa lê números numa linha, insere todos e mostra a lista em ordem.`,
+        requisitos: ["inserir com recursão", "em_ordem: esquerda, nó, direita", "5 3 8 1 4 dá [1, 3, 4, 5, 8]"],
+        inicial: `class No:
+    def __init__(self, valor):
+        self.valor = valor
+        self.esq = None
+        self.dir = None
+
+def inserir(raiz, valor):
+    return raiz
+
+def em_ordem(raiz):
+    return []
+
+raiz = None
+for numero in input("Tochas: ").split():
+    raiz = inserir(raiz, int(numero))
+print(em_ordem(raiz))
+`,
+        dica: `inserir: if raiz is None: return No(valor); if valor < raiz.valor: raiz.esq = inserir(raiz.esq, valor) else: raiz.dir = inserir(raiz.dir, valor); return raiz`,
+        solucao: `class No:
+    def __init__(self, valor):
+        self.valor = valor
+        self.esq = None
+        self.dir = None
+
+def inserir(raiz, valor):
+    if raiz is None:
+        return No(valor)
+    if valor < raiz.valor:
+        raiz.esq = inserir(raiz.esq, valor)
+    else:
+        raiz.dir = inserir(raiz.dir, valor)
+    return raiz
+
+def em_ordem(raiz):
+    if raiz is None:
+        return []
+    return em_ordem(raiz.esq) + [raiz.valor] + em_ordem(raiz.dir)
+
+raiz = None
+for numero in input("Tochas: ").split():
+    raiz = inserir(raiz, int(numero))
+print(em_ordem(raiz))`,
+        casos: [
+          { entradas: ["5 3 8 1 4"], saida: ["[1, 3, 4, 5, 8]"] },
+          { entradas: ["10"], saida: ["[10]"] },
+          { entradas: ["9 8 7 6"], saida: ["[6, 7, 8, 9]"] },
+        ],
+        teste: `__r = None
+for __v in [2, 1, 3]:
+    __r = inserir(__r, __v)
+assert __r.valor == 2 and __r.esq.valor == 1 and __r.dir.valor == 3, "O 1 deveria ir para a esquerda do 2 e o 3 para a direita."`,
+        usar: [{ re: /inserir\s*\(\s*raiz\.(esq|dir)/, msg: "Insira com recursão: inserir(raiz.esq, valor) ou inserir(raiz.dir, valor)." }],
+      },
+      {
+        id: "18-6", titulo: "Procurando a tocha",
+        historia: "Ariadne quer saber se a tocha N existe e qual a altura da árvore, ou seja, quantos níveis tem o caminho mais comprido. As duas respostas saem com recursão.",
+        licao: `<ul><li><b>Buscar</b>: se o nó é <code>None</code>, não achou; se o valor é o do nó, achou; senão, busque na esquerda (se for menor) ou na direita.</li><li><b>Altura</b>: árvore vazia tem 0; senão, <code>1 + max(altura(raiz.esq), altura(raiz.dir))</code>.</li></ul>`,
+        exemplo: `def contar(raiz):
+    if raiz is None:
+        return 0
+    return 1 + contar(raiz.esq) + contar(raiz.dir)`,
+        tarefa: `A árvore já é montada pelo código. Complete <code>buscar(raiz, valor)</code> e <code>altura(raiz)</code>. O programa lê um número e mostra <b>Tocha 45: achei</b> ou <b>Tocha 60: não existe</b>, e embaixo <b>Altura: 4</b>.`,
+        requisitos: ["buscar com recursão", "altura = 1 + o maior lado", "A árvore do código tem altura 4"],
+        inicial: `class No:
+    def __init__(self, valor):
+        self.valor = valor
+        self.esq = None
+        self.dir = None
+
+def inserir(raiz, valor):
+    if raiz is None:
+        return No(valor)
+    if valor < raiz.valor:
+        raiz.esq = inserir(raiz.esq, valor)
+    else:
+        raiz.dir = inserir(raiz.dir, valor)
+    return raiz
+
+def buscar(raiz, valor):
+    return False
+
+def altura(raiz):
+    return 0
+
+raiz = None
+for v in [50, 30, 70, 20, 40, 80, 45]:
+    raiz = inserir(raiz, v)
+
+numero = int(input("Tocha: "))
+if buscar(raiz, numero):
+    print(f"Tocha {numero}: achei")
+else:
+    print(f"Tocha {numero}: não existe")
+print(f"Altura: {altura(raiz)}")
+`,
+        dica: `buscar: if raiz is None: return False; if valor == raiz.valor: return True; if valor < raiz.valor: return buscar(raiz.esq, valor); return buscar(raiz.dir, valor). altura: if raiz is None: return 0; return 1 + max(altura(raiz.esq), altura(raiz.dir))`,
+        solucao: `class No:
+    def __init__(self, valor):
+        self.valor = valor
+        self.esq = None
+        self.dir = None
+
+def inserir(raiz, valor):
+    if raiz is None:
+        return No(valor)
+    if valor < raiz.valor:
+        raiz.esq = inserir(raiz.esq, valor)
+    else:
+        raiz.dir = inserir(raiz.dir, valor)
+    return raiz
+
+def buscar(raiz, valor):
+    if raiz is None:
+        return False
+    if valor == raiz.valor:
+        return True
+    if valor < raiz.valor:
+        return buscar(raiz.esq, valor)
+    return buscar(raiz.dir, valor)
+
+def altura(raiz):
+    if raiz is None:
+        return 0
+    return 1 + max(altura(raiz.esq), altura(raiz.dir))
+
+raiz = None
+for v in [50, 30, 70, 20, 40, 80, 45]:
+    raiz = inserir(raiz, v)
+
+numero = int(input("Tocha: "))
+if buscar(raiz, numero):
+    print(f"Tocha {numero}: achei")
+else:
+    print(f"Tocha {numero}: não existe")
+print(f"Altura: {altura(raiz)}")`,
+        casos: [
+          { entradas: ["45"], saida: ["Tocha 45: achei", "Altura: 4"] },
+          { entradas: ["60"], saida: ["Tocha 60: não existe", "Altura: 4"] },
+          { entradas: ["50"], saida: ["Tocha 50: achei", "Altura: 4"] },
+        ],
+        teste: `assert altura(None) == 0 and not buscar(None, 1), "Árvore vazia: altura 0 e nada encontrado."
+assert buscar(raiz, 20) and not buscar(raiz, 21), "Deveria achar 20 e não achar 21."`,
+        usar: [{ re: /altura\s*\(\s*raiz\.(esq|dir)\s*\)/, msg: "Calcule a altura com recursão: altura(raiz.esq) e altura(raiz.dir)." }],
+      },
+      {
+        id: "18-7", titulo: "O mapa das salas",
+        historia: "O labirinto é um grafo: cada sala tem uma lista de salas vizinhas. Para saber aonde dá para chegar, visite uma sala, marque como visitada e visite as vizinhas que ainda não viu.",
+        licao: `<p>O mapa é um dicionário: <code>{"entrada": ["corredor", "poço"], ...}</code>.</p>
+<p>Guarde as visitadas num <code>set</code>. Uma função <code>visitar(sala)</code>: se já visitou, para; senão, marca e chama <code>visitar</code> para cada vizinha. Isso é a <b>busca em profundidade</b>.</p>`,
+        exemplo: `vistas = set()
+vistas.add("entrada")
+print("entrada" in vistas, len(vistas))`,
+        tarefa: `Complete <code>alcancaveis(mapa, inicio)</code>, que devolve o conjunto de salas aonde dá para chegar. O programa lê a sala de partida e mostra as alcançáveis em ordem alfabética e quantas são.`,
+        requisitos: ["Guardar as visitadas num set", "Visitar as vizinhas que ainda não viu", "Da cela só se chega à torre"],
+        inicial: `mapa = {
+    "entrada": ["corredor", "poço"],
+    "corredor": ["entrada", "fonte"],
+    "poço": ["entrada"],
+    "fonte": ["corredor", "tesouro"],
+    "tesouro": ["fonte"],
+    "cela": ["torre"],
+    "torre": ["cela"],
+}
+
+def alcancaveis(mapa, inicio):
+    return set()
+
+inicio = input("Partida: ")
+salas = sorted(alcancaveis(mapa, inicio))
+print(", ".join(salas))
+print(f"{len(salas)} salas")
+`,
+        dica: `visitadas = set(); def visitar(sala): if sala in visitadas: return; visitadas.add(sala); for vizinha in mapa[sala]: visitar(vizinha). Depois visitar(inicio) e return visitadas.`,
+        solucao: `mapa = {
+    "entrada": ["corredor", "poço"],
+    "corredor": ["entrada", "fonte"],
+    "poço": ["entrada"],
+    "fonte": ["corredor", "tesouro"],
+    "tesouro": ["fonte"],
+    "cela": ["torre"],
+    "torre": ["cela"],
+}
+
+def alcancaveis(mapa, inicio):
+    visitadas = set()
+
+    def visitar(sala):
+        if sala in visitadas:
+            return
+        visitadas.add(sala)
+        for vizinha in mapa[sala]:
+            visitar(vizinha)
+
+    visitar(inicio)
+    return visitadas
+
+inicio = input("Partida: ")
+salas = sorted(alcancaveis(mapa, inicio))
+print(", ".join(salas))
+print(f"{len(salas)} salas")`,
+        casos: [
+          { entradas: ["entrada"], saida: ["corredor, entrada, fonte, poço, tesouro", "5 salas"] },
+          { entradas: ["cela"], saida: ["cela, torre", "2 salas"] },
+          { entradas: ["tesouro"], saida: ["corredor, entrada, fonte, poço, tesouro", "5 salas"] },
+        ],
+        teste: `assert alcancaveis({"a": []}, "a") == {"a"}, "Uma sala sozinha deveria alcançar só ela mesma."`,
+        usar: [{ re: /set\s*\(\s*\)/, msg: "Guarde as visitadas num set()." }],
+      },
+      {
+        id: "18-8", titulo: "O Minotauro", chefe: true, inimigo: inimigo("minotauro", "Minotauro"),
+        historia: "O Minotauro guarda a saída e só deixa passar quem sabe o caminho mais curto! A busca em largura, com uma fila, explora o labirinto em ondas: primeiro tudo a 1 passo, depois a 2... Este é o chefe do labirinto!",
+        licao: `<p>Na <b>busca em largura</b>, a fila guarda <code>(linha, coluna, passos)</code>. Tire o primeiro com <code>popleft()</code>; se for a saída <code>S</code>, achou.</p>
+<p>Senão, ponha na fila os vizinhos (cima, baixo, esquerda e direita) que estão dentro do mapa, não são parede <code>#</code> e ainda não foram visitados.</p>
+<p>Como a fila anda em ondas, a primeira vez que chega na saída é pelo caminho mais curto.</p>`,
+        exemplo: `from collections import deque
+fila = deque([(0, 0, 0)])
+linha, coluna, passos = fila.popleft()
+for dl, dc in [(1, 0), (-1, 0), (0, 1), (0, -1)]:
+    print(linha + dl, coluna + dc)`,
+        tarefa: `Leia as linhas do labirinto até <b>fim</b> (<b>E</b> é a entrada, <b>S</b> a saída, <b>#</b> parede e <b>.</b> caminho). Mostre <b>Saída em N passos</b> pelo caminho mais curto, ou <b>Sem saída</b>.`,
+        requisitos: ["Fila com deque e popleft", "Marcar os visitados", "Não atravessar paredes nem sair do mapa", "Sem saída quando não dá"],
+        inicial: `from collections import deque
+
+mapa = []
+while True:
+    linha = input("Linha (ou fim): ")
+    if linha == "fim":
+        break
+    mapa.append(linha)
+
+`,
+        dica: `Ache o E com dois for. Depois: fila = deque([(l, c, 0)]); visitados = {(l, c)}; while fila: l, c, passos = fila.popleft(); se mapa[l][c] == "S": achou. Para cada vizinho (nl, nc) dentro do mapa, que não é # e não foi visitado: marque e ponha na fila com passos + 1.`,
+        solucao: `from collections import deque
+
+mapa = []
+while True:
+    linha = input("Linha (ou fim): ")
+    if linha == "fim":
+        break
+    mapa.append(linha)
+
+inicio = None
+for l in range(len(mapa)):
+    for c in range(len(mapa[l])):
+        if mapa[l][c] == "E":
+            inicio = (l, c)
+
+resposta = "Sem saída"
+if inicio:
+    fila = deque([(inicio[0], inicio[1], 0)])
+    visitados = {inicio}
+    while fila:
+        l, c, passos = fila.popleft()
+        if mapa[l][c] == "S":
+            resposta = f"Saída em {passos} passos"
+            break
+        for dl, dc in [(1, 0), (-1, 0), (0, 1), (0, -1)]:
+            nl, nc = l + dl, c + dc
+            if 0 <= nl < len(mapa) and 0 <= nc < len(mapa[nl]) and mapa[nl][nc] != "#" and (nl, nc) not in visitados:
+                visitados.add((nl, nc))
+                fila.append((nl, nc, passos + 1))
+print(resposta)`,
+        casos: [
+          { entradas: ["E.#", "..#", "#.S", "fim"], saida: ["Saída em 4 passos"] },
+          { entradas: ["E#S", "fim"], saida: ["Sem saída"] },
+          { entradas: ["E....", "###.#", "S....", "fim"], saida: ["Saída em 8 passos"] },
+          { entradas: ["E.S", "fim"], saida: ["Saída em 2 passos"] },
+        ],
+        usar: [{ re: /popleft\s*\(/, msg: "Explore em ondas: tire da fila com popleft()." }],
+      },
+    ],
+  },
+  {
     nome: "Arena dos Desafios", nivel: "Campeão", arte: "arte/regiao-desafios.png", cena: "desafios", provisoria: true, cores: ["#3a1010", "#f6c33b"],
     descricao: "Desafios de lógica estilo olimpíada: primos, Fibonacci, anagramas, bases, palíndromos, MDC, romanos e compressão.",
     mentor: { nome: "Mestra Lógica", titulo: "Mentora: Mestra Lógica", arte: "arte/mentor-logica.png", anim: "arte/anim-mentor-logica.png" },
@@ -5436,6 +6980,24 @@ const CENARIOS = {
   desafios: (w, h) => [
     efeitoQueda(40, { largura: w, altura: h, cores: ["#f6c33b", "#e0435a", "#5b8def", "#3fbf7a", "#ffffff"], velocidade: [14, 28], balanco: 8 }),
     efeitoLuzes([[96, 20], [416, 20]], { cor: "255, 230, 160", raio: 40, forca: 0.22, ritmo: "sol" }),
+  ],
+  relojoaria: (w, h) => [
+    efeitoLuzes([[96, 40], [256, 40], [416, 40]], { cor: "255, 210, 120", raio: 26, forca: 0.3, ritmo: "sol" }),
+    efeitoSubida(16, { area: { x: 0, y: 0, w, h }, cores: ["#d9a441", "#f6e3a1"], velocidade: [3, 7] }),
+    efeitoBrilhos(10, { x: 0, y: 10, w, h: h - 30 }, "255, 230, 170"),
+  ],
+  mercado: (w, h) => [
+    efeitoLuzes([[60, 30], [200, 30], [340, 30], [470, 30]], { cor: "255, 190, 90", raio: 22, forca: 0.35 }),
+    efeitoQueda(16, { largura: w, altura: h, cores: ["#f6c33b", "#e0435a", "#3fbf7a"], velocidade: [6, 12], balanco: 6 }),
+    efeitoPassaros(2, { largura: w, y0: 4, y1: 24, escala: 0.5, velocidade: 16 }),
+  ],
+  forja: (w, h) => [
+    efeitoLuzes([[256, 112]], { cor: "255, 120, 40", raio: 60, forca: 0.4 }),
+    efeitoSubida(30, { area: { x: 0, y: 20, w, h: h - 20 }, cores: ["#ffd27a", "#ff6a2a", "#ff9a3c"], velocidade: [12, 24] }),
+  ],
+  labirinto: (w, h) => [
+    efeitoVagalumes(16, { x: 0, y: 20, w, h: 80 }),
+    efeitoSubida(12, { area: { x: 0, y: 10, w, h: h - 20 }, cores: ["#7fd68a", "#c9f5d0"], velocidade: [2, 5] }),
   ],
   vulcao: (w, h) => [
     efeitoLuzes([[64, 124], [192, 126], [320, 124], [448, 126]], { cor: "255, 110, 40", raio: 30, forca: 0.35 }),
